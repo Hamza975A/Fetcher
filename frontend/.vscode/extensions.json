@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "ms-vsliveshare.vsliv",
+    "gruntfuggly.todo-tree",
+    "styled-components.vscode-styled-components"
+  ]
+}
