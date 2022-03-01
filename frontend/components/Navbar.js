@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 
 export const MenuLink = styled.button`
   padding: 1rem 2rem;
@@ -45,3 +46,15 @@ export const MenuContainer = styled.div`
   align-items: center;
   position: relative;
 `;
+
+export const Navbar = ({ children }) => {
+  return (
+    <Nav>
+      <Logo href="">fetcher</Logo>
+      <MenuContainer>
+        <MenuLink href="#">About Us</MenuLink>
+        <MenuLink href="#">Sign In</MenuLink>
+      </MenuContainer>
+    </Nav>
+  );
+};
