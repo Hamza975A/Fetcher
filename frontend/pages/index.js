@@ -28,6 +28,7 @@ export default function Home() {
       </Nav>
 
       <main className={styles.main}>
+        <a href="/orders">place order page</a>  
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
