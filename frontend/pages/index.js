@@ -1,5 +1,5 @@
 import React from "react";
-
+import { HomePage } from "../components/Home-Page";
 import { Layout } from "../components/Layout";
 
 /**
@@ -7,5 +7,9 @@ import { Layout } from "../components/Layout";
  * @return {JSX.Element}
  */
 export default function Home() {
-  return <Layout></Layout>;
+  return (
+    <Layout>
+      <HomePage />
+    </Layout>
+  );
 }

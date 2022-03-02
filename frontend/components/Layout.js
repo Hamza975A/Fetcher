@@ -12,8 +12,8 @@ export const Container = styled.div`
 export const Layout = ({ children }) => {
   return (
     <Container>
-      <Navbar></Navbar>
       <main>{children}</main>
+      <Navbar></Navbar>
     </Container>
   );
 };
