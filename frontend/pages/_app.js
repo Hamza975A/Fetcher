@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import React from "react";
+import Theme from "../styles/theme";
 
 /**
  * Default App component from Next.js
@@ -7,7 +8,13 @@ import React from "react";
  * @return {JSX.Element}
  */
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Theme>
+        <Component {...pageProps} />;
+      </Theme>
+    </>
+  );
 }
 
 export default MyApp;
