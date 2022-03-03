@@ -50,7 +50,7 @@ export const MenuContainer = styled.div`
 export const Navbar = ({ children }) => {
   return (
     <Nav>
-      <Logo href="">fetcher</Logo>
+      <Logo href="/">fetcher</Logo>
       <MenuContainer>
         <MenuLink href="#">About Us</MenuLink>
         <MenuLink href="#">Sign In</MenuLink>

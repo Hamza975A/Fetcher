@@ -1,7 +1,6 @@
 import React from "react";
 
 import styled from "styled-components";
-import { Navbar } from "./Navbar";
 
 export const Container = styled.div`
   max-width: 1280px;
@@ -13,7 +12,6 @@ export const Layout = ({ children }) => {
   return (
     <Container>
       <main>{children}</main>
-      <Navbar></Navbar>
     </Container>
   );
 };
