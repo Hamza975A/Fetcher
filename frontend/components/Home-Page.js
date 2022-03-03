@@ -1,8 +1,7 @@
 import React from "react";
 
-import { Section } from "./GlobalComponents";
+import { CenterContainer, ContainerImage } from "./GlobalComponents";
 import styled from "styled-components";
-import Image from "next/image";
 import PropTypes from "prop-types";
 import Router from "next/router";
 
@@ -41,29 +40,13 @@ Button.propTypes = {
 export const HomePage = () => {
   return (
     <>
-      <Image
-        src="/asset/home.jpg"
-        layout="fill"
-        alt="Picture of Front Door"
-        objectFit="cover"
-      />
-
-      {/* TODO: Find some other way to move it to the center. */}
-      <Section></Section>
-      <Section></Section>
-      <Section></Section>
-      <Section></Section>
-      <Section></Section>
-      <Section></Section>
-      <Section></Section>
-      <Section></Section>
-      <Section></Section>
-
-      <Section>
-        <SearchText> Schedule a Pickup </SearchText>
-        <input placeholder="Enter the address"></input>
-        <Button onClick={() => Router.push("/orders")}> Search </Button>
-      </Section>
+      <ContainerImage>
+        <CenterContainer>
+          <SearchText> Schedule a Pickup </SearchText>
+          <input placeholder="Enter the address"></input>
+          <Button onClick={() => Router.push("/orders")}> Search </Button>
+        </CenterContainer>
+      </ContainerImage>
     </>
   );
 };

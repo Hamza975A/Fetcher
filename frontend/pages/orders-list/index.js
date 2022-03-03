@@ -1,6 +1,5 @@
 import React from "react";
-
-import { Layout } from "../../components/Layout";
+import { GlobalContainer } from "../../components/GlobalComponents";
 import { OrderCard } from "../../components/OrdersList";
 
 /**
@@ -9,14 +8,7 @@ import { OrderCard } from "../../components/OrdersList";
  */
 export default function Home() {
   return (
-    <Layout>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
+    <GlobalContainer>
       <h2>Current Orders</h2>
 
       <OrderCard
@@ -46,6 +38,6 @@ export default function Home() {
         price="20.30"
         buttontext="SHOW RECEIPT"
       />
-    </Layout>
+    </GlobalContainer>
   );
 }

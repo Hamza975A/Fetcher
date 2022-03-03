@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import React from "react";
 import Theme from "../styles/theme";
+import { Navbar } from "../components/Navbar";
 
 /**
  * Default App component from Next.js
@@ -11,7 +12,8 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Theme>
-        <Component {...pageProps} />;
+        <Navbar />
+        <Component {...pageProps} />
       </Theme>
     </>
   );
