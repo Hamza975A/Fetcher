@@ -1,6 +1,6 @@
 import React from "react";
+import { SimpleContainer } from "../components/GlobalComponents";
 import { HomePage } from "../components/Home-Page";
-import { Layout } from "../components/Layout";
 
 /**
  * Home page for the website.
@@ -8,8 +8,8 @@ import { Layout } from "../components/Layout";
  */
 export default function Home() {
   return (
-    <Layout>
+    <SimpleContainer>
       <HomePage />
-    </Layout>
+    </SimpleContainer>
   );
 }

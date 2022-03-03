@@ -14,6 +14,8 @@ export const GlobalContainer = styled.div`
   padding: 90px 50px;
 `;
 
+export const SimpleContainer = styled.div``;
+
 export const SpacedContainer = styled.div`
   display: flex;
   row-gap: 20px;

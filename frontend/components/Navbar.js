@@ -52,8 +52,15 @@ export const Navbar = ({ children }) => {
     <Nav>
       <Logo href="/">fetcher</Logo>
       <MenuContainer>
-        <MenuLink href="#">About Us</MenuLink>
-        <MenuLink href="#">Sign In</MenuLink>
+        <MenuLink>
+          <a href="#about">About Us</a>
+        </MenuLink>
+        <MenuLink>
+          <a href="/orders-list">Orders</a>
+        </MenuLink>
+        <MenuLink>
+          <a href="#sign-in">Sign In</a>
+        </MenuLink>
       </MenuContainer>
     </Nav>
   );
