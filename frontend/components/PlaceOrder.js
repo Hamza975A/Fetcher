@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import React from "react";
+
+// This component will hold the two add package buttons
 export const AddItemsButtonsContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -7,8 +8,10 @@ export const AddItemsButtonsContainer = styled.div`
   position: relative;
 `;
 
+// A styled component for adding items buttons
 export const AddItemsButton = styled.button`
   padding: 1rem 2rem;
+  margin-bottom: 5rem;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
@@ -19,6 +22,7 @@ export const AddItemsButton = styled.button`
   background-color: #ff9a42;
 `;
 
+// This container will contain the packages information
 export const PackageDetails = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -33,6 +37,7 @@ export const PackageDetails = styled.div`
   border-radius: 10px;
 `;
 
+// This container will hold a decription and one more component(a component that recieves information)
 export const DetailsBox = styled.div`
   padding: 1rem 1rem;
   margin: 0.8rem;
@@ -46,6 +51,8 @@ export const DetailsBox = styled.div`
     font-size: 1.3rem;
   }
 `;
+
+// This is a styled component for recieving information via textarea
 export const InputDetails = styled.textarea`
   font-size: 1.7rem;
   color: black;
@@ -57,6 +64,7 @@ export const InputDetails = styled.textarea`
   max-width: 40rem; ;
 `;
 
+// This is a styled component for deleting a package
 export const RemoveItemButton = styled.button`
   margin-top: 1rem;
   cursor: pointer;
@@ -70,6 +78,7 @@ export const RemoveItemButton = styled.button`
   width: 3rem;
 `;
 
+// This container will hold the preferred time and continue to checkout button
 export const BottomContainer = styled.div`
   display: flex;
   bottom: 0;
@@ -80,6 +89,8 @@ export const BottomContainer = styled.div`
   position: fixed;
   flex-wrap: wrap;
 `;
+
+// A styled component for recieving a choice from the user
 export const Select = styled.select`
   max-height: 5rem;
   min-height: 3rem;
@@ -97,40 +108,3 @@ export const Select = styled.select`
     min-height: 20px;
   }
 `;
-export const PlaceOrderCard = (props) => {
-  return (
-    <PackageDetails>
-      <DetailsBox>
-        {" "}
-        <div>Address: </div>
-        <InputDetails defaultValue={props.address || ""} type="text" />{" "}
-      </DetailsBox>
-      <DetailsBox>
-        <div>Size: </div>
-        <Select>
-          <option value="" hidden></option>
-          <option value="1">Small</option>
-          <option value="2">Medium</option>
-          <option value="3">Large</option>
-        </Select>
-      </DetailsBox>
-      <DetailsBox>
-        {" "}
-        <div>Details: </div> <InputDetails defaultValue="" type="text" />{" "}
-      </DetailsBox>
-      <RemoveItemButton>X</RemoveItemButton>
-    </PackageDetails>
-  );
-};
-
-export const SetTimeCard = (props) => {
-  return (
-    <PackageDetails>
-      <DetailsBox>
-        {" "}
-        <div>Time: </div>{" "}
-        <InputDetails defaultValue={props.time || "ASAP"} type="text" />{" "}
-      </DetailsBox>
-    </PackageDetails>
-  );
-};
