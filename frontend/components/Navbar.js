@@ -52,15 +52,18 @@ export const Navbar = ({ children }) => {
     <Nav>
       <Logo href="/">fetcher</Logo>
       <MenuContainer>
-        <MenuLink>
-          <a href="#about">About Us</a>
-        </MenuLink>
-        <MenuLink>
-          <a href="/orders-list">Orders</a>
-        </MenuLink>
-        <MenuLink>
-          <a href="#sign-in">Sign In</a>
-        </MenuLink>
+        <a href="#aboutus">
+          <MenuLink>About Us</MenuLink>
+        </a>
+        <a href="#locations">
+          <MenuLink>Locations</MenuLink>
+        </a>
+        <a href="/orders-list">
+          <MenuLink>Orders</MenuLink>
+        </a>
+        <a href="/sign-in">
+          <MenuLink>Sign In</MenuLink>
+        </a>
       </MenuContainer>
     </Nav>
   );

@@ -5,6 +5,18 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Router from "next/router";
 
+import {
+  InfoContainer,
+  InfoRow,
+  InfoColumn,
+  TextWrapper,
+  TopLine,
+  Heading,
+  Subtitle,
+  ImgWrapper,
+  Img,
+} from "./Home-Info-Styled";
+
 const SearchText = styled.h1`
   font-size: 1.5em;
   text-align: center;
@@ -14,7 +26,7 @@ const SearchText = styled.h1`
 const Button = styled.button`
   text-align: center;
   padding: 8px 16px;
-  color: black;
+  color: ${({ colour }) => colour};
   background-color: #ff9a42;
   border: 1px solid;
   border-color: #ff9a42;
@@ -25,7 +37,7 @@ const Button = styled.button`
   &:active:not(:disabled),
   &:focus {
     outline: 0;
-    color: black;
+    color: ${({ colour }) => colour};
     border-color: #ffaf69;
     background-color: #ffaf69;
     cursor: pointer;
@@ -47,6 +59,49 @@ export const HomePage = () => {
           <Button onClick={() => Router.push("/orders")}> Search </Button>
         </CenterContainer>
       </ContainerImage>
+
+      <InfoContainer bg="#f08426" id="aboutus">
+        <InfoRow>
+          <InfoColumn>
+            <TextWrapper>
+              <TopLine colour="white">About Us</TopLine>
+              <Heading colour="white">We move packages from A to B.</Heading>
+              <Subtitle colour="black">
+                Learn more about how our algorithm does the magic.{" "}
+              </Subtitle>
+              <a href="/orders">
+                <Button colour="white">Create a New Order</Button>
+              </a>
+            </TextWrapper>
+          </InfoColumn>
+          <InfoColumn>
+            <ImgWrapper>
+              <Img src="/asset/package.svg" />
+            </ImgWrapper>
+          </InfoColumn>
+        </InfoRow>
+      </InfoContainer>
+      <InfoContainer bg="white" id="locations">
+        <InfoRow>
+          <InfoColumn>
+            <ImgWrapper flex="flex-start">
+              <Img src="/asset/saskatoon.png" />
+            </ImgWrapper>
+          </InfoColumn>
+          <InfoColumn>
+            <TextWrapper>
+              <TopLine colour="#f08426">Now Serving</TopLine>
+              <Heading colour="#f08426">Saskatoon</Heading>
+              <Subtitle colour="black">
+                Contact us for special pricing.{" "}
+              </Subtitle>
+              <a href="mailto:hamza.aziz@usask.ca">
+                <Button colour="white">Email</Button>
+              </a>
+            </TextWrapper>
+          </InfoColumn>
+        </InfoRow>
+      </InfoContainer>
     </>
   );
 };
