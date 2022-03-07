@@ -43,19 +43,19 @@ export default class App extends Component {
       cardName: "",
       postal: "",
     };
-    // this is creating 2 dummy packages to view the list and cost 
+    // this is creating 2 dummy packages to view the list and cost
     this.packages.push({
       id: 1,
       Size: "Small",
       Address: "123 street",
-      ImportantDetails:"fragile",
+      ImportantDetails: "fragile",
       Details: "idk",
     });
     this.packages.push({
       id: 2,
       Size: "Large",
       Address: "123 crescent",
-      ImportantDetails:"Order number 1111111",
+      ImportantDetails: "Order number 1111111",
       Details: " Music am i right",
     });
     this.state.cost = this.packages.length * 5 + this.state.priority * 10;
@@ -197,7 +197,7 @@ export default class App extends Component {
           <MovePagesButton onClick={() => Router.push("/orders")}>
             Back To Order
           </MovePagesButton>
-          <MovePagesButton onClick={() => Router.push("/orders-list")}>
+          <MovePagesButton onClick={() => Router.push("/confirmation")}>
             Place Order
           </MovePagesButton>
         </BottomContainer>
