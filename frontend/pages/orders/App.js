@@ -1,3 +1,4 @@
+import Router from "next/router";
 import React, { Component } from "react";
 import Post from "./Post";
 import {
@@ -27,13 +28,16 @@ export default class App extends Component {
       Size: "",
       Address: "",
       Details: "",
+      ImportantDetails: "",
       id: "",
     };
+    // initialize the array with an empty package
     this.state.postArray.push({
       id: this.postID,
       Size: "",
       Address: "",
       Details: "",
+      ImportantDetails: "",
     });
   }
 
@@ -51,6 +55,12 @@ export default class App extends Component {
   setDetails = (element) => {
     this.setState({
       Details: element.target.value,
+    });
+  };
+  // Recieve the package instructions from the user
+  setImportantDetails = (element) => {
+    this.setState({
+      ImportantDetails: element.target.value,
     });
   };
 
@@ -122,7 +132,9 @@ export default class App extends Component {
                   size={post.size}
                   address={post.Address}
                   Details={post.Details}
+                  ImportantDetails={post.ImportantDetails}
                   delete={this.deleteEvent.bind(this, index)}
+                  setImportantDetails={this.setImportantDetails}
                   setDetail={this.setDetails}
                   setAddress={this.setAddress}
                   setSize={this.setSize}
@@ -143,7 +155,6 @@ export default class App extends Component {
         <BottomContainer>
           <PackageDetails>
             <DetailsBox>
-              {" "}
               <div>Preferred Time of Delivery: </div>{" "}
               <Select onBlur={this.setStartTime}>
                 <option value="1">12:00 AM</option>
@@ -200,7 +211,9 @@ export default class App extends Component {
               </Select>
             </DetailsBox>
           </PackageDetails>
-          <AddItemsButton href="">Continue to Checkout</AddItemsButton>
+          <AddItemsButton onClick={() => Router.push("/checkout")}>
+            Continue to Checkout
+          </AddItemsButton>
         </BottomContainer>
       </SpacedContainer>
     );
