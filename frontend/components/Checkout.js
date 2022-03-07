@@ -1,17 +1,9 @@
 import styled from "styled-components";
 
-// This component will hold the two add package buttons
-export const AddItemsButtonsContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  position: relative;
-`;
+// A styled component for the moving pages buttons
+export const MovePagesButton = styled.button`
+  padding: 1rem 1rem;
 
-// A styled component for adding items buttons
-export const AddItemsButton = styled.button`
-  padding: 1rem 2rem;
-  margin-bottom: 5rem;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
@@ -20,32 +12,74 @@ export const AddItemsButton = styled.button`
   font-size: 2rem;
   border-radius: 20px;
   background-color: #ff9a42;
+  max-width: 25%;
+  span {
+    font-weight: 300;
+    font-size: 1.3rem;
+  }
 `;
-
-// This container will contain the packages information
-export const PackageDetails = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: left;
-  flex-wrap: wrap;
-  position: relative;
-  background: #4f4f4f;
-  border: 1px solid black;
-  min-height: 6rem;
-  left: 0;
-  box-shadow: 6px 6px 4px #4f4f4f;
-  border-radius: 10px;
-`;
-
-// This container will hold a decription and one more component(a component that recieves information)
-export const DetailsBox = styled.div`
+// This container will hold a decription and one more component(a component that displays information)
+export const PackageDetailsBox = styled.div`
   padding: 1rem 1rem;
   margin: 0.8rem;
   color: white;
   text-decoration: none;
   font-weight: 800;
   font-size: 1.7rem;
+  span {
+    font-weight: 300;
+    font-size: 1.3rem;
+  }
+`;
 
+// This container will hold the move pages buttons
+export const BottomContainer = styled.footer`
+  display: flex;
+  bottom: 0;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  flex-wrap: wrap;
+`;
+
+// This container will contain the packages information
+export const PackageDetails = styled.div`
+  display: flex;
+  justify-content: space-around;
+
+  flex-wrap: wrap;
+
+  background: #4f4f4f;
+  border: 1px solid black;
+  min-height: 6rem;
+
+  box-shadow: 6px 6px 4px #4f4f4f;
+  border-radius: 10px;
+  margin-right: 1rem;
+`;
+// This container will contain the payment information
+export const PaymentContainer = styled.div`
+  position: relative;
+  background: #4f4f4f;
+  border: 1px solid black;
+  min-height: 10rem;
+  box-shadow: 6px 6px 4px #4f4f4f;
+  border-radius: 10px;
+`;
+
+// This container will contain the payment information (to group the card information together)
+export const CardInfo = styled.div`
+  position: relative;
+`;
+
+// This container will hold a decription and one more component(a component that displays information)
+export const DetailsBox = styled.div`
+  padding: 1rem 1rem;
+  margin: 0.8rem;
+  text-decoration: none;
+  font-size: 1.7rem;
+  margin-left: 50%;
+  background-color: white;
   span {
     font-weight: 300;
     font-size: 1.3rem;
@@ -56,36 +90,19 @@ export const DetailsBox = styled.div`
 export const InputDetails = styled.textarea`
   font-size: 1.7rem;
   color: black;
-  height: 3rem;
-  max-height: 5rem;
-  min-height: 3rem;
+  max-height: 10rem;
+  min-height: 10%;
   width: 100%;
-  min-width: 10rem;
-  max-width: 40rem; ;
 `;
-
-// This is a styled component for deleting a package
-export const RemoveItemButton = styled.button`
-  margin-top: 1rem;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
+// This is a styled component for recieving payment information via input
+export const InputPayment = styled.input`
+  font-size: 1.7rem;
   color: black;
-  transition: all 0.3s ease-in;
-  font-size: 2rem;
-  border-radius: 360px;
-  height: 3rem;
-  width: 3rem;
-`;
-
-// This container will hold the preferred time and continue to checkout button
-export const BottomContainer = styled.footer`
-  display: flex;
-  bottom: 0;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  flex-wrap: wrap;
+  max-height: 10rem;
+  min-height: 10%;
+  min-width: 10rem;
+  max-width: 100%;
+  border-radius: 10px;
 `;
 
 // A styled component for recieving a choice from the user
@@ -117,11 +134,7 @@ export const Dropbtn = styled.div`
 // a container to hold the content for the drowndown
 export const DropDownContent = styled.div`
   display: none;
-  padding: 1rem 1rem;
   position: absolute;
-  background: #ff9a42;
-  border: 1px solid black;
-  border-radius: 10px;
   z-index: 1;
 `;
 

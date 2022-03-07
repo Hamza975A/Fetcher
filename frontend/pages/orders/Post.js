@@ -5,6 +5,9 @@ import {
   DetailsBox,
   InputDetails,
   Select,
+  DropDownContent,
+  DropDownLi,
+  Dropbtn,
 } from "../../components/PlaceOrder";
 
 /**
@@ -34,6 +37,23 @@ export default class Post extends Component {
             <option value="2">Medium</option>
             <option value="3">Large</option>
           </Select>
+        </DetailsBox>
+        <DetailsBox>
+          <div>
+            <DropDownLi>
+              <Dropbtn>Important Details (hover to view)</Dropbtn>
+              <DropDownContent>
+                Please Input any details that the driver might need to know. Ex:
+                Order Number, Whos name the package is under, etc.
+              </DropDownContent>
+            </DropDownLi>
+          </div>
+
+          <InputDetails
+            defaultValue=""
+            type="text"
+            onBlur={this.props.setImportantDetails}
+          />
         </DetailsBox>
         <DetailsBox>
           <div>Details: </div>{" "}
