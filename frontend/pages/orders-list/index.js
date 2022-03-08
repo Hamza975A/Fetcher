@@ -59,20 +59,26 @@ export default function Home({ curOrders, pasOrders }) {
  * Function to fetch current and past orders for the user via API calls.
  */
 export async function getServerSideProps() {
-  const res = await fetch("http://localhost:3000/api/current-orders", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/current-orders`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   const curOrders = await res.json();
 
-  const res1 = await fetch("http://localhost:3000/api/past-orders", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const res1 = await fetch(
+    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/past-orders`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   const pasOrders = await res1.json();
 
   return {
