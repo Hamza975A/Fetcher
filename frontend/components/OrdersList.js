@@ -4,6 +4,8 @@ import { Paragraph } from "./GlobalComponents";
 
 export const OrderCardWrapper = styled.div`
   padding-left: 25px;
+  margin-bottom: 10px;
+  margin-top: 5px;
   display: flex;
   background: #4f4f4f;
   justify-content: space-between;
