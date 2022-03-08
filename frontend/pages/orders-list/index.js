@@ -60,7 +60,7 @@ export default function Home({ curOrders, pasOrders }) {
  */
 export async function getServerSideProps() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/current-orders`,
+    `${process.env.URL_START}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/current-orders`,
     {
       method: "GET",
       headers: {
@@ -71,7 +71,7 @@ export async function getServerSideProps() {
   const curOrders = await res.json();
 
   const res1 = await fetch(
-    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/past-orders`,
+    `${process.env.URL_START}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/past-orders`,
     {
       method: "GET",
       headers: {
