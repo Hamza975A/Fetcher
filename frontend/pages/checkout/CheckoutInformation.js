@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Router from "next/router";
 import Post from "./Post";
 import {
@@ -22,34 +22,20 @@ import {
 let dropOff = "";
 let startTime = "1";
 let endTime = "1";
-let cost = "0.00";
 
 /** @return {r}*/
 export default function Package({ checkout, setCheckout, packages, extras }) {
-  const [checkoutList] = useState([
-    {
-      dropoffLocation: "anywhere",
-      priority: 1,
-      instructions: "",
-      cost: "",
-      email: "",
-      number: "",
-      expirationDate: "",
-      cvc: "",
-      cardName: "",
-      postal: "",
-    },
-  ]);
   const copyPostArray = Object.assign([], checkout);
   dropOff = copyPostArray[0].dropoffLocation;
   startTime = extras[0].startTime;
   endTime = extras[0].endTime;
-  cost = copyPostArray[0].cost;
-
-  if (checkout == null) {
-    setCheckout(checkoutList);
-  } else if (checkout.length == 0 || checkout == []) {
-    setCheckout(checkoutList);
+  checkout[0].cost = 1 * 10 + (packages.length - 1) * 5;
+  if (checkout[0].priority == "High") {
+    checkout[0].cost = 3 * 10 + (packages.length - 1) * 5;
+  } else if (checkout[0].priority == "Medium") {
+    checkout[0].cost = 2 * 10 + (packages.length - 1) * 5;
+  } else {
+    checkout[0].cost = 1 * 10 + (packages.length - 1) * 5;
   }
 
   // Recieve the package instructions from the user
@@ -63,11 +49,11 @@ export default function Package({ checkout, setCheckout, packages, extras }) {
     const copyPostArray = Object.assign([], checkout);
     copyPostArray[0].priority = element.target.value;
     if (element.target.value == "Low") {
-      copyPostArray[0].cost = 1 * 10 + packages.length * 5;
+      copyPostArray[0].cost = 1 * 10 + (packages.length - 1) * 5;
     } else if (element.target.value == "Medium") {
-      copyPostArray[0].cost = 2 * 10 + packages.length * 5;
+      copyPostArray[0].cost = 2 * 10 + (packages.length - 1) * 5;
     } else {
-      copyPostArray[0].cost = 3 * 10 + packages.length * 5;
+      copyPostArray[0].cost = 3 * 10 + (packages.length - 1) * 5;
     }
     setCheckout(copyPostArray);
   };
@@ -118,12 +104,15 @@ export default function Package({ checkout, setCheckout, packages, extras }) {
         <br></br>
         Priority:{" "}
         <Select onChange={(e) => setPriorityandCost(e)}>
+          <option value="" hidden>
+            {checkout[0].priority}
+          </option>
           <option value="Low">Low</option>
           <option value="Medium">Medium</option>
           <option value="High">High</option>
         </Select>
         <br></br>
-        Cost: ${cost}
+        Cost: ${checkout[0].cost}
         <br></br>
         Drop Off Instructions:{" "}
         <InputDetails onChange={(e) => changeInstructions(e)}></InputDetails>

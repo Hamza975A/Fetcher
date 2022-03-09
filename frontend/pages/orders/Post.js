@@ -19,7 +19,7 @@ export default class Post extends Component {
    * Place orders page for the website.
    * @return {JSX.Element}
    */
-  render() { 
+  render() {
     return (
       <PackageDetails>
         <DetailsBox>

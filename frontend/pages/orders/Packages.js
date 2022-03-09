@@ -16,9 +16,6 @@ let postID = 0;
 let prevAddress = "";
 /** @return {r}*/
 export default function Package({ packages, setPackages, extras, setExtras }) {
-
-
-  
   // Delete the package that the user wants to delete, if there is only 1 package remaining then don't delete
   const deleteEvent = (index) => {
     const copyPostArray = Object.assign([], packages);
@@ -119,28 +116,26 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
         <SpacedContainer>
           {/* This loops through the list of packages and sets them on the page with action listners*/}
           {packages.map((post, index) => {
-            if(index==0){
+            if (index == 0) {
+            } else {
+              return (
+                <Post
+                  key={post.id}
+                  index={index}
+                  id={post.id}
+                  size={post.size}
+                  address={post.Address}
+                  Details={post.Details}
+                  ImportantDetails={post.ImportantDetails}
+                  delete={() => deleteEvent(index)}
+                  setImportantDetails={(e) => setImportantDetails(e, index)}
+                  setDetail={(e) => setDetails(e, index)}
+                  setAddress={(e) => setAddress(e, index)}
+                  setSize={(e) => setSize(e, index)}
+                />
+              );
             }
-            else{
-            return (
-              <Post
-              
-                key={post.id}
-               
-                index={index}
-                id={post.id}
-                size={post.size}
-                address={post.Address}
-                Details={post.Details}
-                ImportantDetails={post.ImportantDetails}
-                delete={() => deleteEvent(index)}
-                setImportantDetails={(e) => setImportantDetails(e, index)}
-                setDetail={(e) => setDetails(e, index)}
-                setAddress={(e) => setAddress(e, index)}
-                setSize={(e) => setSize(e, index)}
-              />
-            );
-          }})}
+          })}
         </SpacedContainer>
       </ul>
       {/* The buttons to create new packages and the time/checkout */}
@@ -157,6 +152,9 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
           <DetailsBox>
             <div>Preferred Time of Delivery: </div>{" "}
             <Select onChange={setStartTime}>
+              <option value="" hidden>
+                {extras[0].startTime}
+              </option>
               <option value="12:00 AM">12:00 AM</option>
               <option value="1:00 AM">1:00 AM</option>
               <option value="2:00 AM">2:00 AM</option>
@@ -184,6 +182,9 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
             </Select>
             to
             <Select onChange={setEndTime}>
+              <option value="" hidden>
+                {extras[0].endTime}
+              </option>
               <option value="12:00 AM">12:00 AM</option>
               <option value="1:00 AM">1:00 AM</option>
               <option value="2:00 AM">2:00 AM</option>
