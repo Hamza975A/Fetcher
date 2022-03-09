@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import React from "react";
 import { Paragraph } from "./GlobalComponents";
+import Router from "next/router";
+import { getRouteMatcher } from "next/dist/shared/lib/router/utils";
 
 export const OrderCardWrapper = styled.div`
   padding-left: 25px;
@@ -41,8 +43,11 @@ export const OrderCardViewOrderButton = styled.button`
   }
 `;
 
+
 export const OrderCard = (props) => {
+  
   return (
+
     <OrderCardWrapper>
       <OrderCardLeftItems>
         <Paragraph>Order Number: {props.ordernum}</Paragraph>
@@ -50,7 +55,7 @@ export const OrderCard = (props) => {
         <Paragraph>Total: {props.price}</Paragraph>
       </OrderCardLeftItems>
       <OrderCardRightItems>
-        <OrderCardViewOrderButton>{props.buttontext}</OrderCardViewOrderButton>
+        <OrderCardViewOrderButton onClick={() => Router.push(`/past-orders/${props.indexID}` )}>   {props.buttontext}</OrderCardViewOrderButton>
       </OrderCardRightItems>
     </OrderCardWrapper>
   );

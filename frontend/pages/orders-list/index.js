@@ -1,9 +1,11 @@
+import { Router } from "next/router";
 import React, { useState, useEffect } from "react";
 import {
   GlobalContainer,
   SimpleContainer,
 } from "../../components/GlobalComponents";
 import { OrderCard } from "../../components/OrdersList";
+
 
 /**
  * Home page for the website.
@@ -20,6 +22,7 @@ export default function Home({ curOrders, pasOrders }) {
     setPastOrders(pasOrders);
   }, [pasOrders]);
 
+
   return (
     <GlobalContainer>
       <SimpleContainer style={{ paddingBottom: "2rem" }}>
@@ -28,6 +31,7 @@ export default function Home({ curOrders, pasOrders }) {
           return (
             <OrderCard
               key={index}
+              indexPoint={index}
               ordernum={order.number}
               date={order.date}
               price={order.price}
@@ -43,10 +47,12 @@ export default function Home({ curOrders, pasOrders }) {
           return (
             <OrderCard
               key={index}
+              indexID= {index}
               ordernum={order.number}
               date={order.date}
               price={order.price}
               buttontext="VIEW ORDER"
+              
             />
           );
         })}
