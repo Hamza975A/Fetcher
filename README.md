@@ -1,7 +1,7 @@
 
 # Fetcher
 
-An web application to allow users to move a package from point A to B.
+A web application to allow users to move a package from point A to B.
 
 ## Demo
 
