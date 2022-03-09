@@ -27,15 +27,15 @@ export default class Post extends Component {
           <InputDetails
             defaultValue={this.props.address}
             type="text"
-            onBlur={this.props.setAddress}
+            onChange={this.props.setAddress}
           />
         </DetailsBox>
         <DetailsBox>
           <div>Size: </div>
-          <Select onBlur={this.props.setSize}>
-            <option value="1">Small</option>
-            <option value="2">Medium</option>
-            <option value="3">Large</option>
+          <Select onChange={this.props.setSize}>
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
           </Select>
         </DetailsBox>
         <DetailsBox>
@@ -52,7 +52,7 @@ export default class Post extends Component {
           <InputDetails
             defaultValue=""
             type="text"
-            onBlur={this.props.setImportantDetails}
+            onChange={this.props.setImportantDetails}
           />
         </DetailsBox>
         <DetailsBox>
@@ -60,7 +60,7 @@ export default class Post extends Component {
           <InputDetails
             defaultValue=""
             type="text"
-            onBlur={this.props.setDetail}
+            onChange={this.props.setDetail}
           />
         </DetailsBox>
         <RemoveItemButton onClick={this.props.delete}>X</RemoveItemButton>
