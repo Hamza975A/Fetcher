@@ -19,7 +19,7 @@ export default class Post extends Component {
    * Place orders page for the website.
    * @return {JSX.Element}
    */
-  render() {
+  render() { 
     return (
       <PackageDetails>
         <DetailsBox>
@@ -50,7 +50,7 @@ export default class Post extends Component {
           </div>
 
           <InputDetails
-            defaultValue=""
+            defaultValue={this.props.ImportantDetails}
             type="text"
             onChange={this.props.setImportantDetails}
           />
@@ -58,7 +58,7 @@ export default class Post extends Component {
         <DetailsBox>
           <div>Details: </div>{" "}
           <InputDetails
-            defaultValue=""
+            defaultValue={this.props.Details}
             type="text"
             onChange={this.props.setDetail}
           />

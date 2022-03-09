@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Router from "next/router";
 
 import Post from "./Post";
@@ -16,38 +16,9 @@ let postID = 0;
 let prevAddress = "";
 /** @return {r}*/
 export default function Package({ packages, setPackages, extras, setExtras }) {
-  const [extraList] = useState([
-    {
-      postID: 0,
-      prevAddress: "",
-      startTime: "7:00 AM",
-      endTime: "8:00 PM",
-    },
-  ]);
 
-  const [packageList] = useState([
-    {
-      id: 0,
-      Size: "",
-      Address: "",
-      Details: "",
-      ImportantDetails: "",
-    },
-  ]);
-  if (packages == null) {
-    setPackages(packageList);
-  } else if (packages.length == 0) {
-    setPackages(packageList);
-  }
-  if (extras == null) {
-    setPackages(extraList);
-  } else if (extras.length == 0) {
-    setExtras(extraList);
-  } else {
-    prevAddress = extras[0].prevAddress;
-    postID = extras[0].postID;
-  }
 
+  
   // Delete the package that the user wants to delete, if there is only 1 package remaining then don't delete
   const deleteEvent = (index) => {
     const copyPostArray = Object.assign([], packages);
@@ -57,6 +28,7 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
       setPackages(copyPostArray);
     }
   };
+
   // Recieve the package instructions from the user
   const setDetails = (element, index) => {
     const copyPostArray = Object.assign([], packages);
@@ -104,7 +76,7 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
   // Create a new blank Package and add it to the array of packages
   const addPost = () => {
     prevAddress = "";
-    postID = postID + 1;
+    postID = extras[0].postID + 1;
     const copyArray = Object.assign([], extras);
     copyArray[0].postID = postID;
     copyArray[0].prevAddress = prevAddress;
@@ -124,7 +96,7 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
 
   // Create a new Package with the same location as the previous set location and add it to the array of packages
   const addPostPrev = () => {
-    postID = postID + 1;
+    postID = extras[0].postID + 1;
     const copyArray = Object.assign([], extras);
     copyArray[0].postID = postID;
     setExtras(copyArray);
@@ -147,9 +119,15 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
         <SpacedContainer>
           {/* This loops through the list of packages and sets them on the page with action listners*/}
           {packages.map((post, index) => {
+            if(index==0){
+            }
+            else{
             return (
               <Post
+              
                 key={post.id}
+               
+                index={index}
                 id={post.id}
                 size={post.size}
                 address={post.Address}
@@ -162,7 +140,7 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
                 setSize={(e) => setSize(e, index)}
               />
             );
-          })}
+          }})}
         </SpacedContainer>
       </ul>
       {/* The buttons to create new packages and the time/checkout */}
