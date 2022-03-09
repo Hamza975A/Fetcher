@@ -122,7 +122,10 @@ export default function Package({ checkout, setCheckout, packages, extras }) {
           <Dropbtn>Packages (hover to view)</Dropbtn>
           <DropDownContent>
             <ul>
+              
               {packages.map((post, index) => {
+                if (index == 0) {
+                } else {
                 return (
                   <Post
                     key={post.id}
@@ -132,8 +135,8 @@ export default function Package({ checkout, setCheckout, packages, extras }) {
                     details={post.Details}
                     importantDetails={post.ImportantDetails}
                   />
-                );
-              })}
+                );}
+                })}
             </ul>
           </DropDownContent>
         </DropDownLi>

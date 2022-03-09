@@ -81,7 +81,7 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
     const copyPostArray = Object.assign([], packages);
     copyPostArray.push({
       id: extras[0].postID,
-      Size: "",
+      Size: "Small",
       Address: "",
       Details: "",
       ImportantDetails: "",
@@ -100,7 +100,7 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
     const copyPostArray = Object.assign([], packages);
     copyPostArray.push({
       id: extras[0].postID,
-      Size: "",
+      Size: "Small",
       Address: prevAddress,
       Details: "",
       ImportantDetails: "",
@@ -123,7 +123,7 @@ export default function Package({ packages, setPackages, extras, setExtras }) {
                   key={post.id}
                   index={index}
                   id={post.id}
-                  size={post.size}
+                  size={post.Size}
                   address={post.Address}
                   Details={post.Details}
                   ImportantDetails={post.ImportantDetails}
