@@ -4,6 +4,7 @@ import { CenterContainer, ContainerImage } from "./GlobalComponents";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Router from "next/router";
+import { getFromStorage, pushToStorage } from "../lib/storage-tools";
 
 import {
   InfoContainer,
@@ -57,6 +58,17 @@ const options = {
   strictbounds: true,
 };
 
+const handleHomeButton = () => {
+  if (!currentPlace) {
+    return;
+  }
+  pushToStorage("address", currentPlace);
+  console.log(getFromStorage("address"));
+  Router.push("/orders");
+};
+
+let currentPlace = null;
+
 export const HomePage = () => {
   return (
     <>
@@ -66,11 +78,11 @@ export const HomePage = () => {
           <Autocomplete
             apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
             onPlaceSelected={(place) => {
-              console.log(place);
+              currentPlace = place;
             }}
             options={options}
           />
-          <Button onClick={() => Router.push("/orders")}> Search </Button>
+          <Button onClick={handleHomeButton}> Search </Button>
         </CenterContainer>
       </ContainerImage>
 

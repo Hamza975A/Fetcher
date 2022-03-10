@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { getFromStorage } from "../../lib/storage-tools";
+
 import Router from "next/router";
 
 import Post from "./Post";
@@ -10,7 +12,10 @@ import {
   BottomContainer,
   AddItemsButtonsContainer,
 } from "../../components/PlaceOrder";
-import { SpacedContainer } from "../../components/GlobalComponents";
+import {
+  SpacedContainer,
+  DestinationAddressCard,
+} from "../../components/GlobalComponents";
 // import React from "react";
 import { GlobalContainer } from "../../components/GlobalComponents";
 
@@ -114,6 +119,7 @@ function Package({ packages, setPackages, extras, setExtras }) {
 
   return (
     <SpacedContainer>
+      {/* <h2>{getFromStorage("address").formatted_address}</h2> placeholder */}
       <ul>
         <SpacedContainer>
           {/* This loops through the list of packages and sets them on the page with action listners*/}
@@ -306,8 +312,19 @@ export default function Home() {
     localStorage.setItem("checkout", JSON.stringify(checkout));
   });
 
+  const [address, setAddress] = useState("");
+  useEffect(() => {
+    setAddress(() => {
+      return getFromStorage("address").formatted_address;
+    });
+  }, []);
+
   return (
     <GlobalContainer>
+      <DestinationAddressCard style={{ marginBottom: "20px" }}>
+        <h2>Destination Address</h2>
+        {address}
+      </DestinationAddressCard>
       <Package
         packages={packages}
         setPackages={setPackages}
