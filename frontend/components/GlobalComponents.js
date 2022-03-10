@@ -1,5 +1,18 @@
 import styled from "styled-components";
 
+export const DestinationAddressCard = styled.div`
+  display: flex;
+  width: 60%;
+  /* align-items: center;
+  align-self: center; */
+  box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
+  //border-radius: 10px;
+  background-color: #ffffff;
+
+  flex-direction: column;
+  padding: 1.6rem 2rem;
+`;
+
 export const CenterContainer = styled.div`
   width: 80%;
   margin: 0 auto;

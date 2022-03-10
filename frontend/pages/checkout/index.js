@@ -1,11 +1,15 @@
 import {
   ColumnsContainer,
+  DestinationAddressCard,
   GlobalContainer,
+  SpacedContainer,
 } from "../../components/GlobalComponents";
 import React, { useEffect, useState } from "react";
 import Maps from "../../components/Maps";
 import Router from "next/router";
 import Post from "./Post";
+import { getFromStorage } from "../../lib/storage-tools";
+
 import {
   DetailsBox,
   InputDetails,
@@ -17,7 +21,6 @@ import {
   Select,
   BottomContainer,
 } from "../../components/Checkout";
-import { SpacedContainer } from "../../components/GlobalComponents";
 import {
   DropDownContent,
   Dropbtn,
@@ -43,7 +46,7 @@ function Package({ checkout, setCheckout, packages, extras }) {
     checkout[0].cost = 1 * 10 + (packages.length - 1) * 5;
   }
 
-  // Recieve the package instructions from the user
+  // Receive the package instructions from the user
   const changeInstructions = (element) => {
     const copyPostArray = Object.assign([], checkout);
     copyPostArray[0].instructions = element.target.value;
@@ -62,38 +65,38 @@ function Package({ checkout, setCheckout, packages, extras }) {
     }
     setCheckout(copyPostArray);
   };
-  // Recieve the email from the user
+  // Receive the email from the user
   const setEmail = (element) => {
     const copyPostArray = Object.assign([], checkout);
     copyPostArray[0].email = element.target.value;
     setCheckout(copyPostArray);
   };
-  // Recieve the credit card number from the user
+  // Receive the credit card number from the user
   const setPaymentNumber = (element) => {
     const copyPostArray = Object.assign([], checkout);
     copyPostArray[0].number = element.target.value;
     setCheckout(copyPostArray);
   };
-  //  Recieve the expiration date from the user
+  //  Receive the expiration date from the user
   const setExpirationDate = (element) => {
     const copyPostArray = Object.assign([], checkout);
     copyPostArray[0].expirationDate = element.target.value;
     setCheckout(copyPostArray);
   };
-  // Recieve the CVC from the user
+  // Receive the CVC from the user
   const setCVC = (element) => {
     const copyPostArray = Object.assign([], checkout);
     copyPostArray[0].cvc = element.target.value;
     setCheckout(copyPostArray);
   };
-  // Recieve the Name on the card from the user
+  // Receive the Name on the card from the user
   const setName = (element) => {
     const copyPostArray = Object.assign([], checkout);
     copyPostArray[0].cardName = element.target.value;
     setCheckout(copyPostArray);
   };
 
-  // Recieve the postal address from the user
+  // Receive the postal address from the user
   const setPostal = (element) => {
     const copyPostArray = Object.assign([], checkout);
     copyPostArray[0].postal = element.target.value;
@@ -275,8 +278,19 @@ export default function Home() {
     localStorage.setItem("checkout", JSON.stringify(checkout));
   });
 
+  const [address, setAddress] = useState("");
+  useEffect(() => {
+    setAddress(() => {
+      return getFromStorage("address").formatted_address;
+    });
+  }, []);
+
   return (
     <GlobalContainer>
+      <DestinationAddressCard>
+        <h2>Destination Address</h2>
+        {address}
+      </DestinationAddressCard>
       <Package
         checkout={checkout}
         setCheckout={setCheckout}
