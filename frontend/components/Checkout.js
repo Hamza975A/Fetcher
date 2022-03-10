@@ -18,7 +18,7 @@ export const MovePagesButton = styled.button`
     font-size: 1.3rem;
   }
 `;
-// This container will hold a decription and one more component(a component that displays information)
+// This container will hold a description and one more component(a component that displays information)
 export const PackageDetailsBox = styled.div`
   padding: 1rem 1rem;
   margin: 0.8rem;
@@ -72,29 +72,29 @@ export const CardInfo = styled.div`
   position: relative;
 `;
 
-// This container will hold a decription and one more component(a component that displays information)
+// This container will hold a description and one more component(a component that displays information)
 export const DetailsBox = styled.div`
+  line-height: 200%;
   padding: 1rem 1rem;
-  margin: 0.8rem;
   text-decoration: none;
   font-size: 1.7rem;
-  margin-left: 50%;
   background-color: white;
   span {
     font-weight: 300;
     font-size: 1.3rem;
   }
+  box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
 `;
 
-// This is a styled component for recieving information via textarea
+// This is a styled component for receiving information via textarea
 export const InputDetails = styled.textarea`
   font-size: 1.7rem;
   color: black;
   max-height: 10rem;
-  min-height: 10%;
+  min-height: 30%;
   width: 100%;
 `;
-// This is a styled component for recieving payment information via input
+// This is a styled component for receiving payment information via input
 export const InputPayment = styled.input`
   font-size: 1.7rem;
   color: black;
@@ -105,7 +105,7 @@ export const InputPayment = styled.input`
   border-radius: 10px;
 `;
 
-// A styled component for recieving a choice from the user
+// A styled component for receiving a choice from the user
 export const Select = styled.select`
   max-height: 5rem;
   min-height: 3rem;
@@ -131,7 +131,7 @@ export const Dropbtn = styled.div`
   text-decoration: none;
 `;
 
-// a container to hold the content for the drowndown
+// a container to hold the content for the dropdown
 export const DropDownContent = styled.div`
   display: none;
   position: absolute;

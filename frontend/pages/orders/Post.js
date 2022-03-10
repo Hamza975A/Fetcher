@@ -33,9 +33,9 @@ export default class Post extends Component {
         <DetailsBox>
           <div>Size: </div>
           <Select onChange={this.props.setSize}>
-          <option value="" hidden>
-            {this.props.size}
-          </option>
+            <option value="" hidden>
+              {this.props.size}
+            </option>
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>

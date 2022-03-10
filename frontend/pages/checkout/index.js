@@ -1,6 +1,9 @@
-import { GlobalContainer } from "../../components/GlobalComponents";
+import {
+  ColumnsContainer,
+  GlobalContainer,
+} from "../../components/GlobalComponents";
 import React, { useEffect, useState } from "react";
-
+import Maps from "../../components/Maps";
 import Router from "next/router";
 import Post from "./Post";
 import {
@@ -99,60 +102,63 @@ function Package({ checkout, setCheckout, packages, extras }) {
 
   return (
     <SpacedContainer>
-      <DetailsBox>
-        Drop Off Location: {dropOff}
-        <br></br>
-        Delivery Time: {startTime} - {endTime}
-        <br></br>
-        Priority:{" "}
-        <Select onChange={(e) => setPriorityandCost(e)}>
-          <option value="" hidden>
-            {checkout[0].priority}
-          </option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </Select>
-        <br></br>
-        Cost: ${checkout[0].cost}
-        <br></br>
-        Drop Off Instructions:{" "}
-        <InputDetails onChange={(e) => changeInstructions(e)}></InputDetails>
-        <br></br>
-        {/* display checkout here */}
-        <DropDownLi>
-          <Dropbtn>Packages (hover to view)</Dropbtn>
-          <DropDownContent>
-            <ul>
-              {packages.map((post, index) => {
-                if (index == 0 && post.Size == null) {
-                  return (
-                    <Post
-                      key={index}
-                      id={post.id}
-                      size={"Small"}
-                      address={post.Address}
-                      details={post.Details}
-                      importantDetails={post.ImportantDetails}
-                    />
-                  );
-                } else {
-                  return (
-                    <Post
-                      key={post.id}
-                      id={post.id}
-                      size={post.Size}
-                      address={post.Address}
-                      details={post.Details}
-                      importantDetails={post.ImportantDetails}
-                    />
-                  );
-                }
-              })}
-            </ul>
-          </DropDownContent>
-        </DropDownLi>
-      </DetailsBox>
+      <ColumnsContainer>
+        <Maps />
+        <DetailsBox>
+          Drop Off Location: {dropOff}
+          <br></br>
+          Delivery Time: {startTime} - {endTime}
+          <br></br>
+          Priority:
+          <Select onChange={(e) => setPriorityandCost(e)}>
+            <option value="" hidden>
+              {checkout[0].priority}
+            </option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </Select>
+          <br></br>
+          Cost: ${checkout[0].cost}
+          <br></br>
+          Drop Off Instructions:{" "}
+          <InputDetails onChange={(e) => changeInstructions(e)}></InputDetails>
+          <br></br>
+          {/* display checkout here */}
+          <DropDownLi>
+            <Dropbtn>Packages (hover to view)</Dropbtn>
+            <DropDownContent>
+              <ul>
+                {packages.map((post, index) => {
+                  if (index == 0 && post.Size == null) {
+                    return (
+                      <Post
+                        key={index}
+                        id={post.id}
+                        size={"Small"}
+                        address={post.Address}
+                        details={post.Details}
+                        importantDetails={post.ImportantDetails}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Post
+                        key={post.id}
+                        id={post.id}
+                        size={post.Size}
+                        address={post.Address}
+                        details={post.Details}
+                        importantDetails={post.ImportantDetails}
+                      />
+                    );
+                  }
+                })}
+              </ul>
+            </DropDownContent>
+          </DropDownLi>
+        </DetailsBox>
+      </ColumnsContainer>
       {/* Recieve Payment details */}
       <PaymentContainer>
         <PackageDetailsBox>

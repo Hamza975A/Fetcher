@@ -1,5 +1,5 @@
 import React from "react";
-
+import Autocomplete from "react-google-autocomplete";
 import { CenterContainer, ContainerImage } from "./GlobalComponents";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -49,13 +49,27 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+const options = {
+  types: ["address"],
+  location: { lat: 52.130406, lng: -106.65982 },
+  componentRestrictions: { country: ["ca"] },
+  radius: 11000,
+  strictbounds: true,
+};
+
 export const HomePage = () => {
   return (
     <>
       <ContainerImage>
         <CenterContainer>
           <SearchText> Schedule a Pickup </SearchText>
-          <input placeholder="Enter the address"></input>
+          <Autocomplete
+            apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+            onPlaceSelected={(place) => {
+              console.log(place);
+            }}
+            options={options}
+          />
           <Button onClick={() => Router.push("/orders")}> Search </Button>
         </CenterContainer>
       </ContainerImage>
