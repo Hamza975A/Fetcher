@@ -24,6 +24,9 @@ export const InfoColumn = styled.div`
     flex-basis: 100%;
     display: flex;
     justify-content: center;
+    margin-bottom: 0;
+    padding-right: 5px;
+    padding-left: 5px;
   }
 `;
 
@@ -31,8 +34,8 @@ export const TextWrapper = styled.div`
   max-width: 540px;
   padding-top: 0;
   padding-bottom: 60px;
-  @media screen and (max-width: 768px) {
-    padding-bottom: 65px;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding-bottom: 0px;
   }
 `;
 
@@ -48,6 +51,10 @@ export const TopLine = styled.div`
   line-height: 16px;
   font-weight: 700;
   letter-spacing: 1px;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    font-size: 60px;
+    line-height: 50px;
+  }
 `;
 
 export const Img = styled.img`
@@ -65,6 +72,10 @@ export const Heading = styled.h1`
   line-height: 1.1;
   font-weight: 600;
   color: ${({ colour }) => colour};
+  @media ${(props) => props.theme.breakpoints.sm} {
+    font-size: 30px;
+    margin-bottom: 5px;
+  }
 `;
 
 export const Subtitle = styled.p`
@@ -73,4 +84,8 @@ export const Subtitle = styled.p`
   font-size: 18px;
   line-height: 24px;
   color: ${({ colour }) => colour};
+  @media ${(props) => props.theme.breakpoints.sm} {
+    font-size: 15px;
+    margin-bottom: 15px;
+  }
 `;

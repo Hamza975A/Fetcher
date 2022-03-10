@@ -13,6 +13,12 @@ export const MenuLink = styled.button`
   &:hover {
     color: #ff9a42;
   }
+  @media ${(props) => props.theme.breakpoints.sm} {
+    max-width: 200px;
+    max-height: 200px;
+    font-size: 0.6rem;
+    padding: 1rem 1.5rem;
+  }
 `;
 
 export const Nav = styled.div`
@@ -26,6 +32,10 @@ export const Nav = styled.div`
   top: 0;
   left: 0;
   right: 0;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
 `;
 
 export const Logo = styled.a`
@@ -37,6 +47,10 @@ export const Logo = styled.a`
   span {
     font-weight: 300;
     font-size: 1.3rem;
+  }
+  @media ${(props) => props.theme.breakpoints.sm} {
+    font-size: 2rem;
+    padding: 0.5rem 0;
   }
 `;
 

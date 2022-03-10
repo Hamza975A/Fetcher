@@ -17,6 +17,11 @@ export const MovePagesButton = styled.button`
     font-weight: 300;
     font-size: 1.3rem;
   }
+  @media ${(props) => props.theme.breakpoints.sm} {
+    max-width: 50%;
+    font-size: 1.5rem;
+    padding: 0.5 0.5;
+  }
 `;
 // This container will hold a description and one more component(a component that displays information)
 export const PackageDetailsBox = styled.div`
@@ -65,6 +70,9 @@ export const PaymentContainer = styled.div`
   min-height: 10rem;
   box-shadow: 6px 6px 4px #4f4f4f;
   border-radius: 10px;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    text-align: center;
+  }
 `;
 
 // This container will contain the payment information (to group the card information together)

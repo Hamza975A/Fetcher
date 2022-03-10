@@ -20,6 +20,11 @@ export const AddItemsButton = styled.button`
   font-size: 2rem;
   border-radius: 20px;
   background-color: #ff9a42;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding: 0 0;
+    font-size: 1rem;
+    margin: 1rem 0rem;
+  }
 `;
 
 // This container will contain the packages information
@@ -35,6 +40,10 @@ export const PackageDetails = styled.div`
   left: 0;
   box-shadow: 6px 6px 4px #4f4f4f;
   border-radius: 10px;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    max-width: 90%;
+    align-self: center;
+  }
 `;
 
 // This container will hold a decription and one more component(a component that recieves information)
@@ -49,6 +58,9 @@ export const DetailsBox = styled.div`
   span {
     font-weight: 300;
     font-size: 1.3rem;
+  }
+  @media ${(props) => props.theme.breakpoints.sm} {
+    font-size: 1rem;
   }
 `;
 
@@ -104,6 +116,10 @@ export const Select = styled.select`
     display: flex;
     white-space: pre;
     min-height: 20px;
+  }
+  @media ${(props) => props.theme.breakpoints.sm} {
+    min-height: 0.5rem;
+    min-width: 0.5rem;
   }
 `;
 
