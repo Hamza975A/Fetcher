@@ -42,11 +42,8 @@ export const OrderCardViewOrderButton = styled.button`
   }
 `;
 
-
 export const OrderCard = (props) => {
-  
   return (
-
     <OrderCardWrapper>
       <OrderCardLeftItems>
         <Paragraph>Order Number: {props.ordernum}</Paragraph>
@@ -54,7 +51,12 @@ export const OrderCard = (props) => {
         <Paragraph>Total: {props.price}</Paragraph>
       </OrderCardLeftItems>
       <OrderCardRightItems>
-        <OrderCardViewOrderButton onClick={() => Router.push(`/past-orders/${props.indexID}` )}>   {props.buttontext}</OrderCardViewOrderButton>
+        <OrderCardViewOrderButton
+          onClick={() => Router.push(`/past-orders/${props.indexID}`)}
+        >
+          {" "}
+          {props.buttontext}
+        </OrderCardViewOrderButton>
       </OrderCardRightItems>
     </OrderCardWrapper>
   );

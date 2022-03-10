@@ -1,11 +1,9 @@
-import { Router } from "next/router";
 import React, { useState, useEffect } from "react";
 import {
   GlobalContainer,
   SimpleContainer,
 } from "../../components/GlobalComponents";
 import { OrderCard } from "../../components/OrdersList";
-
 
 /**
  * Home page for the website.
@@ -21,7 +19,6 @@ export default function Home({ curOrders, pasOrders }) {
   useEffect(() => {
     setPastOrders(pasOrders);
   }, [pasOrders]);
-
 
   return (
     <GlobalContainer>
@@ -47,12 +44,11 @@ export default function Home({ curOrders, pasOrders }) {
           return (
             <OrderCard
               key={index}
-              indexID= {index}
+              indexID={index}
               ordernum={order.number}
               date={order.date}
               price={order.price}
               buttontext="VIEW ORDER"
-              
             />
           );
         })}

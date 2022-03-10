@@ -13,7 +13,6 @@ export const PastOrderWrapper = styled.div`
   box-shadow: 6px 6px 4px #4f4f4f;
 `;
 
-
 export const PastOrderCardLeftItems = styled.div`
   flex-direction: column;
   align-self: center;
@@ -22,22 +21,20 @@ export const PastOrderCardLeftItems = styled.div`
   padding: 25px;
 `;
 
-
-
-export const PastOrderCard = (props) =>{
-    return (
-      <PastOrderWrapper>
-            <PastOrderCardLeftItems>
-              <Paragraph>Order Number: {props.ordernum}</Paragraph>
-              <Paragraph>Driver: {props.driver}</Paragraph>
-              <Paragraph>Pickup Location: {props.pickuplocation}</Paragraph>
-              <Paragraph>Drop-off Location: {props.dropofflocation}</Paragraph>
-              <Paragraph>Parcel Size: {props.parcelsize}</Paragraph>
-              <Paragraph>Delivery Fee: {props.deliveryfee}</Paragraph>
-              <Paragraph>Tip: {props.tips}</Paragraph>
-              <Paragraph>Total(CAD): {props.total}</Paragraph>
-              <Paragraph>Details: {props.details}</Paragraph>
-            </PastOrderCardLeftItems>
-      </PastOrderWrapper>
-    );
+export const PastOrderCard = (props) => {
+  return (
+    <PastOrderWrapper>
+      <PastOrderCardLeftItems>
+        <Paragraph>Order Number: {props.ordernum}</Paragraph>
+        <Paragraph>Driver: {props.driver}</Paragraph>
+        <Paragraph>Pickup Location: {props.pickuplocation}</Paragraph>
+        <Paragraph>Drop-off Location: {props.dropofflocation}</Paragraph>
+        <Paragraph>Parcel Size: {props.parcelsize}</Paragraph>
+        <Paragraph>Delivery Fee: {props.deliveryfee}</Paragraph>
+        <Paragraph>Tip: {props.tips}</Paragraph>
+        <Paragraph>Total(CAD): {props.total}</Paragraph>
+        <Paragraph>Details: {props.details}</Paragraph>
+      </PastOrderCardLeftItems>
+    </PastOrderWrapper>
+  );
 };

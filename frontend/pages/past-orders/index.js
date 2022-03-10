@@ -21,8 +21,6 @@ export default function Home() {
         tips="$5.00"
         total="$24.91"
       />
-
-
     </GlobalContainer>
   );
 }
