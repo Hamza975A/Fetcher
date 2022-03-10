@@ -6,17 +6,26 @@ export const CenterContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-self: center;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    width: 75%;
+  }
 `;
 
 export const GlobalContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 90px 50px;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding: 9rem 1rem;
+  }
 `;
 
 export const ColumnsContainer = styled.div`
   display: flex;
   column-gap: 15px;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    flex-direction: column;
+  }
 `;
 export const SimpleContainer = styled.div``;
 
@@ -53,6 +62,10 @@ export const Button = styled.button`
     border-color: #ffaf69;
     background-color: #ffaf69;
     cursor: pointer;
+  }
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding: 0 0;
+    font-size: 1rem;
   }
 `;
 

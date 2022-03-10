@@ -21,6 +21,9 @@ const SearchText = styled.h1`
   font-size: 1.5em;
   text-align: center;
   color: black;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    font-size: 1em;
+  }
 `;
 
 const Button = styled.button`
