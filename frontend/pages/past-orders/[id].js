@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, {useState,useEffect} from "react";
 import {
   GlobalContainer,
-  SimpleContainer,
+  SimpleContainer
 } from "../../components/GlobalComponents";
 import { PastOrderCard } from "../../components/PastOrder";
-import { useRouter } from "next/router";
+import {useRouter} from 'next/router'
 
 /**
  * Home page for the website.
  * @return {JSX.Element}
  */
-export default function Home({ pasOrders }) {
-  const [pastOrders, setPastOrders] = useState([]);
+export default function Home({pasOrders}) {
+    const [pastOrders, setPastOrders] = useState([]);
 
-  useEffect(() => {
-    setPastOrders(pasOrders);
-  }, [pasOrders]);
+
+    useEffect(() => {
+        setPastOrders(pasOrders);
+      }, [pasOrders]);
   return (
     <GlobalContainer>
       <h2>Past Order Details</h2>
@@ -34,25 +35,27 @@ export default function Home({ pasOrders }) {
       <SimpleContainer>
         <h2>Past Orders</h2>
         {pastOrders.map((order, index) => {
-          const router = useRouter();
-          const id = router.query.id;
+            const router = useRouter()
+            const id = router.query.id
 
-          if (index == id) {
-            return (
-              <PastOrderCard
+            if (index == id){
+          return (
+            <PastOrderCard
                 ordernum={order.ordernumber}
                 driver={index}
-                pickuplocation="Walmart, 1706 Preston Ave N"
+                pickuplocation="Walmart, 1706 Preston Ave N" 
                 dropofflocation="University of Saskatchewan"
                 parcelsize="Medium"
                 deliveryfee="$19.91"
                 tips="$5.00"
                 total={order.price}
-              />
-            );
-          }
+            />
+          );
+            }
         })}
       </SimpleContainer>
+
+
     </GlobalContainer>
   );
 }
@@ -61,15 +64,17 @@ export default function Home({ pasOrders }) {
  * Function to fetch current and past orders for the user via API calls.
  */
 export async function getServerSideProps() {
-  const res1 = await fetch("http://localhost:3000/api/past-orders", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const pasOrders = await res1.json();
-
-  return {
-    props: { pasOrders },
-  };
-}
+  
+    const res1 = await fetch(
+      `${process.env.URL_START}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/past-orders`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const pasOrders = await res1.json();
+  
+    return {
+      props: { pasOrders },
+    };
+  }
