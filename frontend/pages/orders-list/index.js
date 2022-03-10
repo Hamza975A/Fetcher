@@ -28,6 +28,7 @@ export default function Home({ curOrders, pasOrders }) {
           return (
             <OrderCard
               key={index}
+              indexPoint={index}
               ordernum={order.number}
               date={order.date}
               price={order.price}
@@ -43,6 +44,7 @@ export default function Home({ curOrders, pasOrders }) {
           return (
             <OrderCard
               key={index}
+              indexID={index}
               ordernum={order.number}
               date={order.date}
               price={order.price}

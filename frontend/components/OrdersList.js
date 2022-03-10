@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 import { Paragraph } from "./GlobalComponents";
+import Router from "next/router";
 
 export const OrderCardWrapper = styled.div`
   padding-left: 25px;
@@ -50,7 +51,12 @@ export const OrderCard = (props) => {
         <Paragraph>Total: {props.price}</Paragraph>
       </OrderCardLeftItems>
       <OrderCardRightItems>
-        <OrderCardViewOrderButton>{props.buttontext}</OrderCardViewOrderButton>
+        <OrderCardViewOrderButton
+          onClick={() => Router.push(`/past-orders/${props.indexID}`)}
+        >
+          {" "}
+          {props.buttontext}
+        </OrderCardViewOrderButton>
       </OrderCardRightItems>
     </OrderCardWrapper>
   );
