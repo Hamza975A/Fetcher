@@ -32,7 +32,7 @@ let startTime = "1";
 let endTime = "1";
 
 /** @return {r}*/
-function Package({ checkout, setCheckout, packages, extras }) {
+function Package({ checkout, setCheckout, packages, extras, address }) {
   const copyPostArray = Object.assign([], checkout);
   dropOff = copyPostArray[0].dropoffLocation;
   startTime = extras[0].startTime;
@@ -106,7 +106,7 @@ function Package({ checkout, setCheckout, packages, extras }) {
   return (
     <SpacedContainer>
       <ColumnsContainer>
-        <Maps />
+        <Maps markers={address} />
         <DetailsBox>
           Drop Off Location: {dropOff}
           <br></br>
@@ -139,7 +139,7 @@ function Package({ checkout, setCheckout, packages, extras }) {
                         key={index}
                         id={post.id}
                         size={"Small"}
-                        address={post.Address}
+                        address={post.Address.formatted_address}
                         details={post.Details}
                         importantDetails={post.ImportantDetails}
                       />
@@ -150,7 +150,7 @@ function Package({ checkout, setCheckout, packages, extras }) {
                         key={post.id}
                         id={post.id}
                         size={post.Size}
-                        address={post.Address}
+                        address={post.Address.formatted_address}
                         details={post.Details}
                         importantDetails={post.ImportantDetails}
                       />
@@ -281,7 +281,7 @@ export default function Home() {
   const [address, setAddress] = useState("");
   useEffect(() => {
     setAddress(() => {
-      return getFromStorage("address").formatted_address;
+      return getFromStorage("address");
     });
   }, []);
 
@@ -289,13 +289,14 @@ export default function Home() {
     <GlobalContainer>
       <DestinationAddressCard>
         <h2>Destination Address</h2>
-        {address}
+        {address.formatted_address}
       </DestinationAddressCard>
       <Package
         checkout={checkout}
         setCheckout={setCheckout}
         packages={packages}
         extras={extras}
+        address={address}
       />
     </GlobalContainer>
   );

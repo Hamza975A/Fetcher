@@ -1,6 +1,7 @@
 import React from "react";
 import mapStyles from "../styles/mapStyles";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import { getFromStorage } from "../lib/storage-tools";
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "60%",
@@ -17,22 +18,36 @@ const options = {
   zoomControl: true,
 };
 
-const Maps = () => {
+/**
+ * Function to render a google map component with markers placed on it.
+ * @param {markers} : Destination address
+ * @return {JSXComponent} : Map component rendered with markers for different addresses
+ */
+const Maps = ({ markers }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries,
   });
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
+  const marks = [];
+
+  const object = getFromStorage("placeOrder");
+  object.map((o) => {
+    marks.push(o.Address.geometry.location);
+  });
+  // array of {lat: "", lng: ""} items to be used as markers
 
   return (
     <GoogleMap
       mapContainerStyle={mapContainerStyle}
-      zoom={12}
+      zoom={10}
       center={center}
       options={options}
     >
-      <Marker position={center} />
+      {marks.map((mark, index) => (
+        <Marker key={index} position={mark} />
+      ))}
     </GoogleMap>
   );
 };
