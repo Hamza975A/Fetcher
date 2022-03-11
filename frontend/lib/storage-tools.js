@@ -19,3 +19,12 @@ export function pushToStorage(key, value) {
     window.localStorage.setItem(key, JSON.stringify(value));
   }
 }
+
+/**
+ * Function to clear localStorage.
+ */
+export function clearStorage() {
+  if (typeof window !== "undefined") {
+    window.localStorage.clear();
+  }
+}

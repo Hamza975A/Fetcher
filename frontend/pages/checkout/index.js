@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import Maps from "../../components/Maps";
 import Router from "next/router";
 import Post from "./Post";
-import { getFromStorage } from "../../lib/storage-tools";
+import { getFromStorage, clearStorage } from "../../lib/storage-tools";
 
 import {
   DetailsBox,
@@ -30,6 +30,16 @@ import {
 let dropOff = "";
 let startTime = "1";
 let endTime = "1";
+
+/**
+ * Function to handle the button press of 'Place Order'.
+ * This clears localStorage, adds info to the database and redirects to the confirmation page.
+ */
+export const handleCheckout = () => {
+  // TODO: Add functionality to post the information to the database.
+  Router.push("/confirmation");
+  clearStorage();
+};
 
 /** @return {r}*/
 function Package({ checkout, setCheckout, packages, extras, address }) {
@@ -201,9 +211,7 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
         <MovePagesButton onClick={() => Router.push("/orders")}>
           Back To Order
         </MovePagesButton>
-        <MovePagesButton onClick={() => Router.push("/confirmation")}>
-          Place Order
-        </MovePagesButton>
+        <MovePagesButton onClick={handleCheckout}>Place Order</MovePagesButton>
       </BottomContainer>
     </SpacedContainer>
   );
