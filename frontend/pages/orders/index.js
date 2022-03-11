@@ -48,13 +48,13 @@ function Package({ packages, setPackages, extras, setExtras }) {
 
   // Recieve the Address from the user (will also check for validity here later)
   const setAddress = (element, index) => {
-    prevAddress = element.target.value;
+    prevAddress = element;
     const copyArray = Object.assign([], extras);
     copyArray[0].prevAddress = prevAddress;
     setExtras(copyArray);
 
     const copyPostArray = Object.assign([], packages);
-    copyPostArray[index].Address = element.target.value;
+    copyPostArray[index].Address = element;
     setPackages(copyPostArray);
   };
 
@@ -124,14 +124,48 @@ function Package({ packages, setPackages, extras, setExtras }) {
         <SpacedContainer>
           {/* This loops through the list of packages and sets them on the page with action listners*/}
           {packages.map((post, index) => {
-            if (index == 0 && post.Size == null) {
+            if (index == 0 && post.Address == "" && post.Size == null) {
               return (
                 <Post
                   key={post.id}
                   index={index}
                   id={post.id}
                   size={"Small"}
-                  address={post.Address}
+                  address={post.Address.formatted_address}
+                  Details={post.Details}
+                  ImportantDetails={post.ImportantDetails}
+                  delete={() => deleteEvent(index)}
+                  setImportantDetails={(e) => setImportantDetails(e, index)}
+                  setDetail={(e) => setDetails(e, index)}
+                  setAddress={(e) => setAddress(e, index)}
+                  setSize={(e) => setSize(e, index)}
+                />
+              );
+            } else if (index == 0 && post.Address == "") {
+              return (
+                <Post
+                  key={post.id}
+                  index={index}
+                  id={post.id}
+                  size={post.Size}
+                  address={post.Address.formatted_address}
+                  Details={post.Details}
+                  ImportantDetails={post.ImportantDetails}
+                  delete={() => deleteEvent(index)}
+                  setImportantDetails={(e) => setImportantDetails(e, index)}
+                  setDetail={(e) => setDetails(e, index)}
+                  setAddress={(e) => setAddress(e, index)}
+                  setSize={(e) => setSize(e, index)}
+                />
+              );
+            } else if (index == 0 && post.Size == null) {
+              return (
+                <Post
+                  key={post.id}
+                  index={index}
+                  id={post.id}
+                  size={"Small"}
+                  address={""}
                   Details={post.Details}
                   ImportantDetails={post.ImportantDetails}
                   delete={() => deleteEvent(index)}
@@ -148,7 +182,7 @@ function Package({ packages, setPackages, extras, setExtras }) {
                   index={index}
                   id={post.id}
                   size={post.Size}
-                  address={post.Address}
+                  address={post.Address.formatted_address}
                   Details={post.Details}
                   ImportantDetails={post.ImportantDetails}
                   delete={() => deleteEvent(index)}

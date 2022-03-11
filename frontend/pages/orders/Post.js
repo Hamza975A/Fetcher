@@ -10,6 +10,16 @@ import {
   Dropbtn,
 } from "../../components/PlaceOrder";
 
+import Autocomplete from "react-google-autocomplete";
+
+const options = {
+  types: ["address"],
+  location: { lat: 52.130406, lng: -106.65982 },
+  componentRestrictions: { country: ["ca"] },
+  radius: 11000,
+  strictbounds: true,
+};
+
 /**
  * Place orders page for the website.
  * @return {JSX.Element}
@@ -24,10 +34,11 @@ export default class Post extends Component {
       <PackageDetails>
         <DetailsBox>
           <div>Address: </div>
-          <InputDetails
+          <Autocomplete
+            apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+            onPlaceSelected={this.props.setAddress}
+            options={options}
             defaultValue={this.props.address}
-            type="text"
-            onChange={this.props.setAddress}
           />
         </DetailsBox>
         <DetailsBox>
