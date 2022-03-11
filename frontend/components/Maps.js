@@ -1,6 +1,11 @@
 import React from "react";
 import mapStyles from "../styles/mapStyles";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoBox,
+} from "@react-google-maps/api";
 import { getFromStorage } from "../lib/storage-tools";
 
 // google maps libraries to be enabled
@@ -25,6 +30,8 @@ const options = {
   disableDefaultUI: true,
   zoomControl: true,
 };
+
+const infoBoxOptions = { closeBoxURL: "", enableEventPropagation: true };
 
 /**
  * Function to render a google map component with markers placed on it.
@@ -59,8 +66,30 @@ const Maps = ({ markers }) => {
     >
       {/* place each marker on the map */}
       {marks.map((mark, index) => (
-        <Marker key={index} position={mark} />
+        <>
+          <Marker key={index} position={mark} />
+          {index == 0 ? (
+            // Info Box to label the destination address
+            <InfoBox
+              position={markers.geometry.location}
+              options={infoBoxOptions}
+            >
+              <div style={{ backgroundColor: "orange", opacity: 0.75 }}>
+                <div style={{ fontSize: 16, color: "black" }}>Destination</div>
+              </div>
+            </InfoBox>
+          ) : (
+            // Info Box to label the pickup addresses
+            <InfoBox position={mark} options={infoBoxOptions}>
+              <div style={{ backgroundColor: "orange", opacity: 0.75 }}>
+                <div style={{ fontSize: 16, color: "black" }}>Pickup</div>
+              </div>
+            </InfoBox>
+          )}
+        </>
       ))}
+
+      {/* Info Box to signify the destination address marker */}
     </GoogleMap>
   );
 };
