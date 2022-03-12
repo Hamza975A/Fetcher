@@ -35,11 +35,33 @@ let endTime = "1";
  * Function to handle the button press of 'Place Order'.
  * This clears localStorage, adds info to the database and redirects to the confirmation page.
  */
-export const handleCheckout = () => {
-  // TODO: Add functionality to post the information to the database.
+export async function handleCheckout() {
+  const destinationAddress = getFromStorage("address");
+  const checkoutDetails = getFromStorage("checkout");
+  const extraDetails = getFromStorage("extraDetails");
+  const placedOrderDetails = getFromStorage("placeOrder");
+
+  const data = {
+    destinationAddress: destinationAddress,
+    checkoutInformation: checkoutDetails[0],
+    extraOrderDetails: extraDetails[0],
+    mainOrderDetails: placedOrderDetails,
+  };
+
+  await fetch("/api/current-orders", {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).catch((error) => {
+    console.error("Error:", error);
+  });
+
   Router.push("/confirmation");
   clearStorage();
-};
+}
 
 /** @return {r}*/
 function Package({ checkout, setCheckout, packages, extras, address }) {

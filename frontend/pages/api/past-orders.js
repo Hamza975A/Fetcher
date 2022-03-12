@@ -7,7 +7,7 @@ import clientPromise from "../../lib/mongodb";
  */
 export default async function handler(req, res) {
   const client = await clientPromise;
-  const db = client.db("orders");
+  const db = client.db(process.env.DB);
   switch (req.method) {
     case "POST":
       const bodyObject = JSON.parse(req.body);
