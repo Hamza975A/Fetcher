@@ -11,26 +11,26 @@ import { useRouter } from "next/router";
  * @return {JSX.Element}
  */
 export default function Home() {
-  const [pastOrders, setPastOrders] = useState([]);
+  const [currentOrders, setCurrentOrders] = useState([]);
 
   // get orders from the database
   useEffect(async () => {
-    const res = await fetch("/api/past-orders", {
+    const res = await fetch("/api/current-orders", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
     const ordersList = await res.json();
-    setPastOrders(ordersList);
+    setCurrentOrders(ordersList);
   }, []);
   return (
     <GlobalContainer>
       <CenterContainer>
-        <h1>Past Order Details</h1>
+        <h1>Current Order Details</h1>
       </CenterContainer>
 
-      {pastOrders.map((order, index) => {
+      {currentOrders.map((order, index) => {
         const {
           checkoutInformation,
           destinationAddress,
