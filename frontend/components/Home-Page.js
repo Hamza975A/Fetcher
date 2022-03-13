@@ -4,7 +4,7 @@ import { CenterContainer, ContainerImage } from "./GlobalComponents";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Router from "next/router";
-import { getFromStorage, pushToStorage } from "../lib/storage-tools";
+import { pushToStorage } from "../lib/storage-tools";
 
 import {
   InfoContainer,
@@ -66,7 +66,6 @@ const handleHomeButton = () => {
     return;
   }
   pushToStorage("address", currentPlace);
-  console.log(getFromStorage("address"));
   Router.push("/orders");
 };
 

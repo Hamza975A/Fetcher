@@ -24,14 +24,20 @@ export default function Home({ curOrders, pasOrders }) {
     <GlobalContainer>
       <SimpleContainer style={{ paddingBottom: "2rem" }}>
         <h2>Current Orders</h2>
-        {currentOrders.map((order, index) => {
+        {currentOrders.map((order) => {
+          const {
+            checkoutInformation,
+            destinationAddress,
+            orderNumber,
+            timestamp,
+          } = order;
           return (
             <OrderCard
-              key={index}
-              indexPoint={index}
-              ordernum={order.number}
-              date={order.date}
-              price={order.price}
+              key={orderNumber}
+              ordernum={orderNumber}
+              destination={destinationAddress.formatted_address}
+              date={timestamp}
+              price={"$" + checkoutInformation.cost}
               buttontext="VIEW ORDER"
             />
           );
@@ -40,14 +46,20 @@ export default function Home({ curOrders, pasOrders }) {
 
       <SimpleContainer>
         <h2>Past Orders</h2>
-        {pastOrders.map((order, index) => {
+        {pastOrders.map((order) => {
+          const {
+            checkoutInformation,
+            destinationAddress,
+            orderNumber,
+            timestamp,
+          } = order;
           return (
             <OrderCard
-              key={index}
-              indexID={index}
-              ordernum={order.number}
-              date={order.date}
-              price={order.price}
+              key={orderNumber}
+              ordernum={orderNumber}
+              destination={destinationAddress.formatted_address}
+              date={timestamp}
+              price={"$" + checkoutInformation.cost}
               buttontext="VIEW ORDER"
             />
           );
