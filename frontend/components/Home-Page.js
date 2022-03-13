@@ -83,6 +83,7 @@ export const HomePage = () => {
               currentPlace = place;
             }}
             options={options}
+            placeholder="Enter A Dropoff Location"
           />
           <Button onClick={handleHomeButton}> Search </Button>
         </CenterContainer>

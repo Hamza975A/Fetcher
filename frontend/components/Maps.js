@@ -67,21 +67,43 @@ const Maps = ({ markers }) => {
       {/* place each marker on the map */}
       {marks.map((mark, index) => (
         <>
-          <Marker key={index} position={mark} />
+          <Marker
+            key={index}
+            position={mark}
+            icon={{
+              url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+            }}
+          />
           {index == 0 ? (
             // Info Box to label the destination address
             <InfoBox
               position={markers.geometry.location}
               options={infoBoxOptions}
             >
-              <div style={{ backgroundColor: "orange", opacity: 0.75 }}>
-                <div style={{ fontSize: 16, color: "black" }}>Destination</div>
+              <div
+                style={{
+                  backgroundColor: "black",
+                  opacity: 0.75,
+                  lineHeight: 1.35,
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <p style={{ fontSize: 16, color: "white" }}>Destination</p>
               </div>
             </InfoBox>
           ) : (
             // Info Box to label the pickup addresses
             <InfoBox position={mark} options={infoBoxOptions}>
-              <div style={{ backgroundColor: "orange", opacity: 0.75 }}>
+              <div
+                style={{
+                  backgroundColor: "white",
+                  opacity: 0.75,
+                  lineHeight: 1.35,
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 <div style={{ fontSize: 16, color: "black" }}>Pickup</div>
               </div>
             </InfoBox>
