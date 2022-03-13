@@ -48,6 +48,8 @@ export const OrderCard = ({
   destination,
   price,
   buttontext,
+  id,
+  url,
 }) => {
   return (
     <OrderCardWrapper>
@@ -58,9 +60,7 @@ export const OrderCard = ({
         <Paragraph>Total: {price}</Paragraph>
       </OrderCardLeftItems>
       <OrderCardRightItems>
-        <OrderCardViewOrderButton
-          onClick={() => Router.push(`/past-orders/${ordernum}`)}
-        >
+        <OrderCardViewOrderButton onClick={() => Router.push(`/${url}/${id}`)}>
           {" "}
           {buttontext}
         </OrderCardViewOrderButton>

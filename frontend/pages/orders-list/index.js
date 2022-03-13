@@ -30,14 +30,18 @@ export default function Home({ curOrders, pasOrders }) {
             destinationAddress,
             orderNumber,
             timestamp,
+            _id,
           } = order;
+
           return (
             <OrderCard
               key={orderNumber}
+              id={_id}
               ordernum={orderNumber}
               destination={destinationAddress.formatted_address}
               date={timestamp}
               price={"$" + checkoutInformation.cost}
+              url={"current-orders"}
               buttontext="VIEW ORDER"
             />
           );
@@ -52,14 +56,17 @@ export default function Home({ curOrders, pasOrders }) {
             destinationAddress,
             orderNumber,
             timestamp,
+            _id,
           } = order;
           return (
             <OrderCard
               key={orderNumber}
+              id={_id}
               ordernum={orderNumber}
               destination={destinationAddress.formatted_address}
               date={timestamp}
               price={"$" + checkoutInformation.cost}
+              url={"past-orders"}
               buttontext="VIEW ORDER"
             />
           );
