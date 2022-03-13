@@ -7,8 +7,8 @@ import {
   Paragraph,
   Header,
   Button,
-} from "../../components/GlobalComponents";
-import { PackageDetails } from "../../components/PlaceOrder";
+} from "./GlobalComponents";
+import { PackageDetails } from "./PlaceOrder";
 
 const ConfirmationPage = ({ orderNum, destination, deliveryTime }) => {
   return (

@@ -3,17 +3,17 @@
 
 A web application to allow users to move a package from point A to B.
 
-## Demo
+## Website
 
-[Live Website](https://fetcher.live)
+[fetcher.live](https://fetcher.live)
 
 ## Authors
 
 - [Hamza Aziz](https://www.linkedin.com/in/hamzaaziz975/)
 - [Holden Gutwin](https://www.linkedin.com/in/holdengutwin/)
-- [Liam Hilkewich]()
+- [Liam Hilkewich](https://www.linkedin.com/in/liam-hilkewich-8322a0234/)
 - [Tanmay Pathak](https://www.linkedin.com/in/pathak-tanmay/)
-- [Theodore Buckley]()
+- [Theodore Buckley](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 ## Environment Variables
 
@@ -28,6 +28,12 @@ Base URL of the project. If deployed with Vercel, this variable is auto filled.
 3. `URL_START`
 `http://` or `https://` to be used as a prefix to the API URLs.
 
+4. `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`  
+Google Maps API key for Autocomplete box and Maps component.
+
+5. `DB`
+Database name to be used.
+
 ## Tech Stack
 
 **Client:** [React](https://reactjs.org), [Next.JS](https://nextjs.org), [Styled-Components](https://styled-components.com)
@@ -35,3 +41,9 @@ Base URL of the project. If deployed with Vercel, this variable is auto filled.
 **Database:** [MongoDB Atlas](https://www.mongodb.com/atlas/database)
 
 **Server Infrastructure** [Vercel](https://vercel.com/)
+
+## Screenshots
+
+![Home Page](/images/homepage.png)
+![Orders](/images/orders.png)
+![Check Out](/images/checkout.png)
