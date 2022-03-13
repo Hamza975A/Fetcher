@@ -1,68 +1,62 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   CenterContainer,
   GlobalContainer,
 } from "../../components/GlobalComponents";
 import { OrderCard } from "../../components/OrderDetails";
-import { useRouter } from "next/router";
 
 /**
- * Home page for the website.
+ * Component to render current order details for a specific order.
  * @return {JSX.Element}
  */
-export default function Home() {
-  const [currentOrders, setCurrentOrders] = useState([]);
-
-  // get orders from the database
-  useEffect(async () => {
-    const res = await fetch("/api/current-orders", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const ordersList = await res.json();
-    setCurrentOrders(ordersList);
-  }, []);
+export default function CurrentOrderDetails({ order }) {
+  const { orderNumber, destinationAddress, mainOrderDetails } = order;
   return (
     <GlobalContainer>
       <CenterContainer>
         <h1>Current Order Details</h1>
       </CenterContainer>
-
-      {currentOrders.map((order, index) => {
-        const {
-          checkoutInformation,
-          destinationAddress,
-          extraOrderDetails,
-          mainOrderDetails,
-          orderNumber,
-          timestamp,
-          _id,
-        } = order;
-        const router = useRouter();
-        const id = router.query.id;
-        return _id == id ? (
-          <OrderCard
-            key={index}
-            ordernum={orderNumber}
-            pickuplocations={mainOrderDetails}
-            dropofflocation={destinationAddress.formatted_address}
-            parcelsize={mainOrderDetails}
-            deliveryfee={""}
-            tips={""}
-            total={checkoutInformation.cost}
-            details={checkoutInformation.instructions}
-            priority={checkoutInformation.priority}
-            time={timestamp}
-            preferredTime={
-              extraOrderDetails.startTime + "-" + extraOrderDetails.endTime
-            }
-          />
-        ) : (
-          <></>
-        );
-      })}
+      <OrderCard
+        ordernum={orderNumber}
+        pickuplocations={mainOrderDetails}
+        dropofflocation={destinationAddress.formatted_address}
+        parcelsize={mainOrderDetails}
+        deliveryfee={""}
+        tips={""}
+        total={order.checkoutInformation.cost}
+        details={order.checkoutInformation.instructions}
+        priority={order.checkoutInformation.priority}
+        time={order.timestamp}
+        preferredTime={
+          order.extraOrderDetails.startTime +
+          "-" +
+          order.extraOrderDetails.endTime
+        }
+      />
     </GlobalContainer>
   );
+}
+
+/**
+ * Function to fetch order details on the server side.
+ * @return {props} - order details
+ */
+export async function getServerSideProps({ params }) {
+  const data = { id: params.id, db: "current-orders" };
+  const res = await fetch(
+    `${process.env.URL_START}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/get-order`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  return {
+    props: {
+      order: await res.json(),
+    },
+  };
 }
