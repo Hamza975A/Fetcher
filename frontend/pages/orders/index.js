@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getFromStorage } from "../../lib/storage-tools";
 
-import Router from "next/router";
-
 import Post from "./Post";
 import {
   PackageDetails,
-  Select,
   DetailsBox,
   AddItemsButton,
   BottomContainer,
@@ -21,9 +18,15 @@ import { GlobalContainer } from "../../components/GlobalComponents";
 
 let postID = 0;
 let prevAddress = "";
-/** @return {r}*/
+
+/**
+ * A function that contains everything for the packages page
+ * parameters are lists for the local storage and set parameters update it and the local storage
+ * @return {r}*/
 function Package({ packages, setPackages, extras, setExtras }) {
-  // Delete the package that the user wants to delete, if there is only 1 package remaining then don't delete
+  // Delete the package that the user wants to delete,
+  // if there is only 1 package remaining then don't delete
+  // if there is more than 20 packages, dont add more
   const deleteEvent = (index) => {
     const copyPostArray = Object.assign([], packages);
     copyPostArray.splice(index, 1);
@@ -39,26 +42,36 @@ function Package({ packages, setPackages, extras, setExtras }) {
     copyPostArray[index].Details = element.target.value;
     setPackages(copyPostArray);
   };
-  // Recieve the package instructions from the user
+  // Recieve the package instructions that are important from the user
   const setImportantDetails = (element, index) => {
     const copyPostArray = Object.assign([], packages);
     copyPostArray[index].ImportantDetails = element.target.value;
     setPackages(copyPostArray);
   };
 
-  // Recieve the Address from the user (will also check for validity here later)
+  // Recieve the Address object from the user
   const setAddress = (element, index) => {
     prevAddress = element;
     const copyArray = Object.assign([], extras);
     copyArray[0].prevAddress = prevAddress;
     setExtras(copyArray);
-
     const copyPostArray = Object.assign([], packages);
     copyPostArray[index].Address = element;
     setPackages(copyPostArray);
   };
+  // set up an initial package
+  const setInit = (element, index) => {
+    const copyPostArray = Object.assign([], packages);
+    copyPostArray[index].Size = element;
+    copyPostArray[index].postID = 0;
+    copyPostArray[index].Details = "";
+    copyPostArray[index].ImportantDetails = "";
+    copyPostArray[index].Address = "";
+    setPackages(copyPostArray);
+    return 0;
+  };
 
-  // Recieve the package size from the user
+  // Recieve the package size from the user and set it to the specific packages data
   const setSize = (element, index) => {
     const copyPostArray = Object.assign([], packages);
     copyPostArray[index].Size = element.target.value;
@@ -108,7 +121,7 @@ function Package({ packages, setPackages, extras, setExtras }) {
     copyPostArray.push({
       id: extras[0].postID,
       Size: "Small",
-      Address: prevAddress,
+      Address: extras[0].prevAddress,
       Details: "",
       ImportantDetails: "",
     });
@@ -119,84 +132,36 @@ function Package({ packages, setPackages, extras, setExtras }) {
 
   return (
     <SpacedContainer>
-      {/* <h2>{getFromStorage("address").formatted_address}</h2> placeholder */}
       <ul>
         <SpacedContainer>
           {/* This loops through the list of packages and sets them on the page with action listners*/}
           {packages.map((post, index) => {
-            if (index == 0 && post.Address == "" && post.Size == null) {
-              return (
-                <Post
-                  key={post.id}
-                  index={index}
-                  id={post.id}
-                  size={"Small"}
-                  address={post.Address.formatted_address}
-                  Details={post.Details}
-                  ImportantDetails={post.ImportantDetails}
-                  delete={() => deleteEvent(index)}
-                  setImportantDetails={(e) => setImportantDetails(e, index)}
-                  setDetail={(e) => setDetails(e, index)}
-                  setAddress={(e) => setAddress(e, index)}
-                  setSize={(e) => setSize(e, index)}
-                />
-              );
-            } else if (index == 0 && post.Address == "") {
-              return (
-                <Post
-                  key={post.id}
-                  index={index}
-                  id={post.id}
-                  size={post.Size}
-                  address={post.Address.formatted_address}
-                  Details={post.Details}
-                  ImportantDetails={post.ImportantDetails}
-                  delete={() => deleteEvent(index)}
-                  setImportantDetails={(e) => setImportantDetails(e, index)}
-                  setDetail={(e) => setDetails(e, index)}
-                  setAddress={(e) => setAddress(e, index)}
-                  setSize={(e) => setSize(e, index)}
-                />
-              );
-            } else if (index == 0 && post.Size == null) {
-              return (
-                <Post
-                  key={post.id}
-                  index={index}
-                  id={post.id}
-                  size={"Small"}
-                  address={""}
-                  Details={post.Details}
-                  ImportantDetails={post.ImportantDetails}
-                  delete={() => deleteEvent(index)}
-                  setImportantDetails={(e) => setImportantDetails(e, index)}
-                  setDetail={(e) => setDetails(e, index)}
-                  setAddress={(e) => setAddress(e, index)}
-                  setSize={(e) => setSize(e, index)}
-                />
-              );
-            } else {
-              return (
-                <Post
-                  key={post.id}
-                  index={index}
-                  id={post.id}
-                  size={post.Size}
-                  address={post.Address.formatted_address}
-                  Details={post.Details}
-                  ImportantDetails={post.ImportantDetails}
-                  delete={() => deleteEvent(index)}
-                  setImportantDetails={(e) => setImportantDetails(e, index)}
-                  setDetail={(e) => setDetails(e, index)}
-                  setAddress={(e) => setAddress(e, index)}
-                  setSize={(e) => setSize(e, index)}
-                />
-              );
+            // set the initial package to have data (size will always be null for only the initial package)
+            if (post.Size == null) {
+              setInit("Small", 0);
+              return;
             }
+
+            return (
+              <Post
+                key={post.id}
+                index={index}
+                id={post.id}
+                size={post.Size}
+                address={post.Address.formatted_address}
+                Details={post.Details}
+                ImportantDetails={post.ImportantDetails}
+                delete={() => deleteEvent(index)}
+                setImportantDetails={(e) => setImportantDetails(e, index)}
+                setDetail={(e) => setDetails(e, index)}
+                setAddress={(e) => setAddress(e, index)}
+                setSize={(e) => setSize(e, index)}
+              />
+            );
           })}
         </SpacedContainer>
       </ul>
-      {/* The buttons to create new packages and the time/checkout */}
+      {/* The buttons to create new packages and the time/checkout button */}
       <AddItemsButtonsContainer>
         <AddItemsButton onClick={addPost}>
           New Package and new pickup address
@@ -209,68 +174,30 @@ function Package({ packages, setPackages, extras, setExtras }) {
         <PackageDetails>
           <DetailsBox>
             <div>Preferred Time of Delivery: </div>{" "}
-            <Select onChange={setStartTime}>
-              <option value="" hidden>
-                {extras[0].startTime}
-              </option>
-              <option value="12:00 AM">12:00 AM</option>
-              <option value="1:00 AM">1:00 AM</option>
-              <option value="2:00 AM">2:00 AM</option>
-              <option value="3:00 AM">3:00 AM</option>
-              <option value="4:00 AM">4:00 AM</option>
-              <option value="5:00 AM">5:00 AM</option>
-              <option value="6:00 AM">6:00 AM</option>
-              <option value="7:00 AM">7:00 AM</option>
-              <option value="8:00 AM">8:00 AM</option>
-              <option value="9:00 AM">9:00 AM</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="1:00 PM">1:00 PM</option>
-              <option value="2:00 PM">2:00 PM</option>
-              <option value="3:00 PM">3:00 PM</option>
-              <option value="4:00 PM">4:00 PM</option>
-              <option value="5:00 PM">5:00 PM</option>
-              <option value="6:00 PM">6:00 PM</option>
-              <option value="7:00 PM">7:00 PM</option>
-              <option value="8:00 PM">8:00 PM</option>
-              <option value="9:00 PM">9:00 PM</option>
-              <option value="10:00 PM">10:00 PM</option>
-              <option value="11:00 PM">11:00 PM</option>
-            </Select>
-            to
-            <Select onChange={setEndTime}>
-              <option value="" hidden>
-                {extras[0].endTime}
-              </option>
-              <option value="12:00 AM">12:00 AM</option>
-              <option value="1:00 AM">1:00 AM</option>
-              <option value="2:00 AM">2:00 AM</option>
-              <option value="3:00 AM">3:00 AM</option>
-              <option value="4:00 AM">4:00 AM</option>
-              <option value="5:00 AM">5:00 AM</option>
-              <option value="6:00 AM">6:00 AM</option>
-              <option value="7:00 AM">7:00 AM</option>
-              <option value="8:00 AM">8:00 AM</option>
-              <option value="9:00 AM">9:00 AM</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="1:00 PM">1:00 PM</option>
-              <option value="2:00 PM">2:00 PM</option>
-              <option value="3:00 PM">3:00 PM</option>
-              <option value="4:00 PM">4:00 PM</option>
-              <option value="5:00 PM">5:00 PM</option>
-              <option value="6:00 PM">6:00 PM</option>
-              <option value="7:00 PM">7:00 PM</option>
-              <option value="8:00 PM">8:00 PM</option>
-              <option value="9:00 PM">9:00 PM</option>
-              <option value="10:00 PM">10:00 PM</option>
-              <option value="11:00 PM">11:00 PM</option>
-            </Select>
+            {/* require the times, and have the default value for the end time to be atleast the same as the start time so the end time is never before the start time  */}
+            <input
+              type="time"
+              onChange={setStartTime}
+              defaultValue={extras[0].startTime}
+              min="05:00"
+              max="16:00"
+              required
+            ></input>
+            -
+            <input
+              type="time"
+              onChange={setEndTime}
+              defaultValue={extras[0].endTime}
+              min={extras[0].startTime}
+              max="20:00"
+              required
+            ></input>
           </DetailsBox>
         </PackageDetails>
-        <AddItemsButton onClick={() => Router.push("/checkout")}>
+
+        <AddItemsButton type="submit">
+          {" "}
+          {/* this will move to the checkout if all the required items are inputted */}
           Continue to Checkout
         </AddItemsButton>
       </BottomContainer>
@@ -282,64 +209,31 @@ function Package({ packages, setPackages, extras, setExtras }) {
  * @return {JSX.Element}
  */
 export default function Home() {
-  let items = [];
-  let extraDetails = [
-    { postID: 0, prevAddress: "", startTime: "7:00 AM", endTime: "8:00 PM" },
-  ];
-  let cart = [
-    {
-      dropoffLocation: "anywhere",
-      priority: "Low",
-      instructions: "",
-      cost: "",
-      email: "",
-      number: "",
-      expirationDate: "",
-      cvc: "",
-      cardName: "",
-      postal: "",
-    },
-  ];
+  let items = [{}]; // setup three initial local storages lists
+  let extraDetails = [{ postID: 0, prevAddress: "" }];
+  let cart = [{}];
   if (typeof window !== "undefined") {
-    // Perform localStorage action
-
+    // if there is currently local storage then just recieve it
     items = JSON.parse(localStorage.getItem("placeOrder"));
     extraDetails = JSON.parse(localStorage.getItem("extraDetails"));
     cart = JSON.parse(localStorage.getItem("checkout"));
+    // if any of the local storage keys are missing then make an empty one
     if (items == null) {
       items = [{}];
     }
     if (extraDetails == null) {
-      extraDetails = [
-        {
-          postID: 0,
-          prevAddress: "",
-          startTime: "7:00 AM",
-          endTime: "8:00 PM",
-        },
-      ];
+      extraDetails = [{ postID: 0, prevAddress: "" }];
     }
     if (cart == null) {
-      cart = [
-        {
-          dropoffLocation: "anywhere",
-          priority: "Low",
-          instructions: "",
-          cost: "",
-          email: "",
-          number: "",
-          expirationDate: "",
-          cvc: "",
-          cardName: "",
-          postal: "",
-        },
-      ];
+      cart = [{}];
     }
   }
 
+  // the states for the local storage
   const [packages, setPackages] = useState(items);
   const [extras, setExtras] = useState(extraDetails);
   const [checkout] = useState(cart);
+  // update the local storage any time any of the states are modified
   useEffect(() => {
     localStorage.setItem("placeOrder", JSON.stringify(packages));
     localStorage.setItem("extraDetails", JSON.stringify(extras));
@@ -354,17 +248,22 @@ export default function Home() {
   }, []);
 
   return (
+    // display the information to the page
     <GlobalContainer>
       <DestinationAddressCard style={{ marginBottom: "20px" }}>
         <h2>Destination Address</h2>
         {address}
       </DestinationAddressCard>
-      <Package
-        packages={packages}
-        setPackages={setPackages}
-        extras={extras}
-        setExtras={setExtras}
-      />
+      <form action="/checkout">
+        {" "}
+        {/* if the forum requirements are met and the user presses the button, go to the checkout page */}
+        <Package
+          packages={packages}
+          setPackages={setPackages}
+          extras={extras}
+          setExtras={setExtras}
+        />
+      </form>
     </GlobalContainer>
   );
 }

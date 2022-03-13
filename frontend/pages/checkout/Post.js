@@ -7,7 +7,7 @@ import { PackageDetails, PackageDetailsBox } from "../../components/Checkout";
  */
 export default class Post extends Component {
   /**
-   * Checkout page for the website.
+   * Checkout page's packages list for the website.
    * @return {JSX.Element}
    */
   render() {
