@@ -87,6 +87,7 @@ export const DetailsBox = styled.div`
   text-decoration: none;
   font-size: 1.7rem;
   background-color: white;
+  height: 100%;
   span {
     font-weight: 300;
     font-size: 1.3rem;

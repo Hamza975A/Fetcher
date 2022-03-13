@@ -98,9 +98,10 @@ export const HomePage = () => {
               <Subtitle colour="black">
                 Learn more about how our algorithm does the magic.{" "}
               </Subtitle>
-              <a href="/orders">
-                <Button colour="white">Create a New Order</Button>
-              </a>
+
+              <Button colour="white" onClick={handleHomeButton}>
+                Create a New Order
+              </Button>
             </TextWrapper>
           </InfoColumn>
           <InfoColumn>

@@ -26,27 +26,27 @@ const options = {
  */
 export default class Post extends Component {
   /**
-   * Place orders page for the website.
+   * Place orders packages place orders page.
    * @return {JSX.Element}
    */
   render() {
     return (
       <PackageDetails>
         <DetailsBox>
+          {/* retrieve an address and it is required */}
           <div>Address: </div>
           <Autocomplete
             apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-            onPlaceSelected={this.props.setAddress}
+            onPlaceSelected={(e) => this.props.setAddress(e)}
             options={options}
             defaultValue={this.props.address}
+            required
           />
         </DetailsBox>
         <DetailsBox>
+          {/* retrieve sizes from the user for a package */}
           <div>Size: </div>
-          <Select onChange={this.props.setSize}>
-            <option value="" hidden>
-              {this.props.size}
-            </option>
+          <Select onChange={this.props.setSize} defaultValue={this.props.size}>
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
@@ -62,13 +62,15 @@ export default class Post extends Component {
               </DropDownContent>
             </DropDownLi>
           </div>
-
+          {/* retrieve the important required details from the user for a package */}
           <InputDetails
             defaultValue={this.props.ImportantDetails}
             type="text"
             onChange={this.props.setImportantDetails}
+            required
           />
         </DetailsBox>
+        {/* retrieve the lesser details from the user for a package */}
         <DetailsBox>
           <div>Details: </div>{" "}
           <InputDetails
@@ -77,6 +79,7 @@ export default class Post extends Component {
             onChange={this.props.setDetail}
           />
         </DetailsBox>
+        {/* delte the package */}
         <RemoveItemButton onClick={this.props.delete}>X</RemoveItemButton>
       </PackageDetails>
     );

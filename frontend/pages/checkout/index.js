@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import Maps from "../../components/Maps";
 import Router from "next/router";
 import Post from "./Post";
+
 import { getFromStorage, clearStorage } from "../../lib/storage-tools";
 
 import {
@@ -27,7 +28,7 @@ import {
   DropDownLi,
 } from "../../components/Checkout";
 
-let dropOff = "";
+// variables to hold the time
 let startTime = "1";
 let endTime = "1";
 
@@ -64,20 +65,25 @@ export async function handleCheckout() {
   clearStorage();
 }
 
-/** @return {r}*/
+/**
+ * A function that contains everything for the checkout page
+ * parameters are lists for the local storage and set parameters update it and the local storage
+ * @return {r}*/
 function Package({ checkout, setCheckout, packages, extras, address }) {
-  const copyPostArray = Object.assign([], checkout);
-  dropOff = copyPostArray[0].dropoffLocation;
+  // initialize the time variables
   startTime = extras[0].startTime;
   endTime = extras[0].endTime;
-  checkout[0].cost = 1 * 10 + (packages.length - 1) * 5;
+
+  // set the cost and tax of the order
   if (checkout[0].priority == "High") {
-    checkout[0].cost = 3 * 10 + (packages.length - 1) * 5;
+    checkout[0].cost = 30 + packages.length * 5 + checkout[0].tip * 1;
   } else if (checkout[0].priority == "Medium") {
-    checkout[0].cost = 2 * 10 + (packages.length - 1) * 5;
+    checkout[0].cost = 20 + packages.length * 5 + checkout[0].tip * 1;
   } else {
-    checkout[0].cost = 1 * 10 + (packages.length - 1) * 5;
+    checkout[0].cost = 10 + packages.length * 5 + checkout[0].tip * 1;
   }
+  checkout[0].tax = checkout[0].cost * 0.06;
+  checkout[0].cost += checkout[0].tax;
 
   // Receive the package instructions from the user
   const changeInstructions = (element) => {
@@ -85,17 +91,16 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
     copyPostArray[0].instructions = element.target.value;
     setCheckout(copyPostArray);
   };
-  // Update the priority and cost from the user
+  // Receive the tip from the user
+  const changeTip = (element) => {
+    const copyPostArray = Object.assign([], checkout);
+    copyPostArray[0].tip = element.target.value;
+    setCheckout(copyPostArray);
+  };
+  // Update the priority from the user
   const setPriorityandCost = (element) => {
     const copyPostArray = Object.assign([], checkout);
     copyPostArray[0].priority = element.target.value;
-    if (element.target.value == "Low") {
-      copyPostArray[0].cost = 1 * 10 + (packages.length - 1) * 5;
-    } else if (element.target.value == "Medium") {
-      copyPostArray[0].cost = 2 * 10 + (packages.length - 1) * 5;
-    } else {
-      copyPostArray[0].cost = 3 * 10 + (packages.length - 1) * 5;
-    }
     setCheckout(copyPostArray);
   };
   // Receive the email from the user
@@ -128,7 +133,6 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
     copyPostArray[0].cardName = element.target.value;
     setCheckout(copyPostArray);
   };
-
   // Receive the postal address from the user
   const setPostal = (element) => {
     const copyPostArray = Object.assign([], checkout);
@@ -136,48 +140,82 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
     setCheckout(copyPostArray);
   };
 
+  // initialize the base checkout local storage
+  const setInit = (element, index) => {
+    const copyPostArray = Object.assign([], checkout);
+    copyPostArray[index].priority = element;
+    copyPostArray[index].tip = 0;
+    copyPostArray[index].instructions = "";
+    copyPostArray[index].cardName = "";
+    copyPostArray[index].cvc = "";
+    copyPostArray[index].expirationDate = "";
+    copyPostArray[index].number = "";
+    copyPostArray[index].email = "";
+    copyPostArray[index].postal = "";
+    setCheckout(copyPostArray);
+    return 0;
+  };
+
+  //  a function to format numbers to be only 2 decimals
+  const format = (num, decimals) =>
+    num.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   return (
     <SpacedContainer>
       <ColumnsContainer>
+        {/* display the address's on the map */}
         <Maps markers={address} />
         <DetailsBox>
-          Drop Off Location: {dropOff}
-          <br></br>
+          {/* display and recieve the orders information */}
           Delivery Time: {startTime} - {endTime}
+          {checkout.map((post, index) => {
+            if (post.priority == null) {
+              {
+                /* initialize the local storage */
+              }
+              setInit("Low", 0);
+              return;
+            }
+            return (
+              <div key={index}>
+                Priority:
+                <Select
+                  onChange={(e) => setPriorityandCost(e)}
+                  defaultValue={post.priority}
+                >
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </Select>
+                <br></br>
+                Tip: $
+                <input
+                  type="number"
+                  min="0"
+                  max="1000"
+                  step="0.50"
+                  placeholder={format(post.tip)}
+                  onChange={(e) => changeTip(e)}
+                ></input>
+              </div>
+            );
+          })}
+          Tax: ${format(checkout[0].tax)}
           <br></br>
-          Priority:
-          <Select onChange={(e) => setPriorityandCost(e)}>
-            <option value="" hidden>
-              {checkout[0].priority}
-            </option>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </Select>
-          <br></br>
-          Cost: ${checkout[0].cost}
+          Cost: ${format(checkout[0].cost)}
           <br></br>
           Drop Off Instructions:{" "}
           <InputDetails onChange={(e) => changeInstructions(e)}></InputDetails>
           <br></br>
-          {/* display checkout here */}
+          {/* display packages list here */}
           <DropDownLi>
             <Dropbtn>Packages (hover to view)</Dropbtn>
             <DropDownContent>
               <ul>
                 {packages.map((post, index) => {
-                  if (index == 0 && post.Size == null) {
-                    return (
-                      <Post
-                        key={index}
-                        id={post.id}
-                        size={"Small"}
-                        address={post.Address.formatted_address}
-                        details={post.Details}
-                        importantDetails={post.ImportantDetails}
-                      />
-                    );
-                  } else {
+                  
                     return (
                       <Post
                         key={post.id}
@@ -188,7 +226,7 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
                         importantDetails={post.ImportantDetails}
                       />
                     );
-                  }
+                  
                 })}
               </ul>
             </DropDownContent>
@@ -196,24 +234,29 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
         </DetailsBox>
       </ColumnsContainer>
       {/* Recieve Payment details */}
+
       <PaymentContainer>
         <PackageDetailsBox>
           Email: <br />
-          <InputPayment onChange={(e) => setEmail(e)}></InputPayment>
+          <InputPayment
+            onChange={(e) => setEmail(e)}
+            type="email"
+            placeholder={"example@gmail.com"}
+          ></InputPayment>
         </PackageDetailsBox>
         <PackageDetailsBox>
           Card Information
           <CardInfo>
             <InputPayment
-              placeholder="1234 1234 1234 1234"
+              placeholder={"1234 1234 1234 1234"}
               onChange={(e) => setPaymentNumber(e)}
             ></InputPayment>
             <InputPayment
-              placeholder="MM / YY"
+              placeholder={"MM / YY"}
               onChange={(e) => setExpirationDate(e)}
             ></InputPayment>
             <InputPayment
-              placeholder="CVC"
+              placeholder={"CVC"}
               onChange={(e) => setCVC(e)}
             ></InputPayment>
           </CardInfo>
@@ -221,11 +264,17 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
 
         <PackageDetailsBox>
           Name on Card: <br />
-          <InputPayment onBlur={(e) => setName(e)}></InputPayment>
+          <InputPayment
+            onChange={(e) => setName(e)}
+            placeholder={"Name On Card"}
+          ></InputPayment>
         </PackageDetailsBox>
         <PackageDetailsBox>
           Postal Code: <br />
-          <InputPayment onBlur={(e) => setPostal(e)}></InputPayment>
+          <InputPayment
+            onChange={(e) => setPostal(e)}
+            placeholder={"postal"}
+          ></InputPayment>
         </PackageDetailsBox>
       </PaymentContainer>
 
@@ -246,63 +295,29 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
  */
 export default function Home() {
   let items = [];
-  let extraDetails = [
-    { postID: 0, prevAddress: "", startTime: "7:00 AM", endTime: "8:00 PM" },
-  ];
-  let cart = [
-    {
-      dropoffLocation: "anywhere",
-      priority: "Low",
-      instructions: "",
-      cost: "",
-      email: "",
-      number: "",
-      expirationDate: "",
-      cvc: "",
-      cardName: "",
-      postal: "",
-    },
-  ];
+  let extraDetails = [{ postID: 0, prevAddress: "" }];
+  let cart = [{}];
   if (typeof window !== "undefined") {
-    // Perform localStorage action
-
+    // if there is currently local storage then just recieve it
     items = JSON.parse(localStorage.getItem("placeOrder"));
     extraDetails = JSON.parse(localStorage.getItem("extraDetails"));
     cart = JSON.parse(localStorage.getItem("checkout"));
+    // if any of the local storage keys are missing then make an empty one
     if (items == null) {
       items = [];
     }
     if (extraDetails == null) {
-      extraDetails = [
-        {
-          postID: 0,
-          prevAddress: "",
-          startTime: "7:00 AM",
-          endTime: "8:00 PM",
-        },
-      ];
+      extraDetails = [{ postID: 0, prevAddress: "" }];
     }
     if (cart == null) {
-      cart = [
-        {
-          dropoffLocation: "anywhere",
-          priority: "Low",
-          instructions: "",
-          cost: "",
-          email: "",
-          number: "",
-          expirationDate: "",
-          cvc: "",
-          cardName: "",
-          postal: "",
-        },
-      ];
+      cart = [{}];
     }
   }
-
+  // the states for the local storage
   const [packages] = useState(items);
   const [extras] = useState(extraDetails);
   const [checkout, setCheckout] = useState(cart);
+  // update the local storage any time any of the states are modified
   useEffect(() => {
     localStorage.setItem("placeOrder", JSON.stringify(packages));
     localStorage.setItem("extraDetails", JSON.stringify(extras));
@@ -317,11 +332,13 @@ export default function Home() {
   }, []);
 
   return (
+    // display the information to the page
     <GlobalContainer>
       <DestinationAddressCard>
         <h2>Destination Address</h2>
         {address.formatted_address}
       </DestinationAddressCard>
+
       <Package
         checkout={checkout}
         setCheckout={setCheckout}
