@@ -48,7 +48,7 @@ export async function handleCheckout() {
     mainOrderDetails: placedOrderDetails,
   };
 
-  await fetch("/api/current-orders", {
+  const rawResponse = await fetch("/api/current-orders", {
     method: "POST",
     mode: "no-cors",
     headers: {
@@ -59,7 +59,8 @@ export async function handleCheckout() {
     console.error("Error:", error);
   });
 
-  Router.push("/confirmation");
+  const response = await rawResponse.json();
+  Router.push(`/confirmation/${response._id}`);
   clearStorage();
 }
 
