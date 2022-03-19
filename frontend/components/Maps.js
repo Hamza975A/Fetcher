@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import mapStyles from "../styles/mapStyles";
 import {
   GoogleMap,
   useLoadScript,
   Marker,
   InfoBox,
+  DirectionsRenderer,
 } from "@react-google-maps/api";
 import { getFromStorage } from "../lib/storage-tools";
 
@@ -40,6 +41,7 @@ const infoBoxOptions = { closeBoxURL: "", enableEventPropagation: true };
  * @return {JSXComponent} : Map component rendered with markers for different addresses
  */
 const Maps = ({ markers }) => {
+  const [directions, setDirections] = useState();
   // load and configure google maps component from @react-google-maps/api
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -48,14 +50,37 @@ const Maps = ({ markers }) => {
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
 
+  const service = new google.maps.DirectionsService();
   // list of {lat, lng} for markers | initial marker is the destination address
   const marks = [markers.geometry.location];
-
   // fetch other addresses from local storage
   const object = getFromStorage("placeOrder");
+  const wayPoints = [];
   object.map((o) => {
     marks.push(o.Address.geometry.location);
+
+    // add all locations except destination address as waypoints
+    if (o !== object[0]) {
+      wayPoints.push({
+        location: o.Address.geometry.location,
+        stopover: true,
+      });
+    }
   });
+
+  service.route(
+    {
+      origin: marks[1],
+      destination: markers.geometry.location,
+      waypoints: wayPoints,
+      travelMode: google.maps.TravelMode.DRIVING,
+    },
+    (result, status) => {
+      if (status === "OK" && result) {
+        setDirections(result);
+      }
+    }
+  );
 
   return (
     <GoogleMap
@@ -77,6 +102,7 @@ const Maps = ({ markers }) => {
           {index == 0 ? (
             // Info Box to label the destination address
             <InfoBox
+              key={index}
               position={markers.geometry.location}
               options={infoBoxOptions}
             >
@@ -94,7 +120,7 @@ const Maps = ({ markers }) => {
             </InfoBox>
           ) : (
             // Info Box to label the pickup addresses
-            <InfoBox position={mark} options={infoBoxOptions}>
+            <InfoBox key={index} position={mark} options={infoBoxOptions}>
               <div
                 style={{
                   backgroundColor: "white",
@@ -111,6 +137,16 @@ const Maps = ({ markers }) => {
         </>
       ))}
 
+      <DirectionsRenderer
+        directions={directions}
+        options={{
+          polylineOptions: {
+            zIndex: 50,
+            strokeColor: "#1976D2",
+            strokeWeight: 5,
+          },
+        }}
+      />
       {/* Info Box to signify the destination address marker */}
     </GoogleMap>
   );
