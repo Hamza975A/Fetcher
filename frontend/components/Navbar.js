@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from "react";
+import Link from "next/link";
 
 export const MenuLink = styled.button`
   padding: 1rem 2rem;
@@ -66,18 +67,26 @@ export const Navbar = ({ children }) => {
     <Nav>
       <Logo href="/">fetcher</Logo>
       <MenuContainer>
-        <a href="/#aboutus">
-          <MenuLink>About Us</MenuLink>
-        </a>
-        <a href="/#locations">
-          <MenuLink>Locations</MenuLink>
-        </a>
-        <a href="/orders-list">
-          <MenuLink>Orders</MenuLink>
-        </a>
-        <a href="/">
-          <MenuLink>Sign Out</MenuLink>
-        </a>
+        <Link href="/#aboutus">
+          <a>
+            <MenuLink>About Us</MenuLink>
+          </a>
+        </Link>
+        <Link href="/#locations">
+          <a>
+            <MenuLink>Locations</MenuLink>
+          </a>
+        </Link>
+        <Link href="/orders-list">
+          <a>
+            <MenuLink>Orders</MenuLink>
+          </a>
+        </Link>
+        <Link href="/">
+          <a>
+            <MenuLink>Sign Out</MenuLink>
+          </a>
+        </Link>
       </MenuContainer>
     </Nav>
   );
