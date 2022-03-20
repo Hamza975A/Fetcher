@@ -14,7 +14,7 @@ const libraries = ["places"];
 
 // map container style options
 const mapContainerStyle = {
-  width: "60%",
+  width: "min(100%, 640px)",
   boxShadow: "0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45)",
   height: "50vh",
 };

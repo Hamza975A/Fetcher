@@ -21,9 +21,10 @@ export const AddItemsButton = styled.button`
   border-radius: 20px;
   background-color: #ff9a42;
   @media ${(props) => props.theme.breakpoints.sm} {
-    padding: 0 0;
+    padding: 0.5rem 0.5rem;
     font-size: 1rem;
     margin: 1rem 0rem;
+    width: 100%;
   }
 `;
 
@@ -41,8 +42,10 @@ export const PackageDetails = styled.div`
   box-shadow: 6px 6px 4px #4f4f4f;
   border-radius: 10px;
   @media ${(props) => props.theme.breakpoints.sm} {
-    max-width: 90%;
-    align-self: center;
+    max-width: 100%;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
 `;
 
@@ -88,6 +91,13 @@ export const RemoveItemButton = styled.button`
   border-radius: 360px;
   height: 3rem;
   width: 3rem;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    height: 2rem;
+    width: 2rem;
+    font-size: 1rem;
+    margin-top: 0;
+    border-radius: 100px;
+  }
 `;
 
 // This container will hold the preferred time and continue to checkout button

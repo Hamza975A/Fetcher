@@ -10,23 +10,33 @@ export const OrderCardWrapper = styled.div`
   display: flex;
   background: #4f4f4f;
   justify-content: space-between;
-
   border-style: solid;
   border-width: 1px;
   border-radius: 10px;
   box-shadow: 6px 6px 4px #4f4f4f;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    flex-direction: column;
+    padding: 1rem 1rem;
+    margin: 1rem 0;
+  }
 `;
 
 export const OrderCardLeftItems = styled.div`
   flex-direction: column;
   align-self: center;
   font-size: 20px;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    font-size: 1.1rem;
+  }
 `;
 
 export const OrderCardRightItems = styled.div`
   display: flex;
   align-self: center;
   padding: 25px;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding: 0;
+  }
 `;
 
 export const OrderCardViewOrderButton = styled.button`
@@ -39,6 +49,10 @@ export const OrderCardViewOrderButton = styled.button`
   border-radius: 10px;
   &:hover {
     background-color: #ffbe85;
+  }
+  @media ${(props) => props.theme.breakpoints.sm} {
+    font-size: 1.1rem;
+    line-height: 2rem;
   }
 `;
 

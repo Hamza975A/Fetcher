@@ -11,6 +11,9 @@ export const PastOrderWrapper = styled.div`
   border-width: 1px;
   border-radius: 10px;
   box-shadow: 6px 6px 4px #4f4f4f;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding: 0;
+  }
 `;
 
 export const PastOrderCardLeftItems = styled.div`
@@ -19,6 +22,10 @@ export const PastOrderCardLeftItems = styled.div`
   font-size: 30px;
   gap: 60px;
   padding: 25px;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding: 1rem 1rem;
+    font-size: 1.1rem;
+  }
 `;
 
 export const OrderCard = ({

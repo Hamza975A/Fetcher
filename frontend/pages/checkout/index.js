@@ -9,7 +9,7 @@ import Maps from "../../components/Maps";
 import Router from "next/router";
 import Post from "./Post";
 
-import { getFromStorage, clearStorage } from "../../lib/storage-tools";
+import { getFromStorage } from "../../lib/storage-tools";
 
 import {
   DetailsBox,
@@ -61,8 +61,7 @@ export async function handleCheckout() {
   });
 
   const response = await rawResponse.json();
-  Router.push(`/confirmation/${response._id}`);
-  clearStorage();
+  return response._id;
 }
 
 /**
@@ -215,18 +214,16 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
             <DropDownContent>
               <ul>
                 {packages.map((post, index) => {
-                  
-                    return (
-                      <Post
-                        key={post.id}
-                        id={post.id}
-                        size={post.Size}
-                        address={post.Address.formatted_address}
-                        details={post.Details}
-                        importantDetails={post.ImportantDetails}
-                      />
-                    );
-                  
+                  return (
+                    <Post
+                      key={post.id}
+                      id={post.id}
+                      size={post.Size}
+                      address={post.Address.formatted_address}
+                      details={post.Details}
+                      importantDetails={post.ImportantDetails}
+                    />
+                  );
                 })}
               </ul>
             </DropDownContent>
@@ -283,7 +280,16 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
         <MovePagesButton onClick={() => Router.push("/orders")}>
           Back To Order
         </MovePagesButton>
-        <MovePagesButton onClick={handleCheckout}>Place Order</MovePagesButton>
+        <MovePagesButton
+          onClick={(event) => {
+            handleCheckout().then((id) => {
+              event.preventDefault();
+              Router.push(`/confirmation/${id}`);
+            });
+          }}
+        >
+          Place Order
+        </MovePagesButton>
       </BottomContainer>
     </SpacedContainer>
   );
