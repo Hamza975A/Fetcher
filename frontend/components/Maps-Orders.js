@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import mapStyles from "../styles/mapStyles";
 import {
   GoogleMap,
   useLoadScript,
@@ -7,40 +6,21 @@ import {
   InfoBox,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import { getFromStorage } from "../lib/storage-tools";
 
-// google maps libraries to be enabled
-export const libraries = ["places"];
+import { libraries, center, options, infoBoxOptions } from "./Maps";
 
 // map container style options
-const mapContainerStyle = {
-  width: "60%",
-  boxShadow: "0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45)",
-  height: "50vh",
+export const mapContainerStyle = {
+  width: "100%",
+  height: "60vh",
+  background: "#4f4f4f",
+  borderStyle: "solid",
+  borderWidth: "1px",
+  borderRadius: "10px",
+  boxShadow: "6px 6px 4px #4f4f4f",
 };
 
-// default map center
-export const center = {
-  lat: 52.125058,
-  lng: -106.650718,
-};
-
-// extra map options
-export const options = {
-  styles: mapStyles,
-  disableDefaultUI: true,
-  zoomControl: true,
-};
-
-export const infoBoxOptions = { closeBoxURL: "", enableEventPropagation: true };
-
-/**
- * Function to render a google map component with markers placed on it.
- * Other markers are fetched from the local storage.
- * @param {markers} : Destination address object
- * @return {JSXComponent} : Map component rendered with markers for different addresses
- */
-const Maps = ({ markers }) => {
+const MapOrders = ({ destination, orders }) => {
   const [directions, setDirections] = useState();
   // load and configure google maps component from @react-google-maps/api
   const { isLoaded, loadError } = useLoadScript({
@@ -52,15 +32,14 @@ const Maps = ({ markers }) => {
 
   const service = new google.maps.DirectionsService();
   // list of {lat, lng} for markers | initial marker is the destination address
-  const marks = [markers.geometry.location];
-  // fetch other addresses from local storage
-  const object = getFromStorage("placeOrder");
+  const marks = [destination.geometry.location];
+
   const wayPoints = [];
-  object.map((o) => {
+  orders.map((o) => {
     marks.push(o.Address.geometry.location);
 
     // add all locations except destination address as waypoints
-    if (o !== object[0]) {
+    if (o !== orders[0]) {
       wayPoints.push({
         location: o.Address.geometry.location,
         stopover: true,
@@ -71,7 +50,7 @@ const Maps = ({ markers }) => {
   service.route(
     {
       origin: marks[1],
-      destination: markers.geometry.location,
+      destination: destination.geometry.location,
       waypoints: wayPoints,
       travelMode: google.maps.TravelMode.DRIVING,
     },
@@ -103,7 +82,7 @@ const Maps = ({ markers }) => {
             // Info Box to label the destination address
             <InfoBox
               key={index}
-              position={markers.geometry.location}
+              position={destination.geometry.location}
               options={infoBoxOptions}
             >
               <div
@@ -152,4 +131,4 @@ const Maps = ({ markers }) => {
   );
 };
 
-export default Maps;
+export default MapOrders;
