@@ -3,25 +3,20 @@ import styled from "styled-components";
 export const DestinationAddressCard = styled.div`
   display: flex;
   width: 60%;
-  /* align-items: center;
-  align-self: center; */
   box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
-  //border-radius: 10px;
   background-color: #ffffff;
-
   flex-direction: column;
   padding: 1.6rem 2rem;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    width: 100%;
+  }
 `;
 
 export const CenterContainer = styled.div`
-  width: 80%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-self: center;
-  @media ${(props) => props.theme.breakpoints.sm} {
-    width: 75%;
-  }
 `;
 
 export const GlobalContainer = styled.div`
@@ -38,6 +33,7 @@ export const ColumnsContainer = styled.div`
   column-gap: 15px;
   @media ${(props) => props.theme.breakpoints.sm} {
     flex-direction: column;
+    column-gap: 5px;
   }
 `;
 export const SimpleContainer = styled.div``;
@@ -46,6 +42,9 @@ export const SpacedContainer = styled.div`
   display: flex;
   row-gap: 20px;
   flex-direction: column;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    row-gap: 10px;
+  }
 `;
 
 export const ContainerImage = styled.div`
@@ -86,6 +85,9 @@ export const Header = styled.h1`
   font-size: 1.5em;
   text-align: center;
   color: black;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    font-size: 1.5rem;
+  }
 `;
 
 export const SearchBar = styled.input`
@@ -94,4 +96,7 @@ export const SearchBar = styled.input`
 
 export const Paragraph = styled.p`
   color: white;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    font-size: 1.1rem;
+  }
 `;

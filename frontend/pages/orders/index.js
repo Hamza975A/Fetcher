@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getFromStorage } from "../../lib/storage-tools";
-
+import Router from "next/router";
 import Post from "./Post";
 import {
   PackageDetails,
@@ -164,10 +164,10 @@ function Package({ packages, setPackages, extras, setExtras }) {
       {/* The buttons to create new packages and the time/checkout button */}
       <AddItemsButtonsContainer>
         <AddItemsButton onClick={addPost}>
-          New Package and new pickup address
+          Add new package with same address
         </AddItemsButton>
         <AddItemsButton onClick={addPostPrev}>
-          New Package (same pickup address as last modified)
+          Add new package with new address
         </AddItemsButton>
       </AddItemsButtonsContainer>
       <BottomContainer>
@@ -254,7 +254,12 @@ export default function Home() {
         <h2>Destination Address</h2>
         {address}
       </DestinationAddressCard>
-      <form action="/checkout">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          Router.push("/checkout");
+        }}
+      >
         {" "}
         {/* if the forum requirements are met and the user presses the button, go to the checkout page */}
         <Package
