@@ -4,6 +4,7 @@ import {
   GlobalContainer,
 } from "../../components/GlobalComponents";
 import { OrderCard } from "../../components/OrderDetails";
+import MapOrders from "../../components/Maps-Orders";
 
 /**
  * Component to render past order details for a specific order.
@@ -16,6 +17,7 @@ export default function PastOrderDetails({ order }) {
       <CenterContainer>
         <h1>Past Order Details</h1>
       </CenterContainer>
+      <MapOrders destination={destinationAddress} orders={mainOrderDetails} />
       <OrderCard
         ordernum={orderNumber}
         pickuplocations={mainOrderDetails}
