@@ -17,6 +17,7 @@ export const CenterContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-self: center;
+  width: 80%;
 `;
 
 export const GlobalContainer = styled.div`

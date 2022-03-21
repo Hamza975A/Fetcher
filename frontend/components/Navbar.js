@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 import Link from "next/link";
+import { clearStorage } from "../lib/storage-tools";
 
 export const MenuLink = styled.button`
   padding: 1rem 2rem;
@@ -29,10 +30,11 @@ export const Nav = styled.div`
   align-items: center;
   flex-wrap: wrap;
   background: #ff9a42;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
   @media ${(props) => props.theme.breakpoints.sm} {
     flex-direction: column;
     padding: 0.5rem;
@@ -62,7 +64,7 @@ export const MenuContainer = styled.div`
   position: relative;
 `;
 
-export const Navbar = ({ children }) => {
+export const Navbar = () => {
   return (
     <Nav>
       <Logo href="/">fetcher</Logo>
@@ -83,7 +85,7 @@ export const Navbar = ({ children }) => {
           </a>
         </Link>
         <Link href="/">
-          <a>
+          <a onClick={() => clearStorage()}>
             <MenuLink>Sign Out</MenuLink>
           </a>
         </Link>

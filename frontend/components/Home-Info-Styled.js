@@ -55,6 +55,10 @@ export const TopLine = styled.div`
     font-size: 60px;
     line-height: 50px;
   }
+  @media ${(props) => props.theme.breakpoints.lg} {
+    font-size: 60px;
+    line-height: 50px;
+  }
 `;
 
 export const Img = styled.img`
