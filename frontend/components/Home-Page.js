@@ -31,7 +31,6 @@ const Button = styled.button`
   text-align: center;
   padding: 8px 16px;
   color: ${({ colour }) => colour};
-  background-color: #ff9a42;
   border: 1px solid;
   border-color: #ff9a42;
   border-radius: 20px;
@@ -63,6 +62,7 @@ const options = {
 
 const handleHomeButton = () => {
   if (!currentPlace) {
+    Router.push("/");
     return;
   }
   pushToStorage("address", currentPlace);
@@ -83,23 +83,30 @@ export const HomePage = () => {
               currentPlace = place;
             }}
             options={options}
-            placeholder="Enter A Dropoff Location"
+            placeholder="Enter a destination address"
           />
-          <Button onClick={handleHomeButton}> Search </Button>
+          <Button
+            onClick={handleHomeButton}
+            style={{ backgroundColor: "#ff9a42" }}
+          >
+            Search
+          </Button>
         </CenterContainer>
       </ContainerImage>
 
-      <InfoContainer bg="#f08426" id="aboutus">
+      <InfoContainer bg="#ff9a42" id="aboutus">
         <InfoRow>
           <InfoColumn>
             <TextWrapper>
               <TopLine colour="white">About Us</TopLine>
               <Heading colour="white">We move packages from A to B.</Heading>
-              <Subtitle colour="black">
-                Learn more about how our algorithm does the magic.{" "}
-              </Subtitle>
+              <Subtitle colour="black">Try fetcher today!</Subtitle>
 
-              <Button colour="white" onClick={handleHomeButton}>
+              <Button
+                colour="black"
+                onClick={handleHomeButton}
+                style={{ backgroundColor: "white" }}
+              >
                 Create a New Order
               </Button>
             </TextWrapper>
@@ -125,8 +132,10 @@ export const HomePage = () => {
               <Subtitle colour="black">
                 Contact us for special pricing.{" "}
               </Subtitle>
-              <a href="mailto:hamza.aziz@usask.ca">
-                <Button colour="white">Email</Button>
+              <a href="mailto:contact@fetcher.live">
+                <Button colour="white" style={{ backgroundColor: "#f08426" }}>
+                  Email
+                </Button>
               </a>
             </TextWrapper>
           </InfoColumn>

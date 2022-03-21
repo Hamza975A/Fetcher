@@ -1,4 +1,3 @@
-import "../styles/globals.css";
 import React, { useState } from "react";
 import Theme from "../styles/theme";
 import { Navbar } from "../components/Navbar";
