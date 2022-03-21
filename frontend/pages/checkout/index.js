@@ -9,7 +9,7 @@ import Maps from "../../components/Maps";
 import Router from "next/router";
 import Post from "./Post";
 
-import { getFromStorage } from "../../lib/storage-tools";
+import { getFromStorage, pushToStorage } from "../../lib/storage-tools";
 
 import {
   DetailsBox,
@@ -68,7 +68,7 @@ export async function handleCheckout() {
  * A function that contains everything for the checkout page
  * parameters are lists for the local storage and set parameters update it and the local storage
  * @return {r}*/
-function Package({ checkout, setCheckout, packages, extras, address }) {
+function Package({ checkout, setCheckout, packages, extras, address, paymentInfo, setPaymentInfo }) {
   // initialize the time variables
   startTime = extras[0].startTime;
   endTime = extras[0].endTime;
@@ -104,39 +104,39 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
   };
   // Receive the email from the user
   const setEmail = (element) => {
-    const copyPostArray = Object.assign([], checkout);
+    const copyPostArray = Object.assign([], paymentInfo);
     copyPostArray[0].email = element.target.value;
-    setCheckout(copyPostArray);
+    setPaymentInfo(copyPostArray);
   };
   // Receive the credit card number from the user
   const setPaymentNumber = (element) => {
-    const copyPostArray = Object.assign([], checkout);
+    const copyPostArray = Object.assign([], paymentInfo);
     copyPostArray[0].number = element.target.value;
-    setCheckout(copyPostArray);
+    setPaymentInfo(copyPostArray);
   };
   //  Receive the expiration date from the user
   const setExpirationDate = (element) => {
-    const copyPostArray = Object.assign([], checkout);
+    const copyPostArray = Object.assign([], paymentInfo);
     copyPostArray[0].expirationDate = element.target.value;
-    setCheckout(copyPostArray);
+    setPaymentInfo(copyPostArray);
   };
   // Receive the CVC from the user
   const setCVC = (element) => {
-    const copyPostArray = Object.assign([], checkout);
+    const copyPostArray = Object.assign([], paymentInfo);
     copyPostArray[0].cvc = element.target.value;
-    setCheckout(copyPostArray);
+    setPaymentInfo(copyPostArray);
   };
   // Receive the Name on the card from the user
   const setName = (element) => {
-    const copyPostArray = Object.assign([], checkout);
+    const copyPostArray = Object.assign([], paymentInfo);
     copyPostArray[0].cardName = element.target.value;
-    setCheckout(copyPostArray);
+    setPaymentInfo(copyPostArray);
   };
   // Receive the postal address from the user
   const setPostal = (element) => {
-    const copyPostArray = Object.assign([], checkout);
+    const copyPostArray = Object.assign([], paymentInfo);
     copyPostArray[0].postal = element.target.value;
-    setCheckout(copyPostArray);
+    setPaymentInfo(copyPostArray);
   };
 
   // initialize the base checkout local storage
@@ -145,15 +145,22 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
     copyPostArray[index].priority = element;
     copyPostArray[index].tip = 0;
     copyPostArray[index].instructions = "";
-    copyPostArray[index].cardName = "";
-    copyPostArray[index].cvc = "";
-    copyPostArray[index].expirationDate = "";
-    copyPostArray[index].number = "";
-    copyPostArray[index].email = "";
-    copyPostArray[index].postal = "";
     setCheckout(copyPostArray);
     return 0;
   };
+  // initialize the base payment session storage
+  const setPaymentInit = (element,index) => {
+    const copyPayArray = Object.assign([], paymentInfo);
+    copyPayArray[index].cardName = "";
+    copyPayArray[index].cvc = element;
+    copyPayArray[index].expirationDate = "";
+    copyPayArray[index].number = "";
+    copyPayArray[index].email = "";
+    copyPayArray[index].postal = "";
+    setPaymentInfo(copyPayArray);
+    return 0;
+  };
+
 
   //  a function to format numbers to be only 2 decimals
   const format = (num, decimals) =>
@@ -175,6 +182,12 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
                 /* initialize the local storage */
               }
               setInit("Low", 0);
+              return;
+            }
+            if (paymentInfo[0].email == null) {
+              
+                /* initialize the local storage */
+              setPaymentInit("",0);
               return;
             }
             return (
@@ -239,6 +252,7 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
             onChange={(e) => setEmail(e)}
             type="email"
             placeholder={"example@gmail.com"}
+            value={paymentInfo[0].email}
           ></InputPayment>
         </PackageDetailsBox>
         <PackageDetailsBox>
@@ -247,14 +261,17 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
             <InputPayment
               placeholder={"1234 1234 1234 1234"}
               onChange={(e) => setPaymentNumber(e)}
+              value={paymentInfo[0].number}
             ></InputPayment>
             <InputPayment
               placeholder={"MM / YY"}
               onChange={(e) => setExpirationDate(e)}
+              value={paymentInfo[0].expirationDate}
             ></InputPayment>
             <InputPayment
               placeholder={"CVC"}
               onChange={(e) => setCVC(e)}
+              value={paymentInfo[0].cvc}
             ></InputPayment>
           </CardInfo>
         </PackageDetailsBox>
@@ -264,6 +281,7 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
           <InputPayment
             onChange={(e) => setName(e)}
             placeholder={"Name On Card"}
+            value={paymentInfo[0].cardName}
           ></InputPayment>
         </PackageDetailsBox>
         <PackageDetailsBox>
@@ -271,6 +289,7 @@ function Package({ checkout, setCheckout, packages, extras, address }) {
           <InputPayment
             onChange={(e) => setPostal(e)}
             placeholder={"postal"}
+            value={paymentInfo[0].postal}
           ></InputPayment>
         </PackageDetailsBox>
       </PaymentContainer>
@@ -303,31 +322,42 @@ export default function Home() {
   let items = [];
   let extraDetails = [{ postID: 0, prevAddress: "" }];
   let cart = [{}];
+  let paymentInformation=[{}];
+  let noError = true
   if (typeof window !== "undefined") {
     // if there is currently local storage then just recieve it
-    items = JSON.parse(localStorage.getItem("placeOrder"));
-    extraDetails = JSON.parse(localStorage.getItem("extraDetails"));
-    cart = JSON.parse(localStorage.getItem("checkout"));
+    items = getFromStorage("placeOrder");
+    extraDetails = getFromStorage("extraDetails");
+    cart = getFromStorage("checkout");
+    paymentInformation = JSON.parse(window.sessionStorage.getItem("payment"));
     // if any of the local storage keys are missing then make an empty one
     if (items == null) {
-      items = [];
+      noError = false
     }
     if (extraDetails == null) {
-      extraDetails = [{ postID: 0, prevAddress: "" }];
+      noError = false
     }
     if (cart == null) {
       cart = [{}];
+    }
+    if (paymentInformation == null) {
+      paymentInformation = [{}];
+    }
+    if(JSON.parse(localStorage.getItem("address"))==null){
+      noError = false
     }
   }
   // the states for the local storage
   const [packages] = useState(items);
   const [extras] = useState(extraDetails);
   const [checkout, setCheckout] = useState(cart);
+  const [paymentInfo, setPaymentInfo] = useState(paymentInformation);
   // update the local storage any time any of the states are modified
   useEffect(() => {
-    localStorage.setItem("placeOrder", JSON.stringify(packages));
-    localStorage.setItem("extraDetails", JSON.stringify(extras));
-    localStorage.setItem("checkout", JSON.stringify(checkout));
+    pushToStorage("placeOrder", packages);
+    pushToStorage("extraDetails", extras);
+    pushToStorage("checkout", checkout);
+    sessionStorage.setItem("payment", JSON.stringify(paymentInfo));
   });
 
   const [address, setAddress] = useState("");
@@ -336,8 +366,8 @@ export default function Home() {
       return getFromStorage("address");
     });
   }, []);
-
-  return (
+  if(noError==true){
+    return (
     // display the information to the page
     <GlobalContainer>
       <DestinationAddressCard>
@@ -351,7 +381,16 @@ export default function Home() {
         packages={packages}
         extras={extras}
         address={address}
+        paymentInfo={paymentInfo}
+        setPaymentInfo={setPaymentInfo}
       />
     </GlobalContainer>
   );
+  }
+  else{
+    Router.push("/")
+    return(<div></div>)
+    
+  }
+  
 }

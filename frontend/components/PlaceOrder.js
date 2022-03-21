@@ -141,14 +141,21 @@ export const Dropbtn = styled.div`
 `;
 
 // a container to hold the content for the drowndown
-export const DropDownContent = styled.div`
+export const DropDownContent = styled.a`
   display: none;
   padding: 1rem 1rem;
   position: absolute;
-  background: #ff9a42;
+  color:black;
+  background-color: #ffffff;
   border: 1px solid black;
   border-radius: 10px;
   z-index: 1;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding: 0.5rem 0.5rem;
+    font-size: 1rem;
+    margin: 1rem 0rem;
+    width: 100%;
+  }
 `;
 
 // A list to display the content
@@ -157,4 +164,18 @@ export const DropDownLi = styled.li`
   &:hover ${DropDownContent} {
     display: block;
   }
+`;
+// A styled component for adding items buttons
+export const DontMoveToCheckout = styled.a`
+  padding: 1rem 2rem;
+  margin-bottom: 5rem;
+  background-color: #ff9a42;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  border: 1px solid black;
+  transition: all 0.3s ease-in;
+  font-size: 2rem;
+  border-radius: 20px;
 `;
