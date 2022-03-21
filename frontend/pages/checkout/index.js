@@ -68,7 +68,15 @@ export async function handleCheckout() {
  * A function that contains everything for the checkout page
  * parameters are lists for the local storage and set parameters update it and the local storage
  * @return {r}*/
-function Package({ checkout, setCheckout, packages, extras, address, paymentInfo, setPaymentInfo }) {
+function Package({
+  checkout,
+  setCheckout,
+  packages,
+  extras,
+  address,
+  paymentInfo,
+  setPaymentInfo,
+}) {
   // initialize the time variables
   startTime = extras[0].startTime;
   endTime = extras[0].endTime;
@@ -149,7 +157,7 @@ function Package({ checkout, setCheckout, packages, extras, address, paymentInfo
     return 0;
   };
   // initialize the base payment session storage
-  const setPaymentInit = (element,index) => {
+  const setPaymentInit = (element, index) => {
     const copyPayArray = Object.assign([], paymentInfo);
     copyPayArray[index].cardName = "";
     copyPayArray[index].cvc = element;
@@ -160,7 +168,6 @@ function Package({ checkout, setCheckout, packages, extras, address, paymentInfo
     setPaymentInfo(copyPayArray);
     return 0;
   };
-
 
   //  a function to format numbers to be only 2 decimals
   const format = (num, decimals) =>
@@ -185,9 +192,8 @@ function Package({ checkout, setCheckout, packages, extras, address, paymentInfo
               return;
             }
             if (paymentInfo[0].email == null) {
-              
-                /* initialize the local storage */
-              setPaymentInit("",0);
+              /* initialize the local storage */
+              setPaymentInit("", 0);
               return;
             }
             return (
@@ -322,8 +328,8 @@ export default function Home() {
   let items = [];
   let extraDetails = [{ postID: 0, prevAddress: "" }];
   let cart = [{}];
-  let paymentInformation=[{}];
-  let noError = true
+  let paymentInformation = [{}];
+  let noError = true;
   if (typeof window !== "undefined") {
     // if there is currently local storage then just recieve it
     items = getFromStorage("placeOrder");
@@ -332,10 +338,10 @@ export default function Home() {
     paymentInformation = JSON.parse(window.sessionStorage.getItem("payment"));
     // if any of the local storage keys are missing then make an empty one
     if (items == null) {
-      noError = false
+      noError = false;
     }
     if (extraDetails == null) {
-      noError = false
+      noError = false;
     }
     if (cart == null) {
       cart = [{}];
@@ -343,8 +349,8 @@ export default function Home() {
     if (paymentInformation == null) {
       paymentInformation = [{}];
     }
-    if(JSON.parse(localStorage.getItem("address"))==null){
-      noError = false
+    if (JSON.parse(localStorage.getItem("address")) == null) {
+      noError = false;
     }
   }
   // the states for the local storage
@@ -366,31 +372,28 @@ export default function Home() {
       return getFromStorage("address");
     });
   }, []);
-  if(noError==true){
+  if (noError == true) {
     return (
-    // display the information to the page
-    <GlobalContainer>
-      <DestinationAddressCard>
-        <h2>Destination Address</h2>
-        {address.formatted_address}
-      </DestinationAddressCard>
+      // display the information to the page
+      <GlobalContainer>
+        <DestinationAddressCard>
+          <h2>Destination Address</h2>
+          {address.formatted_address}
+        </DestinationAddressCard>
 
-      <Package
-        checkout={checkout}
-        setCheckout={setCheckout}
-        packages={packages}
-        extras={extras}
-        address={address}
-        paymentInfo={paymentInfo}
-        setPaymentInfo={setPaymentInfo}
-      />
-    </GlobalContainer>
-  );
+        <Package
+          checkout={checkout}
+          setCheckout={setCheckout}
+          packages={packages}
+          extras={extras}
+          address={address}
+          paymentInfo={paymentInfo}
+          setPaymentInfo={setPaymentInfo}
+        />
+      </GlobalContainer>
+    );
+  } else {
+    Router.push("/");
+    return <div></div>;
   }
-  else{
-    Router.push("/")
-    return(<div></div>)
-    
-  }
-  
 }

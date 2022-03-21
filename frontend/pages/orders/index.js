@@ -7,8 +7,10 @@ import {
   DetailsBox,
   AddItemsButton,
   BottomContainer,
-  AddItemsButtonsContainer,DropDownContent,
-  DropDownLi,DontMoveToCheckout
+  AddItemsButtonsContainer,
+  DropDownContent,
+  DropDownLi,
+  DontMoveToCheckout,
 } from "../../components/PlaceOrder";
 import {
   SpacedContainer,
@@ -16,7 +18,6 @@ import {
 } from "../../components/GlobalComponents";
 // import React from "react";
 import { GlobalContainer } from "../../components/GlobalComponents";
-
 
 let postID = 0;
 let prevAddress = "";
@@ -194,41 +195,35 @@ function Package({ packages, setPackages, extras, setExtras }) {
               max="20:00"
               required
             ></input>
-            
           </DetailsBox>
-          
         </PackageDetails>
-          {packages.map((post, index) => {
-            let submits=false
-            if(post.Address!=""){
-              submits=true
-            }
-            if(index==packages.length-1){
-              if(submits==true){
-                return(
-              <AddItemsButton type="submit">
-              {" "}
-              {/* this will move to the checkout if all the required items are inputted */}
-              Continue to Checkout
-            </AddItemsButton>)
-              }
-               else{
+        {packages.map((post, index) => {
+          let submits = false;
+          if (post.Address != "") {
+            submits = true;
+          }
+          if (index == packages.length - 1) {
+            if (submits == true) {
+              return (
+                <AddItemsButton type="submit">
+                  {" "}
+                  {/* this will move to the checkout if all the required items are inputted */}
+                  Continue to Checkout
+                </AddItemsButton>
+              );
+            } else {
               return (
                 <DropDownLi>
-              <DontMoveToCheckout>Continue to Checkout</DontMoveToCheckout>
-              <DropDownContent >
-                Please use autocomplete on all packages addresses to continue
-              </DropDownContent>
-            </DropDownLi>
-              
-            );
+                  <DontMoveToCheckout>Continue to Checkout</DontMoveToCheckout>
+                  <DropDownContent>
+                    Please use autocomplete on all packages addresses to
+                    continue
+                  </DropDownContent>
+                </DropDownLi>
+              );
             }
-           
-            }
-            
-            
-          })}
-        
+          }
+        })}
       </BottomContainer>
     </SpacedContainer>
   );
@@ -241,7 +236,7 @@ export default function Home() {
   let items = [{}]; // setup three initial local storages lists
   let extraDetails = [{ postID: 0, prevAddress: "" }];
   let cart = [{}];
-  let noError=true
+  let noError = true;
   if (typeof window !== "undefined") {
     // if there is currently local storage then just recieve it
     items = getFromStorage("placeOrder");
@@ -257,8 +252,8 @@ export default function Home() {
     if (cart == null) {
       cart = [{}];
     }
-    if(getFromStorage("address")==null){
-      noError = false
+    if (getFromStorage("address") == null) {
+      noError = false;
     }
   }
 
@@ -268,48 +263,44 @@ export default function Home() {
   const [checkout] = useState(cart);
   // update the local storage any time any of the states are modified
   useEffect(() => {
-    pushToStorage("placeOrder", packages)
+    pushToStorage("placeOrder", packages);
     pushToStorage("extraDetails", extras);
     pushToStorage("checkout", checkout);
   });
 
-  
-
-  if(noError==true){
+  if (noError == true) {
     const [address, setAddress] = useState("");
-  useEffect(() => {
-    setAddress(() => {
-      return getFromStorage("address").formatted_address;
-    });
-  }, []);
+    useEffect(() => {
+      setAddress(() => {
+        return getFromStorage("address").formatted_address;
+      });
+    }, []);
     return (
-    // display the information to the page
-    <GlobalContainer>
-      <DestinationAddressCard style={{ marginBottom: "20px" }}>
-        <h2>Destination Address</h2>
-        {address}
-      </DestinationAddressCard>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          Router.push("/checkout");
-        }}
-      >
-        {" "}
-        {/* if the forum requirements are met and the user presses the button, go to the checkout page */}
-        <Package
-          packages={packages}
-          setPackages={setPackages}
-          extras={extras}
-          setExtras={setExtras}
-        />
-      </form>
-    </GlobalContainer>
-  );
+      // display the information to the page
+      <GlobalContainer>
+        <DestinationAddressCard style={{ marginBottom: "20px" }}>
+          <h2>Destination Address</h2>
+          {address}
+        </DestinationAddressCard>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            Router.push("/checkout");
+          }}
+        >
+          {" "}
+          {/* if the forum requirements are met and the user presses the button, go to the checkout page */}
+          <Package
+            packages={packages}
+            setPackages={setPackages}
+            extras={extras}
+            setExtras={setExtras}
+          />
+        </form>
+      </GlobalContainer>
+    );
+  } else {
+    Router.push("/");
+    return <div></div>;
   }
-  else{
-    Router.push("/")
-    return(<div></div>)
-  }
-  
 }

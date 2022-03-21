@@ -145,7 +145,7 @@ export const DropDownContent = styled.a`
   display: none;
   padding: 1rem 1rem;
   position: absolute;
-  color:black;
+  color: black;
   background-color: #ffffff;
   border: 1px solid black;
   border-radius: 10px;
