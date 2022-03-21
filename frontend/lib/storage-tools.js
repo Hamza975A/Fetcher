@@ -25,6 +25,11 @@ export function pushToStorage(key, value) {
  */
 export function clearStorage() {
   if (typeof window !== "undefined") {
-    window.localStorage.clear();
+    window.localStorage.removeItem("checkout");
+    window.localStorage.removeItem("placeOrder");
+    window.localStorage.removeItem("extraDetails");
+    window.localStorage.removeItem("checkout");
+    window.sessionStorage.removeItem("payment");
+    window.localStorage.setItem("removeAddress", JSON.stringify({}));
   }
 }
