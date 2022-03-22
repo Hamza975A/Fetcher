@@ -10,7 +10,8 @@ export default async function handler(req, res) {
   const client = await clientPromise;
   const db = client.db(process.env.DB);
   const id = req.body.id;
+  const email = req.body.email;
   const objectID = new ObjectID(id);
-  const orders = await db.collection(req.body.db).findOne(objectID);
-  res.json(orders);
+  const orders = await db.collection(email).findOne(objectID);
+  res.json(await orders);
 }

@@ -4,6 +4,7 @@ import {
   SimpleContainer,
 } from "../../components/GlobalComponents";
 import { OrderCard } from "../../components/OrdersList";
+import { getSession } from "next-auth/react";
 
 /**
  * Home page for the website.
@@ -79,25 +80,43 @@ export default function Home({ curOrders, pasOrders }) {
 /**
  * Function to fetch current and past orders for the user via API calls.
  */
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/api/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+  const data = {
+    email: `${session.user.email + "-current-orders"}`,
+  };
+
   const res = await fetch(
-    `${process.env.URL_START}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/current-orders`,
+    `${process.env.URL_START}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/get-list-orders`,
     {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(data),
     }
   );
   const curOrders = await res.json();
 
+  const data1 = {
+    email: `${session.user.email + "-past-orders"}`,
+  };
   const res1 = await fetch(
-    `${process.env.URL_START}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/past-orders`,
+    `${process.env.URL_START}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/get-list-orders`,
     {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(data1),
     }
   );
   const pasOrders = await res1.json();
