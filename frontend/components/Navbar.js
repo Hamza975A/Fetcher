@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import React from "react";
 import Link from "next/link";
-import { clearStorage } from "../lib/storage-tools";
+import Account from "./Signin-Signout";
+import { useSession } from "next-auth/react";
 
 export const MenuLink = styled.button`
   padding: 1rem 2rem;
@@ -65,6 +66,7 @@ export const MenuContainer = styled.div`
 `;
 
 export const Navbar = () => {
+  const { data: session } = useSession();
   return (
     <Nav>
       <Logo href="/">fetcher</Logo>
@@ -79,16 +81,17 @@ export const Navbar = () => {
             <MenuLink>Locations</MenuLink>
           </a>
         </Link>
-        <Link href="/orders-list">
-          <a>
-            <MenuLink>Orders</MenuLink>
-          </a>
-        </Link>
-        <Link href="/">
-          <a onClick={() => clearStorage()}>
-            <MenuLink>Sign Out</MenuLink>
-          </a>
-        </Link>
+        {/* Show orders button only if signed in */}
+        {session ? (
+          <Link href="/orders-list">
+            <a>
+              <MenuLink>Orders</MenuLink>
+            </a>
+          </Link>
+        ) : (
+          <></>
+        )}
+        <Account />
       </MenuContainer>
     </Nav>
   );

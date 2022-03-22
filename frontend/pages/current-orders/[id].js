@@ -5,6 +5,7 @@ import {
 } from "../../components/GlobalComponents";
 import { OrderCard } from "../../components/OrderDetails";
 import MapOrders from "../../components/Maps-Orders";
+import { getSession } from "next-auth/react";
 
 /**
  * Component to render current order details for a specific order.
@@ -43,8 +44,22 @@ export default function CurrentOrderDetails({ order }) {
  * Function to fetch order details on the server side.
  * @return {props} - order details
  */
-export async function getServerSideProps({ params }) {
-  const data = { id: params.id, db: "current-orders" };
+export async function getServerSideProps({ params, req }) {
+  const session = await getSession({ req });
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/api/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+  const data = {
+    id: params.id,
+    db: "current-orders",
+    email: `${session.user.email + "-current-orders"}`,
+  };
+
   const res = await fetch(
     `${process.env.URL_START}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/get-order`,
     {
@@ -59,6 +74,7 @@ export async function getServerSideProps({ params }) {
   return {
     props: {
       order: await res.json(),
+      session,
     },
   };
 }

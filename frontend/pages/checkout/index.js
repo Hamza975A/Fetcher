@@ -27,6 +27,7 @@ import {
   Dropbtn,
   DropDownLi,
 } from "../../components/Checkout";
+import { getSession, signIn } from "next-auth/react";
 
 // variables to hold the time
 let startTime = "1";
@@ -37,6 +38,10 @@ let endTime = "1";
  * This clears localStorage, adds info to the database and redirects to the confirmation page.
  */
 export async function handleCheckout() {
+  const session = await getSession();
+  if (!session) {
+    signIn();
+  }
   const destinationAddress = getFromStorage("address");
   const checkoutDetails = getFromStorage("checkout");
   const extraDetails = getFromStorage("extraDetails");
@@ -49,7 +54,7 @@ export async function handleCheckout() {
     mainOrderDetails: placedOrderDetails,
   };
 
-  const rawResponse = await fetch("/api/current-orders", {
+  const rawResponse = await fetch("/api/post-current-order", {
     method: "POST",
     mode: "no-cors",
     headers: {

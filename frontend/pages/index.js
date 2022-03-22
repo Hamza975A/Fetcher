@@ -9,13 +9,13 @@ import { getFromStorage } from "../lib/storage-tools";
  */
 export default function Home() {
   if (typeof window !== "undefined") {
-    if(getFromStorage("removeAddress")!=null){
-      window.localStorage.clear()
-    }}
+    if (getFromStorage("removeAddress") != null) {
+      window.localStorage.clear();
+    }
+  }
   return (
     <SimpleContainer>
       <HomePage />
     </SimpleContainer>
   );
 }
-

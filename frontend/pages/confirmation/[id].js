@@ -2,12 +2,13 @@ import React from "react";
 import { GlobalContainer } from "../../components/GlobalComponents";
 import Confirmation from "../../components/Confirmation";
 import { clearStorage } from "../../lib/storage-tools";
+import { getSession } from "next-auth/react";
 
 /**
  * Dynamic route component to render a confirmation page for a successful order.
  * @return {JSX.Element} to be rendered on the page
  */
-export default function ConfirmationPage({ order }) {
+export default function ConfirmationPage({ order, session }) {
   const { _id, orderNumber, destinationAddress, extraOrderDetails } = order;
   clearStorage();
   return (
@@ -33,8 +34,21 @@ export default function ConfirmationPage({ order }) {
  * Function to fetch order details on the server side.
  * @return {props} - order details
  */
-export async function getServerSideProps({ params }) {
-  const data = { id: params.id, db: "current-orders" };
+export async function getServerSideProps({ params, req }) {
+  const session = await getSession({ req });
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/api/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+  const data = {
+    id: params.id,
+    db: "current-orders",
+    email: `${session.user.email + "-current-orders"}`,
+  };
   const res = await fetch(
     `${process.env.URL_START}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/get-order`,
     {
@@ -49,6 +63,7 @@ export async function getServerSideProps({ params }) {
   return {
     props: {
       order: await res.json(),
+      session,
     },
   };
 }
