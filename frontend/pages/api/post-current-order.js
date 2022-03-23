@@ -11,8 +11,16 @@ export default async function handler(req, res) {
   const db = client.db(process.env.DB);
   const session = await getSession({ req });
   const bodyObject = JSON.parse(req.body);
+  const counter = await db
+    .collection("counters")
+    .findOneAndUpdate(
+      {},
+      { $inc: { seq_value: 1 } },
+      { returnNewDocument: true, upsert: true }
+    );
+  bodyObject["orderNumber"] = await counter.value.seq_value;
   const newPost = await db
     .collection(`${session.user.email + "-current-orders"}`)
-    .insertOne(bodyObject);
+    .insertOne(await bodyObject);
   res.json(newPost.ops[0]);
 }
