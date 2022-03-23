@@ -46,12 +46,16 @@ export async function handleCheckout() {
   const checkoutDetails = getFromStorage("checkout");
   const extraDetails = getFromStorage("extraDetails");
   const placedOrderDetails = getFromStorage("placeOrder");
+  const time = new Date().toLocaleString("en-US", {
+    timeZone: "America/Regina",
+  });
 
   const data = {
     destinationAddress: destinationAddress,
     checkoutInformation: checkoutDetails[0],
     extraOrderDetails: extraDetails[0],
     mainOrderDetails: placedOrderDetails,
+    timestamp: time.toString(),
   };
 
   const rawResponse = await fetch("/api/post-current-order", {
