@@ -1,9 +1,8 @@
 import React from "react";
 import {
-  CenterContainer,
   GlobalContainer,
 } from "../../components/GlobalComponents";
-import { OrderCard } from "../../components/OrderDetails";
+import { CurrentOrdersItemsContainer, OrderReviewCard } from "../../components/OrderDetails";
 import MapOrders from "../../components/Maps-Orders";
 import { getSession } from "next-auth/react";
 
@@ -15,27 +14,20 @@ export default function CurrentOrderDetails({ order }) {
   const { orderNumber, destinationAddress, mainOrderDetails } = order;
   return (
     <GlobalContainer>
-      <CenterContainer>
-        <h1>Current Order Details</h1>
-      </CenterContainer>
-      <MapOrders destination={destinationAddress} orders={mainOrderDetails} />
-      <OrderCard
-        ordernum={orderNumber}
-        pickuplocations={mainOrderDetails}
-        dropofflocation={destinationAddress.formatted_address}
-        parcelsize={mainOrderDetails}
-        deliveryfee={""}
-        tips={""}
-        total={order.checkoutInformation.cost}
-        details={order.checkoutInformation.instructions}
-        priority={order.checkoutInformation.priority}
-        time={order.timestamp}
-        preferredTime={
-          order.extraOrderDetails.startTime +
-          "-" +
-          order.extraOrderDetails.endTime
-        }
-      />
+      <CurrentOrdersItemsContainer>
+        <OrderReviewCard
+          ordernum={orderNumber}
+          pickuplocations={mainOrderDetails}
+          destination={
+            destinationAddress.address_components[0].long_name +
+            " " +
+            destinationAddress.address_components[1].long_name
+          }
+          startTime={order.extraOrderDetails.startTime}
+          endTime={order.extraOrderDetails.endTime}
+        />
+        <MapOrders destination={destinationAddress} orders={mainOrderDetails} />
+      </CurrentOrdersItemsContainer>
     </GlobalContainer>
   );
 }
