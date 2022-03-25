@@ -29,6 +29,17 @@ export const OrderCardLeftItems = styled.div`
     font-size: 1.1rem;
   }
 `;
+export const NoOrdersContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  display: flex;
+  background-color: white;
+  align-items: center;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding: 0;
+    font-size: 1.1rem;
+  }
+`;
 
 export const OrderCardRightItems = styled.div`
   display: flex;

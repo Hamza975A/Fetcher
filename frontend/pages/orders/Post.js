@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import {
   RemoveItemButton,
-  PackageDetails,
-  DetailsBox,
+  PackageDetailsContainer,
+  IndividualDetailsContainer,
   InputDetails,
   Select,
   DropDownContent,
-  DropDownLi,
-  Dropbtn,
+  DropDownList,
+  ImportantDetailsDropDownButton,
 } from "../../components/PlaceOrder";
 
 import Autocomplete from "react-google-autocomplete";
@@ -31,8 +31,8 @@ export default class Post extends Component {
    */
   render() {
     return (
-      <PackageDetails>
-        <DetailsBox>
+      <PackageDetailsContainer>
+        <IndividualDetailsContainer>
           {/* retrieve an address and it is required */}
           <div>Address: </div>
           <Autocomplete
@@ -42,8 +42,8 @@ export default class Post extends Component {
             defaultValue={this.props.address}
             required
           />
-        </DetailsBox>
-        <DetailsBox>
+        </IndividualDetailsContainer>
+        <IndividualDetailsContainer>
           {/* retrieve sizes from the user for a package */}
           <div>Size: </div>
           <Select onChange={this.props.setSize} defaultValue={this.props.size}>
@@ -51,16 +51,21 @@ export default class Post extends Component {
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
           </Select>
-        </DetailsBox>
-        <DetailsBox>
+        </IndividualDetailsContainer>
+        <IndividualDetailsContainer>
           <div>
-            <DropDownLi>
-              <Dropbtn>Important Details (hover to view)</Dropbtn>
+            Important Details
+            <DropDownList>
+              <ImportantDetailsDropDownButton type="button">
+                {" "}
+                I{" "}
+              </ImportantDetailsDropDownButton>
               <DropDownContent>
-                Please Input any details that the driver might need to know. Ex:
-                Order Number, Whos name the package is under, etc.
+                Please Input any details that the driver might need to know to
+                pick the package up. Like Order Number, Whos name the package is
+                under, where the package can be found etc.
               </DropDownContent>
-            </DropDownLi>
+            </DropDownList>
           </div>
           {/* retrieve the important required details from the user for a package */}
           <InputDetails
@@ -69,19 +74,19 @@ export default class Post extends Component {
             onChange={this.props.setImportantDetails}
             required
           />
-        </DetailsBox>
+        </IndividualDetailsContainer>
         {/* retrieve the lesser details from the user for a package */}
-        <DetailsBox>
-          <div>Details: </div>{" "}
+        <IndividualDetailsContainer>
+          <div>Extra Details: </div>{" "}
           <InputDetails
             defaultValue={this.props.Details}
             type="text"
             onChange={this.props.setDetail}
           />
-        </DetailsBox>
+        </IndividualDetailsContainer>
         {/* delte the package */}
         <RemoveItemButton onClick={this.props.delete}>X</RemoveItemButton>
-      </PackageDetails>
+      </PackageDetailsContainer>
     );
   }
 }

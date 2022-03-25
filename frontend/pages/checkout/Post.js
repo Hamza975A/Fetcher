@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { PackageDetails, PackageDetailsBox } from "../../components/Checkout";
+import {
+  PackageDetailsContainer,
+  IndividualDetailsContainer,
+} from "../../components/PlaceOrder";
 
 /**
  * Checkout page for the website.
@@ -12,18 +15,20 @@ export default class Post extends Component {
    */
   render() {
     return (
-      <PackageDetails>
-        <PackageDetailsBox>
+      <PackageDetailsContainer>
+        <IndividualDetailsContainer>
           Pickup Location: {this.props.address}
-        </PackageDetailsBox>
-        <PackageDetailsBox>Size: {this.props.size}</PackageDetailsBox>
-        <PackageDetailsBox>
+        </IndividualDetailsContainer>
+        <IndividualDetailsContainer>
+          Size: {this.props.size}
+        </IndividualDetailsContainer>
+        <IndividualDetailsContainer>
           Important Details: {this.props.importantDetails}
-        </PackageDetailsBox>
-        <PackageDetailsBox>
+        </IndividualDetailsContainer>
+        <IndividualDetailsContainer>
           Package Instructions: {this.props.details}
-        </PackageDetailsBox>
-      </PackageDetails>
+        </IndividualDetailsContainer>
+      </PackageDetailsContainer>
     );
   }
 }

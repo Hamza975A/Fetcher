@@ -26,9 +26,9 @@ export default function PastOrderDetails({ order }) {
         parcelsize={mainOrderDetails}
         deliveryfee={""}
         tips={""}
-        total={order.checkoutInformation.cost}
-        details={order.checkoutInformation.instructions}
-        priority={order.checkoutInformation.priority}
+        total={order.CheckoutInfoContainer.cost}
+        details={order.CheckoutInfoContainer.instructions}
+        priority={order.CheckoutInfoContainer.priority}
         time={order.timestamp}
         preferredTime={
           order.extraOrderDetails.startTime +

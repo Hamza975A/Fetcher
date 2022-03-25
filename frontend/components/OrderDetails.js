@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 import { ColumnsContainer, Paragraph } from "./GlobalComponents";
-import { PackageDetails } from "./PlaceOrder";
+import { PackageDetailsContainer } from "./PlaceOrder";
 
 export const PastOrderWrapper = styled.div`
   padding-left: 25px;
@@ -17,11 +17,11 @@ export const PastOrderWrapper = styled.div`
 `;
 
 export const CurrentOrdersItemsContainer = styled.div`
-  display:flex;
+  display: flex;
   @media ${(props) => props.theme.breakpoints.sm} {
     flex-direction: column;
   }
-`
+`;
 export const PastOrderCardLeftItems = styled.div`
   flex-direction: column;
   align-self: center;
@@ -38,7 +38,6 @@ export const PickupAddressesContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 
 export const OrderCard = ({
   ordernum,
@@ -69,12 +68,12 @@ export const OrderCard = ({
         {pickuplocations.map((location, index) => {
           return (
             <ColumnsContainer key={index}>
-              <PackageDetails style={{ background: "white" }}>
+              <PackageDetailsContainer style={{ background: "white" }}>
                 {location.Address.formatted_address}
-              </PackageDetails>
-              <PackageDetails style={{ background: "white" }}>
+              </PackageDetailsContainer>
+              <PackageDetailsContainer style={{ background: "white" }}>
                 {location.Size}
-              </PackageDetails>
+              </PackageDetailsContainer>
             </ColumnsContainer>
           );
         })}
@@ -96,7 +95,7 @@ export const OrderReviewCardWrapper = styled.div`
   row-gap: 10px;
 
   @media ${(props) => props.theme.breakpoints.sm} {
-    flex-direction:column;
+    flex-direction: column;
   }
 `;
 
@@ -108,14 +107,12 @@ export const HorizontalJustifyBox = styled.div`
   min-width: 35rem;
 `;
 
-
 export const TimeDisplayWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: fit-content;
   padding: 0.3rem;
   border-radius: 5px;
-
 `;
 
 export const VerticallyPaddedContainer = styled.div`
@@ -148,7 +145,7 @@ export const LargePackageIcon = () => {
 export const MediumPackageIcon = () => {
   return <MediumPackageIconWrapper> M </MediumPackageIconWrapper>;
 };
-export const SmallPackageIcon = () => {
+export const smallPackageIcon = () => {
   return <SmallPackageIconWrapper> S </SmallPackageIconWrapper>;
 };
 
@@ -179,10 +176,7 @@ export const OrderReviewCard = (props) => {
     <OrderReviewCardWrapper>
       <HorizontalJustifyBox>
         <h2>Your Order</h2>
-        <TimeDisplay
-          start={props.startTime}
-          end={props.endTime}
-        />
+        <TimeDisplay start={props.startTime} end={props.endTime} />
       </HorizontalJustifyBox>
 
       <VerticallyPaddedContainer>
