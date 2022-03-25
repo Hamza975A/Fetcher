@@ -8,12 +8,12 @@ import {
   Header,
   Button,
 } from "./GlobalComponents";
-import { PackageDetails } from "./PlaceOrder";
+import { PackageDetailsContainer } from "./PlaceOrder";
 
 const ConfirmationPage = ({ orderNum, destination, deliveryTime }) => {
   return (
     <GlobalContainer>
-      <PackageDetails style={{ paddingBottom: "1.5rem" }}>
+      <PackageDetailsContainer style={{ paddingBottom: "1.5rem" }}>
         <CenterContainer style={{ textAlign: "center" }}>
           <Header style={{ color: "white" }}>Your Order is Confirmed!</Header>
           <Paragraph>Order #{orderNum}</Paragraph>
@@ -30,7 +30,7 @@ const ConfirmationPage = ({ orderNum, destination, deliveryTime }) => {
             </a>
           </Link>
         </CenterContainer>
-      </PackageDetails>
+      </PackageDetailsContainer>
     </GlobalContainer>
   );
 };

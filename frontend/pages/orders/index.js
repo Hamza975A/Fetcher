@@ -3,13 +3,13 @@ import { getFromStorage, pushToStorage } from "../../lib/storage-tools";
 import Router from "next/router";
 import Post from "./Post";
 import {
-  PackageDetails,
-  DetailsBox,
+  PackageDetailsContainer,
+  IndividualDetailsContainer,
   AddItemsButton,
   BottomContainer,
   AddItemsButtonsContainer,
   DropDownContent,
-  DropDownLi,
+  DropDownList,
   DontMoveToCheckout,
 } from "../../components/PlaceOrder";
 import {
@@ -18,6 +18,83 @@ import {
 } from "../../components/GlobalComponents";
 // import React from "react";
 import { GlobalContainer } from "../../components/GlobalComponents";
+
+/**
+ * Place orders page for the website.
+ * @return {JSX.Element}
+ */
+export default function Home() {
+  let items = [{}]; // setup three initial local storages lists
+  let extraDetails = [{ postID: 0, prevAddress: "" }];
+  let cart = [{}];
+  let noError = true;
+  if (typeof window !== "undefined") {
+    // if there is currently local storage then just recieve it
+    items = getFromStorage("placeOrder");
+    extraDetails = getFromStorage("extraDetails");
+    cart = getFromStorage("checkout");
+    // if any of the local storage keys are missing then make an empty one
+    if (items == null) {
+      items = [{}];
+    }
+    if (extraDetails == null) {
+      extraDetails = [{ postID: 0, prevAddress: "" }];
+    }
+    if (cart == null) {
+      cart = [{}];
+    }
+    if (getFromStorage("address") == null) {
+      noError = false;
+    }
+  }
+
+  // the states for the local storage
+  const [packages, setPackages] = useState(items);
+  const [extras, setExtras] = useState(extraDetails);
+  const [checkout] = useState(cart);
+  // update the local storage any time any of the states are modified
+  useEffect(() => {
+    pushToStorage("placeOrder", packages);
+    pushToStorage("extraDetails", extras);
+    pushToStorage("checkout", checkout);
+  });
+
+  if (noError == true) {
+    const [address, setAddress] = useState("");
+    useEffect(() => {
+      setAddress(() => {
+        return getFromStorage("address").formatted_address;
+      });
+    }, []);
+    return (
+      // display the information to the page
+      <GlobalContainer>
+        <DestinationAddressCard style={{ marginBottom: "20px" }}>
+          <h2>Destination Address</h2>
+          {address}
+        </DestinationAddressCard>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            Router.push("/checkout");
+          }}
+        >
+          {" "}
+          {/* if the forum requirements are met and the user presses the button, go to the checkout page */}
+          <Package
+            packages={packages}
+            setPackages={setPackages}
+            extras={extras}
+            setExtras={setExtras}
+          />
+        </form>
+      </GlobalContainer>
+    );
+  } else {
+    Router.push("/");
+    return <div></div>;
+  }
+}
 
 let postID = 0;
 let prevAddress = "";
@@ -174,8 +251,8 @@ function Package({ packages, setPackages, extras, setExtras }) {
         </AddItemsButton>
       </AddItemsButtonsContainer>
       <BottomContainer>
-        <PackageDetails>
-          <DetailsBox>
+        <PackageDetailsContainer>
+          <IndividualDetailsContainer>
             <div>Preferred Time of Delivery: </div>{" "}
             {/* require the times, and have the default value for the end time to be atleast the same as the start time so the end time is never before the start time  */}
             <input
@@ -195,8 +272,8 @@ function Package({ packages, setPackages, extras, setExtras }) {
               max="20:00"
               required
             ></input>
-          </DetailsBox>
-        </PackageDetails>
+          </IndividualDetailsContainer>
+        </PackageDetailsContainer>
         {packages.map((post, index) => {
           let submits = false;
           if (post.Address != "") {
@@ -213,13 +290,15 @@ function Package({ packages, setPackages, extras, setExtras }) {
               );
             } else {
               return (
-                <DropDownLi>
-                  <DontMoveToCheckout>Continue to Checkout</DontMoveToCheckout>
+                <DropDownList>
+                  <DontMoveToCheckout type="button">
+                    Continue to Checkout
+                  </DontMoveToCheckout>
                   <DropDownContent>
                     Please use autocomplete on all packages addresses to
                     continue
                   </DropDownContent>
-                </DropDownLi>
+                </DropDownList>
               );
             }
           }
@@ -227,80 +306,4 @@ function Package({ packages, setPackages, extras, setExtras }) {
       </BottomContainer>
     </SpacedContainer>
   );
-}
-/**
- * Place orders page for the website.
- * @return {JSX.Element}
- */
-export default function Home() {
-  let items = [{}]; // setup three initial local storages lists
-  let extraDetails = [{ postID: 0, prevAddress: "" }];
-  let cart = [{}];
-  let noError = true;
-  if (typeof window !== "undefined") {
-    // if there is currently local storage then just recieve it
-    items = getFromStorage("placeOrder");
-    extraDetails = getFromStorage("extraDetails");
-    cart = getFromStorage("checkout");
-    // if any of the local storage keys are missing then make an empty one
-    if (items == null) {
-      items = [{}];
-    }
-    if (extraDetails == null) {
-      extraDetails = [{ postID: 0, prevAddress: "" }];
-    }
-    if (cart == null) {
-      cart = [{}];
-    }
-    if (getFromStorage("address") == null) {
-      noError = false;
-    }
-  }
-
-  // the states for the local storage
-  const [packages, setPackages] = useState(items);
-  const [extras, setExtras] = useState(extraDetails);
-  const [checkout] = useState(cart);
-  // update the local storage any time any of the states are modified
-  useEffect(() => {
-    pushToStorage("placeOrder", packages);
-    pushToStorage("extraDetails", extras);
-    pushToStorage("checkout", checkout);
-  });
-
-  if (noError == true) {
-    const [address, setAddress] = useState("");
-    useEffect(() => {
-      setAddress(() => {
-        return getFromStorage("address").formatted_address;
-      });
-    }, []);
-    return (
-      // display the information to the page
-      <GlobalContainer>
-        <DestinationAddressCard style={{ marginBottom: "20px" }}>
-          <h2>Destination Address</h2>
-          {address}
-        </DestinationAddressCard>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            Router.push("/checkout");
-          }}
-        >
-          {" "}
-          {/* if the forum requirements are met and the user presses the button, go to the checkout page */}
-          <Package
-            packages={packages}
-            setPackages={setPackages}
-            extras={extras}
-            setExtras={setExtras}
-          />
-        </form>
-      </GlobalContainer>
-    );
-  } else {
-    Router.push("/");
-    return <div></div>;
-  }
 }

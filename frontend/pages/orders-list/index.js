@@ -3,8 +3,87 @@ import {
   GlobalContainer,
   SimpleContainer,
 } from "../../components/GlobalComponents";
-import { OrderCard } from "../../components/OrdersList";
+import { OrderCard, NoOrdersContainer } from "../../components/OrdersList";
 import { getSession } from "next-auth/react";
+import { MovePagesButton } from "../../components/PlaceOrder";
+import Router from "next/router";
+import { CheckoutInfoContainer } from "../../components/PlaceOrder";
+/** @return{1} */
+function NoOrders({ head }) {
+  return (
+    <SimpleContainer style={{ paddingBottom: "2rem" }}>
+      <h2>{head} Orders</h2>
+      <CheckoutInfoContainer>
+        <NoOrdersContainer>
+          You have no Orders
+          <MovePagesButton onClick={() => Router.push("/")}>
+            Place An Order
+          </MovePagesButton>
+        </NoOrdersContainer>
+      </CheckoutInfoContainer>
+    </SimpleContainer>
+  );
+}
+
+/** @return{1} */
+function DisplayCurrentOrders({ currentOrders }) {
+  return (
+    <SimpleContainer style={{ paddingBottom: "2rem" }}>
+      <h2>Current Orders</h2>
+      {currentOrders.map((order) => {
+        const {
+          CheckoutInfoContainer,
+          destinationAddress,
+          orderNumber,
+          timestamp,
+          _id,
+        } = order;
+
+        return (
+          <OrderCard
+            key={orderNumber}
+            id={_id}
+            ordernum={orderNumber}
+            destination={destinationAddress.formatted_address}
+            date={timestamp}
+            price={"$" + CheckoutInfoContainer.cost}
+            url={"current-orders"}
+            buttontext="VIEW ORDER"
+          />
+        );
+      })}
+    </SimpleContainer>
+  );
+}
+/** @return{1} */
+function DisplayPastOrders({ pastOrders }) {
+  return (
+    <SimpleContainer>
+      <h2>Past Orders</h2>
+      {pastOrders.map((order) => {
+        const {
+          CheckoutInfoContainer,
+          destinationAddress,
+          orderNumber,
+          timestamp,
+          _id,
+        } = order;
+        return (
+          <OrderCard
+            key={orderNumber}
+            id={_id}
+            ordernum={orderNumber}
+            destination={destinationAddress.formatted_address}
+            date={timestamp}
+            price={"$" + CheckoutInfoContainer.cost}
+            url={"past-orders"}
+            buttontext="VIEW ORDER"
+          />
+        );
+      })}
+    </SimpleContainer>
+  );
+}
 
 /**
  * Home page for the website.
@@ -20,61 +99,39 @@ export default function Home({ curOrders, pasOrders }) {
   useEffect(() => {
     setPastOrders(pasOrders);
   }, [pasOrders]);
-
-  return (
-    <GlobalContainer>
-      <SimpleContainer style={{ paddingBottom: "2rem" }}>
-        <h2>Current Orders</h2>
-        {currentOrders.map((order) => {
-          const {
-            checkoutInformation,
-            destinationAddress,
-            orderNumber,
-            timestamp,
-            _id,
-          } = order;
-
-          return (
-            <OrderCard
-              key={orderNumber}
-              id={_id}
-              ordernum={orderNumber}
-              destination={destinationAddress.formatted_address}
-              date={timestamp}
-              price={"$" + checkoutInformation.cost}
-              url={"current-orders"}
-              buttontext="VIEW ORDER"
-            />
-          );
-        })}
-      </SimpleContainer>
-
-      <SimpleContainer>
-        <h2>Past Orders</h2>
-        {pastOrders.map((order) => {
-          const {
-            checkoutInformation,
-            destinationAddress,
-            orderNumber,
-            timestamp,
-            _id,
-          } = order;
-          return (
-            <OrderCard
-              key={orderNumber}
-              id={_id}
-              ordernum={orderNumber}
-              destination={destinationAddress.formatted_address}
-              date={timestamp}
-              price={"$" + checkoutInformation.cost}
-              url={"past-orders"}
-              buttontext="VIEW ORDER"
-            />
-          );
-        })}
-      </SimpleContainer>
-    </GlobalContainer>
-  );
+  if ((currentOrders.length != 0) & (pastOrders.length != 0)) {
+    return (
+      <GlobalContainer>
+        <DisplayCurrentOrders
+          currentOrders={currentOrders}
+        ></DisplayCurrentOrders>
+        <DisplayPastOrders pastOrders={pastOrders}></DisplayPastOrders>
+      </GlobalContainer>
+    );
+  } else if ((currentOrders.length != 0) & (pastOrders.length == 0)) {
+    return (
+      <GlobalContainer>
+        <DisplayCurrentOrders
+          currentOrders={currentOrders}
+        ></DisplayCurrentOrders>
+        <NoOrders head="Past"></NoOrders>
+      </GlobalContainer>
+    );
+  } else if ((currentOrders.length == 0) & (pastOrders.length != 0)) {
+    return (
+      <GlobalContainer>
+        <NoOrders head="Current"></NoOrders>
+        <DisplayPastOrders pastOrders={pastOrders}></DisplayPastOrders>
+      </GlobalContainer>
+    );
+  } else {
+    return (
+      <GlobalContainer>
+        <NoOrders head="Current"></NoOrders>
+        <NoOrders head="Past"></NoOrders>
+      </GlobalContainer>
+    );
+  }
 }
 
 /**
