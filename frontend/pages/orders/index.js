@@ -280,7 +280,19 @@ function Package({ packages, setPackages, extras, setExtras }) {
             submits = true;
           }
           if (post.Address.address_components != null) {
-            if(!post.Address.formatted_address.includes("Saskatoon")){
+            let SaskatoonInAddress = false;
+            for (
+              let step = 0;
+              step < post.Address.address_components.length;
+              step++
+            ) {
+              if (
+                post.Address.address_components[step].long_name == "Saskatoon"
+              ) {
+                SaskatoonInAddress = true;
+              }
+            }
+            if (SaskatoonInAddress != true) {
               submits = false;
             }
           }
