@@ -24,6 +24,7 @@ export default async function handler(req, res) {
       { returnNewDocument: true, upsert: true }
     );
   bodyObject["orderNumber"] = await counter.value.seq_value;
+  bodyObject["users"] = session;
 
   // create new order in the DB
   const newPost = await db
