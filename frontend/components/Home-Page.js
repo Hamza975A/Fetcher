@@ -65,8 +65,14 @@ const handleHomeButton = () => {
     Router.push("/");
     return;
   }
-  pushToStorage("address", currentPlace);
-  Router.push("/orders");
+  if(currentPlace.formatted_address.includes("Saskatoon")){
+    pushToStorage("address", currentPlace);
+    Router.push("/orders");
+  }
+  else{
+    alert("Enter a Saskatoon Address.")
+  }
+  
 };
 
 let currentPlace = null;
