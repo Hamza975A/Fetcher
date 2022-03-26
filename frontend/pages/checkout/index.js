@@ -340,72 +340,77 @@ function Package({
         </CheckoutInfoContainer>
       </ColumnsContainer>
       {/* Recieve Payment details */}
-
-      <PaymentInfoContainer>
-        <IndividualDetailsContainer>
-          Email: <br />
-          <InputPaymentInformation
-            onChange={(e) => setEmail(e)}
-            type="email"
-            placeholder={"example@gmail.com"}
-            value={paymentInfo[0].email}
-          ></InputPaymentInformation>
-        </IndividualDetailsContainer>
-        <IndividualDetailsContainer>
-          Card Information
-          <CardDetailsContainer>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleCheckout().then((id) => {
+            Router.push(`/confirmation/${id}`);
+          });
+        }}
+      >
+        <PaymentInfoContainer>
+          <IndividualDetailsContainer>
+            Email: <br />
             <InputPaymentInformation
-              placeholder={"1234 1234 1234 1234"}
-              onChange={(e) => setPaymentNumber(e)}
-              value={paymentInfo[0].number}
+              onChange={(e) => setEmail(e)}
+              type="email"
+              placeholder={"example@gmail.com"}
+              value={paymentInfo[0].email}
+              required
             ></InputPaymentInformation>
-            <InputPaymentInformation
-              placeholder={"MM / YY"}
-              onChange={(e) => setExpirationDate(e)}
-              value={paymentInfo[0].expirationDate}
-            ></InputPaymentInformation>
-            <InputPaymentInformation
-              placeholder={"CVC"}
-              onChange={(e) => setCVC(e)}
-              value={paymentInfo[0].cvc}
-            ></InputPaymentInformation>
-          </CardDetailsContainer>
-        </IndividualDetailsContainer>
+          </IndividualDetailsContainer>
+          <IndividualDetailsContainer>
+            Card Information
+            <CardDetailsContainer>
+              <InputPaymentInformation
+                placeholder={"1234 1234 1234 1234"}
+                onChange={(e) => setPaymentNumber(e)}
+                value={paymentInfo[0].number}
+                required
+              ></InputPaymentInformation>
+              <InputPaymentInformation
+                placeholder={"MM / YY"}
+                onChange={(e) => setExpirationDate(e)}
+                value={paymentInfo[0].expirationDate}
+                required
+              ></InputPaymentInformation>
+              <InputPaymentInformation
+                placeholder={"CVC"}
+                onChange={(e) => setCVC(e)}
+                value={paymentInfo[0].cvc}
+                required
+              ></InputPaymentInformation>
+            </CardDetailsContainer>
+          </IndividualDetailsContainer>
 
-        <IndividualDetailsContainer>
-          Name on Card: <br />
-          <InputPaymentInformation
-            onChange={(e) => setName(e)}
-            placeholder={"Name On Card"}
-            value={paymentInfo[0].cardName}
-          ></InputPaymentInformation>
-        </IndividualDetailsContainer>
-        <IndividualDetailsContainer>
-          Postal Code: <br />
-          <InputPaymentInformation
-            onChange={(e) => setPostal(e)}
-            placeholder={"Postal"}
-            value={paymentInfo[0].postal}
-          ></InputPaymentInformation>
-        </IndividualDetailsContainer>
-      </PaymentInfoContainer>
+          <IndividualDetailsContainer>
+            Name on Card: <br />
+            <InputPaymentInformation
+              onChange={(e) => setName(e)}
+              placeholder={"Name On Card"}
+              value={paymentInfo[0].cardName}
+              required
+            ></InputPaymentInformation>
+          </IndividualDetailsContainer>
+          <IndividualDetailsContainer>
+            Postal Code: <br />
+            <InputPaymentInformation
+              onChange={(e) => setPostal(e)}
+              placeholder={"Postal"}
+              value={paymentInfo[0].postal}
+              required
+            ></InputPaymentInformation>
+          </IndividualDetailsContainer>
+        </PaymentInfoContainer>
 
-      {/* Move pages buttons*/}
-      <BottomContainer>
-        <MovePagesButton onClick={() => Router.push("/orders")}>
-          Back To Order
-        </MovePagesButton>
-        <MovePagesButton
-          onClick={(event) => {
-            handleCheckout().then((id) => {
-              event.preventDefault();
-              Router.push(`/confirmation/${id}`);
-            });
-          }}
-        >
-          Place Order
-        </MovePagesButton>
-      </BottomContainer>
+        {/* Move pages buttons*/}
+        <BottomContainer>
+          <MovePagesButton type="button" onClick={() => Router.push("/orders")}>
+            Back To Order
+          </MovePagesButton>
+          <MovePagesButton>Place Order</MovePagesButton>
+        </BottomContainer>
+      </form>
     </SpacedContainer>
   );
 }
