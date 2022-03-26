@@ -326,6 +326,7 @@ function Package({
                   return (
                     <Post
                       key={post.id}
+                      index={index}
                       id={post.id}
                       size={post.Size}
                       address={post.Address.formatted_address}

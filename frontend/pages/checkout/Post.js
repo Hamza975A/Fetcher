@@ -1,8 +1,14 @@
 import React, { Component } from "react";
-import {
-  PackageDetailsContainer,
-  IndividualDetailsContainer,
-} from "../../components/PlaceOrder";
+import { PackagePreviewContainer } from "../../components/PlaceOrder";
+
+/** @return{1} */
+function DisplayExtraInstructions({ instructions }) {
+  if (instructions != "") {
+    return <div> Extra Instructions: {instructions}</div>;
+  } else {
+    return <div></div>;
+  }
+}
 
 /**
  * Checkout page for the website.
@@ -14,21 +20,30 @@ export default class Post extends Component {
    * @return {JSX.Element}
    */
   render() {
-    return (
-      <PackageDetailsContainer>
-        <IndividualDetailsContainer>
+    if (this.props.index % 2 == 0) {
+      return (
+        <PackagePreviewContainer>
           Pickup Location: {this.props.address}
-        </IndividualDetailsContainer>
-        <IndividualDetailsContainer>
+          <br></br>
           Size: {this.props.size}
-        </IndividualDetailsContainer>
-        <IndividualDetailsContainer>
+          <br></br>
           Important Details: {this.props.importantDetails}
-        </IndividualDetailsContainer>
-        <IndividualDetailsContainer>
-          Package Instructions: {this.props.details}
-        </IndividualDetailsContainer>
-      </PackageDetailsContainer>
-    );
+          <br></br>
+          <DisplayExtraInstructions instructions={this.props.details} />
+        </PackagePreviewContainer>
+      );
+    } else {
+      return (
+        <PackagePreviewContainer backgroundColour="#FFEEE1">
+          Pickup Location: {this.props.address}
+          <br></br>
+          Size: {this.props.size}
+          <br></br>
+          Important Details: {this.props.importantDetails}
+          <br></br>
+          <DisplayExtraInstructions instructions={this.props.details} />
+        </PackagePreviewContainer>
+      );
+    }
   }
 }

@@ -87,6 +87,25 @@ export const CheckoutInfoContainer = styled.div`
     width: 100%;
   }
 `;
+// This container will hold all of the users checkout information
+export const PackagePreviewContainer = styled.div`
+  line-height: 200%;
+  padding: 1rem 1rem;
+  text-decoration: none;
+  font-size: 1.7rem;
+  background-color: ${(props) => props.backgroundColour || "white"};
+  height: 100%;
+  border: 2px solid black;
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding: 1rem 1rem;
+    max-width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-items: left;
+    font-size: 1.3rem;
+    width: 100%;
+  }
+`;
 
 // This is a styled component for recieving information via textarea
 export const InputDetails = styled.textarea`
