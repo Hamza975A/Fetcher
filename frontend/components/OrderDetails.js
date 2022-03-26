@@ -145,7 +145,7 @@ export const LargePackageIcon = () => {
 export const MediumPackageIcon = () => {
   return <MediumPackageIconWrapper> M </MediumPackageIconWrapper>;
 };
-export const smallPackageIcon = () => {
+export const SmallPackageIcon = () => {
   return <SmallPackageIconWrapper> S </SmallPackageIconWrapper>;
 };
 
