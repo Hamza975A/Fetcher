@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import Account from "./Signin-Signout";
 import { useSession } from "next-auth/react";
+import { getFromStorage } from "../lib/storage-tools";
 
 export const MenuLink = styled.button`
   padding: 1rem 2rem;
@@ -86,6 +87,15 @@ export const Navbar = () => {
           <Link href="/orders-list">
             <a>
               <MenuLink>Orders</MenuLink>
+            </a>
+          </Link>
+        ) : (
+          <></>
+        )}
+        {getFromStorage("placeOrder") ? (
+          <Link href="/orders">
+            <a>
+              <MenuLink>Cart</MenuLink>
             </a>
           </Link>
         ) : (
