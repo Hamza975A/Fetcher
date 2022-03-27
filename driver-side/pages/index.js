@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   GlobalContainer,
-  SimpleContainer
+  SimpleContainer,
 } from "../components/GlobalComponents";
 import { CheckoutInfoContainer } from "../components/PlaceOrder";
 import { OrderCard, NoOrdersContainer } from "../components/OrdersList";
@@ -50,7 +50,7 @@ export default function Home({ order: orders }) {
               orderNumber,
               timestamp,
               _id,
-              users
+              users,
             } = order;
 
             return (
@@ -82,13 +82,13 @@ export async function getServerSideProps({ req }) {
     {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     }
   );
   const order = await res.json();
 
   return {
-    props: { order }
+    props: { order },
   };
 }

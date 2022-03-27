@@ -2,7 +2,7 @@ import React from "react";
 import { GlobalContainer, Button } from "../../../components/GlobalComponents";
 import {
   CurrentOrdersItemsContainer,
-  OrderReviewCard
+  OrderReviewCard,
 } from "../../../components/OrderDetails";
 import MapOrders from "../../../components/Maps-Orders";
 import Router from "next/router";
@@ -16,14 +16,14 @@ import Router from "next/router";
 async function completeOrder(id, email) {
   const data = {
     id: id,
-    email: email
+    email: email,
   };
   await fetch("/api/complete-order", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
 }
 
@@ -70,7 +70,7 @@ export default function CurrentOrderDetails({ order, data: { id, email } }) {
 export async function getServerSideProps({ params, req }) {
   const data = {
     id: params.id,
-    email: params.email
+    email: params.email,
   };
 
   const res = await fetch(
@@ -78,16 +78,16 @@ export async function getServerSideProps({ params, req }) {
     {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     }
   );
 
   return {
     props: {
       order: await res.json(),
-      data: data
-    }
+      data: data,
+    },
   };
 }
