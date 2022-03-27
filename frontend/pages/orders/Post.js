@@ -62,7 +62,7 @@ export default class Post extends Component {
               </ImportantDetailsDropDownButton>
               <DropDownContent>
                 Please Input any details that the driver might need to know to
-                pick the package up. Like Order Number, Whos name the package is
+                pick the package up. Like Order Number, whos name the package is
                 under, where the package can be found etc.
               </DropDownContent>
             </DropDownList>
