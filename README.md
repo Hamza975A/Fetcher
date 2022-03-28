@@ -40,6 +40,11 @@ To run this project, you will need to add the following environment variables in
 
 > at localhost:3000
 
+### System Requirements
+
+- [Node.js 12.22.0](https://nodejs.org/) or later
+- MacOS, Windows (including WSL), and Linux are supported
+
 ### Clone Project
 
 ```bash
