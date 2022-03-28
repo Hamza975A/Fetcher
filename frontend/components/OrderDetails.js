@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import styled from "styled-components";
 import React from "react";
 import { ColumnsContainer, Paragraph } from "./GlobalComponents";
@@ -91,7 +92,6 @@ export const OrderReviewCardWrapper = styled.div`
   width: fit-content;
 
   border-radius: 5px;
-  
 
   @media ${(props) => props.theme.breakpoints.sm} {
     flex-direction: column;
@@ -107,18 +107,18 @@ export const HorizontalJustifyBox = styled.div`
 `;
 
 /**
- * 
+ *
  */
 class PackageInfo extends React.Component {
   state = {
     left: 0,
-    top: 0
-  }
+    top: 0,
+  };
   /**
-   * 
+   *
    */
   componentDidMount() {
-    document.addEventListener('mousemove', (e) => {
+    document.addEventListener("mousemove", (e) => {
       this.setState({ left: e.pageX, top: e.pageY });
     });
   }
@@ -127,53 +127,62 @@ class PackageInfo extends React.Component {
    */
   render() {
     return (
-      <PackageInfoView style={{ display: this.props.shown ? "flex" : "none", left: this.state.left, top: this.state.top }}>
+      <PackageInfoView
+        style={{
+          display: this.props.shown ? "flex" : "none",
+          left: this.state.left,
+          top: this.state.top,
+        }}
+      >
         {this.props.children}
       </PackageInfoView>
-
-    )
+    );
   }
 }
 
 /**
- * 
+ *
  */
 class PackageDisplay extends React.Component {
   state = {
-    showChild: false
-  }
+    showChild: false,
+  };
   /**
-   * 
+   *
    */
 
   showDetails = () => {
     this.setState({ showChild: true });
-  }
+  };
   hideDetails = () => {
     this.setState({ showChild: false });
-  }
+  };
   /**
    * @return {component}
    */
   render() {
     return (
-      <HorizontalJustifyBox onMouseEnter={this.showDetails} onMouseLeave={this.hideDetails} >
+      <HorizontalJustifyBox
+        onMouseEnter={this.showDetails}
+        onMouseLeave={this.hideDetails}
+      >
         {this.props.children}
-        <PackageInfo shown={this.state.showChild}>{this.props.details}</PackageInfo>
+        <PackageInfo shown={this.state.showChild}>
+          {this.props.details}
+        </PackageInfo>
       </HorizontalJustifyBox>
-
-    )
+    );
   }
 }
 
 export default PackageInfo;
 
 export const PackageInfoView = styled.div`
-  display:flex;
-  background-color:#eeeeee;
-  position:absolute;
+  display: flex;
+  background-color: #eeeeee;
+  position: absolute;
   box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
-  flex-direction:column;
+  flex-direction: column;
   padding: 1rem;
   border-radius: 6px;
   z-index: 1001;
@@ -182,10 +191,9 @@ export const PackageInfoView = styled.div`
 export const InnerDetailsDisplay = (props) => {
   let extraDetails;
   if (props.details) {
-    extraDetails = <p>{props.details}</p>
-  }
-  else {
-    extraDetails = <p>None</p>
+    extraDetails = <p>{props.details}</p>;
+  } else {
+    extraDetails = <p>None</p>;
   }
   return (
     <div>
@@ -195,18 +203,20 @@ export const InnerDetailsDisplay = (props) => {
       <h4>Extra Details</h4>
       {extraDetails}
     </div>
-  )
-}
+  );
+};
 
 export const InnerDropoffDisplay = (props) => {
-  const instructions = props.dropoffInstructions ? props.dropoffInstructions : "None"
+  const instructions = props.dropoffInstructions
+    ? props.dropoffInstructions
+    : "None";
   return (
     <div>
       <h4>Drop-off Instructions</h4>
       <p>{instructions}</p>
     </div>
-  )
-}
+  );
+};
 
 export const TimeDisplayWrapper = styled.div`
   display: flex;
@@ -217,14 +227,14 @@ export const TimeDisplayWrapper = styled.div`
 `;
 
 export const SimpleVerticalBox = styled.div`
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   row-gap: 10px;
-`
+`;
 
 export const VerticalJustifyBox = styled.div`
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
   min-height: 100%;
 `;
@@ -277,14 +287,16 @@ export const MediumPriorityLabelWrapper = styled(HighPriorityLabelWrapper)`
 `;
 export const LowPriorityLabelWrapper = styled(HighPriorityLabelWrapper)`
   background-color: #5f54c4;
-`
+`;
 
 export const HighPriorityLabel = () => {
   return <HighPriorityLabelWrapper> High Priority </HighPriorityLabelWrapper>;
 };
 
 export const MediumPriorityLabel = () => {
-  return <MediumPriorityLabelWrapper> Medium Priority </MediumPriorityLabelWrapper>;
+  return (
+    <MediumPriorityLabelWrapper> Medium Priority </MediumPriorityLabelWrapper>
+  );
 };
 
 export const LowPriorityLabel = () => {
@@ -292,8 +304,10 @@ export const LowPriorityLabel = () => {
 };
 
 export const DeliveredTimestamp = (props) => {
-  return props.timeDelivered ? <p>Delivered {props.timeDelivered.replace(",", " at")}</p> : null
-}
+  return props.timeDelivered ? (
+    <p>Delivered {props.timeDelivered.replace(",", " at")}</p>
+  ) : null;
+};
 export const GetPriorityLabel = (priority) => {
   let priorityLabel;
   switch (String(priority)) {
@@ -310,7 +324,7 @@ export const GetPriorityLabel = (priority) => {
       break;
   }
   return priorityLabel;
-}
+};
 export const PickupAddressDisplay = (props) => {
   let sizeIcon;
   switch (String(props.size)) {
@@ -328,7 +342,14 @@ export const PickupAddressDisplay = (props) => {
   }
 
   return (
-    <PackageDisplay details={<InnerDetailsDisplay details={props.details} importantDetails={props.importantDetails} />}>
+    <PackageDisplay
+      details={
+        <InnerDetailsDisplay
+          details={props.details}
+          importantDetails={props.importantDetails}
+        />
+      }
+    >
       <p>{props.address}</p>
       {sizeIcon}
     </PackageDisplay>
@@ -374,7 +395,13 @@ export const OrderReviewCard = (props) => {
             <h4>Destination</h4>
             <hr />
           </VerticallyPaddedContainer>
-          <PackageDisplay details={<InnerDropoffDisplay dropoffInstructions={props.dropoffInstructions} />}>
+          <PackageDisplay
+            details={
+              <InnerDropoffDisplay
+                dropoffInstructions={props.dropoffInstructions}
+              />
+            }
+          >
             <p>{props.destination}</p>
           </PackageDisplay>
 
@@ -385,16 +412,13 @@ export const OrderReviewCard = (props) => {
           </VerticallyPaddedContainer>
           {GetPriorityLabel(props.priority)}
           <p>Placed {props.timePlaced.replace(",", " at")}</p>
-          <DeliveredTimestamp timeDelivered = {props.timeDelivered}/>
-
+          <DeliveredTimestamp timeDelivered={props.timeDelivered} />
         </SimpleVerticalBox>
 
         <SimpleVerticalBox>
-
           <br></br>
           <hr></hr>
           <HorizontalJustifyBox>
-
             <p>Subtotal</p>
             <p>${parseFloat(props.subTotalCost).toFixed(2)}</p>
           </HorizontalJustifyBox>

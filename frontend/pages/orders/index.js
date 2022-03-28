@@ -280,7 +280,7 @@ function Package({ packages, setPackages, extras, setExtras }) {
             submits = true;
           }
           if (post.Address.address_components != null) {
-            if(!post.Address.formatted_address.includes("Saskatoon")){
+            if (!post.Address.formatted_address.includes("Saskatoon")) {
               submits = false;
             }
           }
@@ -301,7 +301,8 @@ function Package({ packages, setPackages, extras, setExtras }) {
                     Continue to Checkout
                   </DontMoveToCheckout>
                   <DropDownContent>
-                  Please use autocomplete on all packages addresses and make sure all packages are located in Saskatoon to continue
+                    Please use autocomplete on all packages addresses and make
+                    sure all packages are located in Saskatoon to continue
                   </DropDownContent>
                 </DropDownList>
               );
