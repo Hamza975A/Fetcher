@@ -32,7 +32,15 @@ async function completeOrder(id, email) {
  * @return {JSX.Element}
  */
 export default function CurrentOrderDetails({ order, data: { id, email } }) {
-  const { orderNumber, destinationAddress, mainOrderDetails } = order;
+  const {
+    orderNumber,
+    CheckoutInfoContainer,
+    destinationAddress,
+    mainOrderDetails,
+    timestamp,
+    timestampDelivered,
+    users,
+  } = order;
   return (
     <GlobalContainer>
       <CurrentOrdersItemsContainer>
@@ -46,6 +54,16 @@ export default function CurrentOrderDetails({ order, data: { id, email } }) {
           }
           startTime={order.extraOrderDetails.startTime}
           endTime={order.extraOrderDetails.endTime}
+          priority={CheckoutInfoContainer.priority}
+          timePlaced={timestamp}
+          timeDelivered={timestampDelivered}
+          taxCost={CheckoutInfoContainer.tax}
+          tipCost={CheckoutInfoContainer.tip}
+          subTotalCost={CheckoutInfoContainer.costBeforeTax}
+          totalCost={CheckoutInfoContainer.cost}
+          dropoffInstructions={CheckoutInfoContainer.instructions}
+          name={users.user.name}
+          email={users.user.email}
         />
         <MapOrders destination={destinationAddress} orders={mainOrderDetails} />
       </CurrentOrdersItemsContainer>
