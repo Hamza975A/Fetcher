@@ -362,7 +362,7 @@ export const OrderReviewCard = (props) => {
       <VerticalJustifyBox>
         <SimpleVerticalBox>
           <HorizontalJustifyBox>
-            <h2>Your Order</h2>
+            <h2>Order #{props.ordernum}</h2>
             <TimeDisplay start={props.startTime} end={props.endTime} />
           </HorizontalJustifyBox>
 
@@ -417,11 +417,11 @@ export const OrderReviewCard = (props) => {
         </SimpleVerticalBox>
         <SimpleVerticalBox>
           <HorizontalJustifyBox>
-            <p>User Name</p>
+            <p>User Name:</p>
             <p>{props.name}</p>
           </HorizontalJustifyBox>
           <HorizontalJustifyBox>
-            <p>User Email</p>
+            <p>User Email:</p>
             <p>{props.email}</p>
           </HorizontalJustifyBox>
         </SimpleVerticalBox>
