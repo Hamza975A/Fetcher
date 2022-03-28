@@ -1,9 +1,9 @@
 import React from "react";
+import { GlobalContainer } from "../../components/GlobalComponents";
 import {
-  CenterContainer,
-  GlobalContainer,
-} from "../../components/GlobalComponents";
-import { OrderCard } from "../../components/OrderDetails";
+  OrderReviewCard,
+  CurrentOrdersItemsContainer,
+} from "../../components/OrderDetails";
 import MapOrders from "../../components/Maps-Orders";
 import { getSession } from "next-auth/react";
 
@@ -11,31 +11,39 @@ import { getSession } from "next-auth/react";
  * Component to render past order details for a specific order.
  * @return {JSX.Element}
  */
-export default function PastOrderDetails({ order }) {
-  const { orderNumber, destinationAddress, mainOrderDetails } = order;
+export default function CurrentOrderDetails({ order }) {
+  const {
+    orderNumber,
+    CheckoutInfoContainer,
+    destinationAddress,
+    mainOrderDetails,
+    timestamp,
+    timestampDelivered,
+  } = order;
   return (
     <GlobalContainer>
-      <CenterContainer>
-        <h1>Past Order Details</h1>
-      </CenterContainer>
-      <MapOrders destination={destinationAddress} orders={mainOrderDetails} />
-      <OrderCard
-        ordernum={orderNumber}
-        pickuplocations={mainOrderDetails}
-        dropofflocation={destinationAddress.formatted_address}
-        parcelsize={mainOrderDetails}
-        deliveryfee={""}
-        tips={""}
-        total={order.CheckoutInfoContainer.cost}
-        details={order.CheckoutInfoContainer.instructions}
-        priority={order.CheckoutInfoContainer.priority}
-        time={order.timestamp}
-        preferredTime={
-          order.extraOrderDetails.startTime +
-          "-" +
-          order.extraOrderDetails.endTime
-        }
-      />
+      <CurrentOrdersItemsContainer>
+        <OrderReviewCard
+          ordernum={orderNumber}
+          pickuplocations={mainOrderDetails}
+          destination={
+            destinationAddress.address_components[0].long_name +
+            " " +
+            destinationAddress.address_components[1].long_name
+          }
+          startTime={order.extraOrderDetails.startTime}
+          endTime={order.extraOrderDetails.endTime}
+          priority={CheckoutInfoContainer.priority}
+          timePlaced={timestamp}
+          timeDelivered={timestampDelivered}
+          taxCost={CheckoutInfoContainer.tax}
+          tipCost={CheckoutInfoContainer.tip}
+          subTotalCost={CheckoutInfoContainer.costBeforeTax}
+          totalCost={CheckoutInfoContainer.cost}
+          dropoffInstructions={CheckoutInfoContainer.instructions}
+        />
+        <MapOrders destination={destinationAddress} orders={mainOrderDetails} />
+      </CurrentOrdersItemsContainer>
     </GlobalContainer>
   );
 }

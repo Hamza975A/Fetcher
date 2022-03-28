@@ -1,8 +1,9 @@
 import React from "react";
+import { GlobalContainer } from "../../components/GlobalComponents";
 import {
-  GlobalContainer,
-} from "../../components/GlobalComponents";
-import { CurrentOrdersItemsContainer, OrderReviewCard } from "../../components/OrderDetails";
+  CurrentOrdersItemsContainer,
+  OrderReviewCard,
+} from "../../components/OrderDetails";
 import MapOrders from "../../components/Maps-Orders";
 import { getSession } from "next-auth/react";
 
@@ -11,7 +12,14 @@ import { getSession } from "next-auth/react";
  * @return {JSX.Element}
  */
 export default function CurrentOrderDetails({ order }) {
-  const { orderNumber, destinationAddress, mainOrderDetails } = order;
+  const {
+    orderNumber,
+    CheckoutInfoContainer,
+    destinationAddress,
+    mainOrderDetails,
+    timestamp,
+    timestampDelivered,
+  } = order;
   return (
     <GlobalContainer>
       <CurrentOrdersItemsContainer>
@@ -25,6 +33,14 @@ export default function CurrentOrderDetails({ order }) {
           }
           startTime={order.extraOrderDetails.startTime}
           endTime={order.extraOrderDetails.endTime}
+          priority={CheckoutInfoContainer.priority}
+          timePlaced={timestamp}
+          timeDelivered={timestampDelivered}
+          taxCost={CheckoutInfoContainer.tax}
+          tipCost={CheckoutInfoContainer.tip}
+          subTotalCost={CheckoutInfoContainer.costBeforeTax}
+          totalCost={CheckoutInfoContainer.cost}
+          dropoffInstructions={CheckoutInfoContainer.instructions}
         />
         <MapOrders destination={destinationAddress} orders={mainOrderDetails} />
       </CurrentOrdersItemsContainer>

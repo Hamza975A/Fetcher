@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import styled from "styled-components";
 import React from "react";
 import { ColumnsContainer, Paragraph } from "./GlobalComponents";
@@ -84,15 +85,13 @@ export const OrderCard = ({
 
 export const OrderReviewCardWrapper = styled.div`
   display: flex;
-  /* width: 60%; */
   box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
   background-color: #ffffff;
   flex-direction: column;
   padding: 2.6rem 2rem 1.6rem 2rem;
   width: fit-content;
-  /* height: fit-content; */
+
   border-radius: 5px;
-  row-gap: 10px;
 
   @media ${(props) => props.theme.breakpoints.sm} {
     flex-direction: column;
@@ -107,12 +106,137 @@ export const HorizontalJustifyBox = styled.div`
   min-width: 35rem;
 `;
 
+/**
+ *
+ */
+class PackageInfo extends React.Component {
+  state = {
+    left: 0,
+    top: 0,
+  };
+  /**
+   *
+   */
+  componentDidMount() {
+    document.addEventListener("mousemove", (e) => {
+      this.setState({ left: e.pageX, top: e.pageY });
+    });
+  }
+  /**
+   * @return {component}
+   */
+  render() {
+    return (
+      <PackageInfoView
+        style={{
+          display: this.props.shown ? "flex" : "none",
+          left: this.state.left,
+          top: this.state.top,
+        }}
+      >
+        {this.props.children}
+      </PackageInfoView>
+    );
+  }
+}
+
+/**
+ *
+ */
+class PackageDisplay extends React.Component {
+  state = {
+    showChild: false,
+  };
+  /**
+   *
+   */
+
+  showDetails = () => {
+    this.setState({ showChild: true });
+  };
+  hideDetails = () => {
+    this.setState({ showChild: false });
+  };
+  /**
+   * @return {component}
+   */
+  render() {
+    return (
+      <HorizontalJustifyBox
+        onMouseEnter={this.showDetails}
+        onMouseLeave={this.hideDetails}
+      >
+        {this.props.children}
+        <PackageInfo shown={this.state.showChild}>
+          {this.props.details}
+        </PackageInfo>
+      </HorizontalJustifyBox>
+    );
+  }
+}
+
+export default PackageInfo;
+
+export const PackageInfoView = styled.div`
+  display: flex;
+  background-color: #eeeeee;
+  position: absolute;
+  box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 6px;
+  z-index: 1001;
+`;
+
+export const InnerDetailsDisplay = (props) => {
+  let extraDetails;
+  if (props.details) {
+    extraDetails = <p>{props.details}</p>;
+  } else {
+    extraDetails = <p>None</p>;
+  }
+  return (
+    <div>
+      <h4>Pickup Instructions</h4>
+      <p>{props.importantDetails}</p>
+      <br />
+      <h4>Extra Details</h4>
+      {extraDetails}
+    </div>
+  );
+};
+
+export const InnerDropoffDisplay = (props) => {
+  const instructions = props.dropoffInstructions
+    ? props.dropoffInstructions
+    : "None";
+  return (
+    <div>
+      <h4>Drop-off Instructions</h4>
+      <p>{instructions}</p>
+    </div>
+  );
+};
+
 export const TimeDisplayWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: fit-content;
   padding: 0.3rem;
   border-radius: 5px;
+`;
+
+export const SimpleVerticalBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+`;
+
+export const VerticalJustifyBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
 `;
 
 export const VerticallyPaddedContainer = styled.div`
@@ -149,6 +273,58 @@ export const SmallPackageIcon = () => {
   return <SmallPackageIconWrapper> S </SmallPackageIconWrapper>;
 };
 
+export const HighPriorityLabelWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #1e0da8;
+  padding: 0.3rem;
+  border-radius: 6px;
+  color: #ffffff;
+  width: fit-content;
+`;
+export const MediumPriorityLabelWrapper = styled(HighPriorityLabelWrapper)`
+  background-color: #483dad;
+`;
+export const LowPriorityLabelWrapper = styled(HighPriorityLabelWrapper)`
+  background-color: #5f54c4;
+`;
+
+export const HighPriorityLabel = () => {
+  return <HighPriorityLabelWrapper> High Priority </HighPriorityLabelWrapper>;
+};
+
+export const MediumPriorityLabel = () => {
+  return (
+    <MediumPriorityLabelWrapper> Medium Priority </MediumPriorityLabelWrapper>
+  );
+};
+
+export const LowPriorityLabel = () => {
+  return <LowPriorityLabelWrapper> Low Priority </LowPriorityLabelWrapper>;
+};
+
+export const DeliveredTimestamp = (props) => {
+  return props.timeDelivered ? (
+    <p>Delivered {props.timeDelivered.replace(",", " at")}</p>
+  ) : null;
+};
+export const GetPriorityLabel = (priority) => {
+  let priorityLabel;
+  switch (String(priority)) {
+    case "Low":
+      priorityLabel = LowPriorityLabel();
+      break;
+    case "Medium":
+      priorityLabel = MediumPriorityLabel();
+      break;
+    case "High":
+      priorityLabel = HighPriorityLabel();
+      break;
+    default:
+      break;
+  }
+  return priorityLabel;
+};
 export const PickupAddressDisplay = (props) => {
   let sizeIcon;
   switch (String(props.size)) {
@@ -164,49 +340,102 @@ export const PickupAddressDisplay = (props) => {
     default:
       break;
   }
+
   return (
-    <HorizontalJustifyBox>
+    <PackageDisplay
+      details={
+        <InnerDetailsDisplay
+          details={props.details}
+          importantDetails={props.importantDetails}
+        />
+      }
+    >
       <p>{props.address}</p>
       {sizeIcon}
-    </HorizontalJustifyBox>
+    </PackageDisplay>
   );
 };
 export const OrderReviewCard = (props) => {
   return (
     <OrderReviewCardWrapper>
-      <HorizontalJustifyBox>
-        <h2>Your Order</h2>
-        <TimeDisplay start={props.startTime} end={props.endTime} />
-      </HorizontalJustifyBox>
+      <VerticalJustifyBox>
+        <SimpleVerticalBox>
+          <HorizontalJustifyBox>
+            <h2>Your Order</h2>
+            <TimeDisplay start={props.startTime} end={props.endTime} />
+          </HorizontalJustifyBox>
 
-      <VerticallyPaddedContainer>
-        <hr />
-        <h4>Pickups</h4>
-        <hr />
-      </VerticallyPaddedContainer>
+          <VerticallyPaddedContainer>
+            <hr />
+            <h4>Pickups</h4>
+            <hr />
+          </VerticallyPaddedContainer>
 
-      <PickupAddressesContainer>
-        {props.pickuplocations.map((location, index) => {
-          const { Size, Details, ImportantDetails, Address } = location;
-          return (
-            <PickupAddressDisplay
-              key={index}
-              address={
-                Address.address_components[0].long_name +
-                " " +
-                Address.address_components[1].long_name
-              }
-              size={Size}
-            />
-          );
-        })}
-      </PickupAddressesContainer>
-      <VerticallyPaddedContainer>
-        <hr />
-        <h4>Destination</h4>
-        <hr />
-      </VerticallyPaddedContainer>
-      <p>{props.destination}</p>
+          <PickupAddressesContainer>
+            {props.pickuplocations.map((location, index) => {
+              const { Size, Details, ImportantDetails, Address } = location;
+              return (
+                <PickupAddressDisplay
+                  key={index}
+                  address={
+                    Address.address_components[0].long_name +
+                    " " +
+                    Address.address_components[1].long_name
+                  }
+                  size={Size}
+                  priority={Details.priority}
+                  details={Details}
+                  importantDetails={ImportantDetails}
+                />
+              );
+            })}
+          </PickupAddressesContainer>
+          <VerticallyPaddedContainer>
+            <hr />
+            <h4>Destination</h4>
+            <hr />
+          </VerticallyPaddedContainer>
+          <PackageDisplay
+            details={
+              <InnerDropoffDisplay
+                dropoffInstructions={props.dropoffInstructions}
+              />
+            }
+          >
+            <p>{props.destination}</p>
+          </PackageDisplay>
+
+          <VerticallyPaddedContainer>
+            <hr />
+            <h4>Details</h4>
+            <hr />
+          </VerticallyPaddedContainer>
+          {GetPriorityLabel(props.priority)}
+          <p>Placed {props.timePlaced.replace(",", " at")}</p>
+          <DeliveredTimestamp timeDelivered={props.timeDelivered} />
+        </SimpleVerticalBox>
+
+        <SimpleVerticalBox>
+          <br></br>
+          <hr></hr>
+          <HorizontalJustifyBox>
+            <p>Subtotal</p>
+            <p>${parseFloat(props.subTotalCost).toFixed(2)}</p>
+          </HorizontalJustifyBox>
+          <HorizontalJustifyBox>
+            <p>Driver Tip</p>
+            <p>${parseFloat(props.tipCost).toFixed(2)}</p>
+          </HorizontalJustifyBox>
+          <HorizontalJustifyBox>
+            <p>Tax</p>
+            <p>${parseFloat(props.taxCost).toFixed(2)}</p>
+          </HorizontalJustifyBox>
+          <HorizontalJustifyBox>
+            <h3>Total</h3>
+            <h3>${parseFloat(props.totalCost).toFixed(2)}</h3>
+          </HorizontalJustifyBox>
+        </SimpleVerticalBox>
+      </VerticalJustifyBox>
     </OrderReviewCardWrapper>
   );
 };

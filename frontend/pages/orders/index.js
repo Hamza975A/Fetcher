@@ -313,7 +313,8 @@ function Package({ packages, setPackages, extras, setExtras }) {
                     Continue to Checkout
                   </DontMoveToCheckout>
                   <DropDownContent>
-                  Please use autocomplete on all packages addresses and make sure all packages are located in Saskatoon to continue
+                    Please use autocomplete on all packages addresses and make
+                    sure all packages are located in Saskatoon to continue
                   </DropDownContent>
                 </DropDownList>
               );
