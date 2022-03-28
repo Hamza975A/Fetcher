@@ -86,4 +86,3 @@ npm run dev
 ![Home Page2](/images/homepage-1.png)
 ![Orders](/images/orders.png)
 ![Order](/images/order.png)
-![Mobile](/images/mobile.png)
