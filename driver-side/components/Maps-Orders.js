@@ -12,12 +12,9 @@ import { libraries, center, options, infoBoxOptions } from "./Maps";
 // map container style options
 export const mapContainerStyle = {
   width: "100%",
-  height: "60vh",
   background: "#4f4f4f",
-  borderStyle: "solid",
-  borderWidth: "1px",
-  borderRadius: "10px",
-  boxShadow: "6px 6px 4px #4f4f4f",
+  borderRadius: "6px",
+  boxShadow: "0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45)",
 };
 
 const MapOrders = ({ destination, orders }) => {
