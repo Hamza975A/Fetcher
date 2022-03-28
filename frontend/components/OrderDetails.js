@@ -304,10 +304,11 @@ export const LowPriorityLabel = () => {
 };
 
 export const DeliveredTimestamp = (props) => {
-  return props.timeDelivered ? (
-    <p>Delivered {props.timeDelivered.replace(",", " at")}</p>
-  ) : null;
+  return (
+    props.timeDelivered ? <p>Delivered {props.timeDelivered.replace(",", " at")}</p> : null
+  );
 };
+
 export const GetPriorityLabel = (priority) => {
   let priorityLabel;
   switch (String(priority)) {
